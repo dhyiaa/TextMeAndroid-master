@@ -61,7 +61,7 @@ public class Sorting {
 
         boolean change = false;
         boolean same = true;
-        int minLength = Math.min(username1.length(), username2.length());
+        int minLength = Math.min(username1.trim().length(), username2.trim().length());
         for (int o = 0; o < minLength; o++) {
             char charOfUser1 = username1.toLowerCase().trim().charAt(o);
             char charOfUser2 = username2.toLowerCase().trim().charAt(o);
