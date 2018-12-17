@@ -12,7 +12,7 @@
     <string name="title_activity_messaging_page">Messages</string>
     <string name="title_activity_guest">Sign in</string>
     <string name="null_string"></string>
-    <string name="no_friends">You have no friends .</string>
+    <string name="no_friends">You have no friends.</string>
 
     <!-- Sign in strings -->
     <string name="prompt_email">Email</string>
@@ -25,8 +25,7 @@
     <string name="error_incorrect_password">Password is incorrect.</string>
     <string name="error_field_required">This field is required.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
 
     <!-- Sign up strings -->
     <string name="sign_up">Sign Up</string>
@@ -34,8 +33,5 @@
 
     <!-- Sign out strings -->
     <string name="action_sign_out">LOGOUT</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
