@@ -32,7 +32,7 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:titleMarginEnd="20dp"
         app:titleTextColor="#FFFFFF"
-        app:title="Sign up "/>
+        app:title="@string/sign_up"/>
 
     <LinearLayout
         android:id="@+id/subContainer"
