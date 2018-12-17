@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- In-app strings -->
+    <string name="app_name">TextMe</string>
+    <string name="tab_text_1">Friends</string>
+    <string name="tab_text_2">Messages</string>
+    <string name="tab_text_3">Requests</string>
+    <string name="tab_text_4">Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_messaging_page">Messages</string>
+    <string name="title_activity_guest">Sign in</string>
+    <string name="null_string"></string>
+    <string name="no_friends">You have no friends .</string>
+
+    <!-- Sign in strings -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="action_sign_in">LOGIN</string>
+    <string name="action_register">REGISTER</string>
+    <string name="error_invalid_email">Email address is invalid.</string>
+    <string name="error_invalid_password">Password is too short.</string>
+    <string name="error_incorrect_password">Password is incorrect.</string>
+    <string name="error_field_required">This field is required.</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Sign up strings -->
+    <string name="sign_up">Sign Up</string>
+    <string name="prompt_username">Username</string>
+
+    <!-- Sign out strings -->
+    <string name="action_sign_out">LOGOUT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
