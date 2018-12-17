@@ -46,15 +46,18 @@ public class Search extends AppCompatActivity {
 
         adapter = new FriendAdapter(friends , this);
         listView.setAdapter(adapter);
+        search("m");
 
         searchIput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                System.out.println("searching event");
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("searching event");
 
             }
 
@@ -62,6 +65,7 @@ public class Search extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(s.length() != 0){
                    search(searchIput.getText().toString());
+                    System.out.println("searching event");
             }
             }
         });
