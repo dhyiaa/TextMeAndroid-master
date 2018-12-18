@@ -76,7 +76,7 @@ public class Search extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (s.length() != 0) {
                     search(searchIput.getText().toString());
-                    System.out.println("searching event");
+                   // System.out.println("searching event");
                 }
             }
         });
@@ -102,7 +102,7 @@ public class Search extends AppCompatActivity {
             adapter.clear();
             adapter.removeAll(friends);
         }
-        System.out.println("searching with " + searchQuery);
+       // System.out.println("searching with " + searchQuery);
     }
 
 
@@ -111,7 +111,8 @@ public class Search extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             //  listView.setClickable(false);
             Intent Message = new Intent(getBaseContext(), MessagingPage.class);
-            Message.putExtra("Friend_name", friends.get(i).getUsername());
+            Message.putExtra("friend_name", friends.get(i).getUsername());
+            Message.putExtra("friend_id", friends.get(i).getId());
             startActivity(Message);
             listView.setClickable(true);
 
@@ -123,12 +124,13 @@ public class Search extends AppCompatActivity {
             ArrayList<User> users = new ArrayList<User>();
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                 User user = postSnapshot.getValue(User.class);
+                user.setId(postSnapshot.getKey());
                 users.add(user);
             }
-            System.out.println(users.toString());
+            //System.out.println(users.toString());
             adapter.removeAll(friends);
             adapter.addAll(users);
-            System.out.println(users.toString());
+         //   System.out.println(users.toString());
             adapter.notifyDataSetChanged();
             friends = users;
         }

@@ -1,21 +1,15 @@
 package com.link.dheyaa.textme;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,10 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 
@@ -88,13 +80,14 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             //  listView.setClickable(false);
-            if (itemCLicked == false) {
-                Intent Message = new Intent(getActivity(), MessagingPage.class);
-                Message.putExtra("Friend_name", friends.get(i).getUsername());
-                startActivity(Message);
-                listView.setClickable(true);
-                itemCLicked = true;
-            }
+            //  if (itemCLicked == false) {
+            Intent Message = new Intent(getActivity(), MessagingPage.class);
+            Message.putExtra("friend_name", friends.get(i).getUsername());
+            Message.putExtra("friend_id", friends.get(i).getId());
+            startActivity(Message);
+            listView.setClickable(true);
+            itemCLicked = true;
+            // }
 
         }
     };
@@ -141,7 +134,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                                 Sorting.quickSortByAlphabet(friends);
                                 adapter.addAll(friends);
 
-                                System.out.println(friends.toString());
+                                //  System.out.println(friends.toString());
 
                                 adapter.notifyDataSetChanged();
                             }
