@@ -41,12 +41,17 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
+        mAuth = FirebaseAuth.getInstance();
+        DBref = FirebaseDatabase.getInstance().getReference("Users");
+
         listView = (ListView) findViewById(R.id.searched_friends);
         searchIput = (EditText) findViewById(R.id.search_input) ;
 
         adapter = new FriendAdapter(friends , this);
         listView.setAdapter(adapter);
-        search("m");
+
+        //search("m");
 
         searchIput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,8 +77,6 @@ public class Search extends AppCompatActivity {
 
 
 
-        mAuth = FirebaseAuth.getInstance();
-        DBref = FirebaseDatabase.getInstance().getReference("Users");
 
        // DBref.child().child("friends").orderByValue().addValueEventListener(userEventListener);
 
@@ -89,50 +92,33 @@ public class Search extends AppCompatActivity {
     public void search(String searchQuery){
         DBref.orderByChild("username")
                 .startAt(searchQuery)
-                .endAt(searchQuery+"\uf8ff").addValueEventListener(userEventListener);
+                .addValueEventListener(userEventListener);
+        //.endAt(searchQuery+"\uf8ff")
         System.out.println("searching with "+searchQuery);
     }
 
     ValueEventListener userEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
-            if (friendIds != null) {
-                //SetViews(true , false);
+            HashMap<String, User> users = (HashMap<String, User>) dataSnapshot.getValue();
 
-                Iterator it = friendIds.entrySet().iterator();
+            ArrayList<User> results = new ArrayList<User>();
+
+            if (users != null) {
+
+                //------------------
+
+                Iterator it = users.entrySet().iterator();
                 while (it.hasNext()) {
-                    final Map.Entry pair = (Map.Entry) it.next();
-
-                    DBref.child(pair.getKey().toString()).orderByKey().addValueEventListener(new ValueEventListener() {
-                        String userId = pair.getKey().toString();
-
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User user = dataSnapshot.getValue(User.class);
-                            user.setId(userId);
-                            user.setFriends(null);
-
-                            adapter.removeOld(user, friends);
-                            friends.add(user);
-
-                            adapter.clear();
-                            adapter.removeAll(friends);
-
-                            Sorting.quickSortByAlphabet(friends);
-                            adapter.addAll(friends);
-
-                            System.out.println(friends.toString());
-
-                            adapter.notifyDataSetChanged();
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                          //  SetViews(false , false);
-                        }
-                    });
+                     Map.Entry pair = (Map.Entry) it.next();
+                     results.add((User)pair.getValue());
                     it.remove();
                 }
+
+                //------------
+                System.out.println("results is : "+ results.toString());
+
+
             } else {
                 //SetViews(false , false);
             }
