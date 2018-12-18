@@ -27,7 +27,7 @@
         app:layout_constraintVertical_bias="0.524" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/sign_out"
         android:layout_width="121dp"
         android:layout_height="74dp"
         android:layout_marginBottom="8dp"

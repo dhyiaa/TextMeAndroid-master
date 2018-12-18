@@ -60,7 +60,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
         listView.setOnItemClickListener(itemClicked);
-        SetViews(false , true);
+        SetViews(false, true);
         Button searchBtn = root.findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                 startActivity(Search);
             }
         });
-        itemCLicked= false;
+        itemCLicked = false;
 
         //return the view from the fragment
         return root;
@@ -83,30 +83,31 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         itemCLicked = false;
 
     }
+
     AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-          //  listView.setClickable(false);
-            if(itemCLicked == false){
+            //  listView.setClickable(false);
+            if (itemCLicked == false) {
                 Intent Message = new Intent(getActivity(), MessagingPage.class);
                 Message.putExtra("Friend_name", friends.get(i).getUsername());
                 startActivity(Message);
                 listView.setClickable(true);
-                itemCLicked= true;
+                itemCLicked = true;
             }
 
         }
     };
 
-    public void SetViews(boolean hasFreiends , boolean isLoading){
-        if(isLoading){
+    public void SetViews(boolean hasFreiends, boolean isLoading) {
+        if (isLoading) {
             listView.setVisibility(View.INVISIBLE);
             noFriends.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             listView.setVisibility(hasFreiends ? View.VISIBLE : View.INVISIBLE);
             noFriends.setVisibility(hasFreiends ? View.INVISIBLE : View.VISIBLE);
-            loading.setVisibility(View.INVISIBLE) ;
+            loading.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -115,7 +116,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
             if (friendIds != null) {
-                SetViews(true , false);
+                SetViews(true, false);
 
                 Iterator it = friendIds.entrySet().iterator();
                 while (it.hasNext()) {
@@ -127,32 +128,41 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            user.setId(userId);
-                            user.setFriends(null);
+                            if (user != null) {
+                                user.setId(userId);
+                                user.setFriends(null);
 
-                            adapter.removeOld(user, friends);
-                            friends.add(user);
+                                adapter.removeOld(user, friends);
+                                friends.add(user);
 
-                            adapter.clear();
-                            adapter.removeAll(friends);
+                                adapter.clear();
+                                adapter.removeAll(friends);
 
-                            Sorting.quickSortByAlphabet(friends);
-                            adapter.addAll(friends);
+                                Sorting.quickSortByAlphabet(friends);
+                                adapter.addAll(friends);
 
-                            System.out.println(friends.toString());
+                                System.out.println(friends.toString());
 
-                            adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
+                            }
                         }
+
                         @Override
-                        public void onCancelled(DatabaseError databaseError) { SetViews(false , false); }
+                        public void onCancelled(DatabaseError databaseError) {
+                            SetViews(false, false);
+                        }
                     });
                     it.remove();
                 }
-            } else { SetViews(false , false); }
+            } else {
+                SetViews(false, false);
+            }
         }
 
         @Override
-        public void onCancelled(DatabaseError error) { SetViews(false , false); }
+        public void onCancelled(DatabaseError error) {
+            SetViews(false, false);
+        }
     };
 
 

@@ -1,6 +1,7 @@
 package com.link.dheyaa.textme;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,10 +34,12 @@ public class Search extends AppCompatActivity {
     private ArrayList<User> friends = new ArrayList<User>();
     private DatabaseReference DBref;
     FriendAdapter adapter;
-    EditText searchIput ;
-    public void Search(MainActivity main){
+    EditText searchIput;
+
+    public void Search(MainActivity main) {
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +50,10 @@ public class Search extends AppCompatActivity {
         DBref = FirebaseDatabase.getInstance().getReference("Users");
 
         listView = (ListView) findViewById(R.id.searched_friends);
-        searchIput = (EditText) findViewById(R.id.search_input) ;
+        searchIput = (EditText) findViewById(R.id.search_input);
+        listView.setOnItemClickListener(itemClickedSearch);
 
-        adapter = new FriendAdapter(friends , this);
+        adapter = new FriendAdapter(friends, this);
         listView.setAdapter(adapter);
 
         //search("m");
@@ -56,29 +61,28 @@ public class Search extends AppCompatActivity {
         searchIput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                System.out.println("searching event");
+                //System.out.println("searching event");
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println("searching event");
+                //System.out.println("searching event");
+                search(searchIput.getText().toString());
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() != 0){
-                   search(searchIput.getText().toString());
+                if (s.length() != 0) {
+                    search(searchIput.getText().toString());
                     System.out.println("searching event");
-            }
+                }
             }
         });
 
 
-
-
-       // DBref.child().child("friends").orderByValue().addValueEventListener(userEventListener);
+        // DBref.child().child("friends").orderByValue().addValueEventListener(userEventListener);
 
         FloatingActionButton backBtn = (FloatingActionButton) findViewById(R.id.backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,43 +93,49 @@ public class Search extends AppCompatActivity {
 
     }
 
-    public void search(String searchQuery){
-        DBref.orderByChild("username")
-                .startAt(searchQuery)
-                .addValueEventListener(userEventListener);
-        //.endAt(searchQuery+"\uf8ff")
-        System.out.println("searching with "+searchQuery);
+    public void search(String searchQuery) {
+        if (!searchQuery.trim().equals("")) {
+            DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
+            DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
+
+        } else {
+            adapter.clear();
+            adapter.removeAll(friends);
+        }
+        System.out.println("searching with " + searchQuery);
     }
 
+
+    AdapterView.OnItemClickListener itemClickedSearch = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            //  listView.setClickable(false);
+            Intent Message = new Intent(getBaseContext(), MessagingPage.class);
+            Message.putExtra("Friend_name", friends.get(i).getUsername());
+            startActivity(Message);
+            listView.setClickable(true);
+
+        }
+    };
     ValueEventListener userEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, User> users = (HashMap<String, User>) dataSnapshot.getValue();
-
-            ArrayList<User> results = new ArrayList<User>();
-
-            if (users != null) {
-
-                //------------------
-
-                Iterator it = users.entrySet().iterator();
-                while (it.hasNext()) {
-                     Map.Entry pair = (Map.Entry) it.next();
-                     results.add((User)pair.getValue());
-                    it.remove();
-                }
-
-                //------------
-                System.out.println("results is : "+ results.toString());
-
-
-            } else {
-                //SetViews(false , false);
+            ArrayList<User> users = new ArrayList<User>();
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                User user = postSnapshot.getValue(User.class);
+                users.add(user);
             }
+            System.out.println(users.toString());
+            adapter.removeAll(friends);
+            adapter.addAll(users);
+            System.out.println(users.toString());
+            adapter.notifyDataSetChanged();
+            friends = users;
         }
 
         @Override
-        public void onCancelled(DatabaseError error) {  }
+        public void onCancelled(DatabaseError error) {
+        }
         //SetViews(false , false);
     };
 }
