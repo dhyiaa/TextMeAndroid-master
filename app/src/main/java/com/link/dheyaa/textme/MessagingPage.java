@@ -71,7 +71,7 @@ public class MessagingPage extends AppCompatActivity {
                     currentUser = dataSnapshot.getValue(User.class);
                     if (currentUser.getFriends().containsKey(FriendId)) {
                         if (currentUser.getFriends().get(FriendId)) {
-                            System.out.println("you are firend with " + FriendName);
+                            System.out.println("you are friend with " + FriendName);
 
                             DBref.child(FriendId).addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -85,10 +85,10 @@ public class MessagingPage extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            System.out.println("you are not . firend with " + FriendName);
+                            System.out.println("you are not . friend with " + FriendName);
                         }
                     } else {
-                        System.out.println("you are not . firend with 2" + FriendName);
+                        System.out.println("you are not . friend with 2" + FriendName);
                     }
                 }
 
