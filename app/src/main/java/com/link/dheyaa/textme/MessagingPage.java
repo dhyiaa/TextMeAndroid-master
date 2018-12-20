@@ -118,11 +118,11 @@ public class MessagingPage extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            System.out.println("you are not . firend with " + FriendName);
+                            System.out.println("you are not . friend with " + FriendName);
                             setViews(1);
                         }
                     } else {
-                        System.out.println("you are not . firend with 2" + FriendName);
+                        System.out.println("you are not . friend with 2" + FriendName);
                         setViews(1);
                     }
                 }
