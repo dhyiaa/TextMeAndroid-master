@@ -1,8 +1,6 @@
 package com.link.dheyaa.textme;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -47,8 +45,8 @@ public class MessagingPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_messaging_page);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        message = (EditText) findViewById(R.id.msg);
+        toolbar = findViewById(R.id.toolbar);
+        message = findViewById(R.id.msg);
 
         FriendView = findViewById(R.id.friendView);
         notFriendView = findViewById(R.id.notFriendView);
@@ -76,7 +74,7 @@ public class MessagingPage extends AppCompatActivity {
 
     }
 
-    public void freindView(User friendData) {
+    public void friendView(User friendData) {
         message.setText(friendData.getEmail());
 
         toolbar.setTitle(friendData.getUsername());
@@ -111,7 +109,7 @@ public class MessagingPage extends AppCompatActivity {
                             DBref.child(FriendId).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    freindView(dataSnapshot.getValue(User.class));
+                                    friendView(dataSnapshot.getValue(User.class));
                                 }
 
                                 @Override
