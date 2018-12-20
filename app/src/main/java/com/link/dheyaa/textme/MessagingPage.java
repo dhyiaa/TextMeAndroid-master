@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +25,13 @@ public class MessagingPage extends AppCompatActivity {
     private DatabaseReference DBref;
     private User currentUser;
 
+    private LinearLayout FriendView;
+    private LinearLayout notFriendView;
+    private LinearLayout LoadingView;
+    private EditText message;
+    private Toolbar toolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,20 +45,47 @@ public class MessagingPage extends AppCompatActivity {
         updateUI(mAuth.getCurrentUser());
 
 
+        setContentView(R.layout.activity_messaging_page);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        message = (EditText) findViewById(R.id.msg);
+
+        FriendView = findViewById(R.id.friendView);
+        notFriendView = findViewById(R.id.notFriendView);
+        LoadingView = findViewById(R.id.loadingView);
+        setViews(1);
+
+
+    }
+
+    public void setViews(int type) {
+
+        if (type == 1) {
+            LoadingView.setVisibility(View.VISIBLE);
+            notFriendView.setVisibility(View.INVISIBLE);
+            FriendView.setVisibility(View.INVISIBLE);
+        } else if (type == 2) {
+            notFriendView.setVisibility(View.VISIBLE);
+            LoadingView.setVisibility(View.INVISIBLE);
+            FriendView.setVisibility(View.INVISIBLE);
+        } else {
+            FriendView.setVisibility(View.VISIBLE);
+            notFriendView.setVisibility(View.INVISIBLE);
+            LoadingView.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     public void freindView(User friendData) {
-        setContentView(R.layout.activity_messaging_page);
-
-        EditText message = (EditText) findViewById(R.id.msg);
         message.setText(friendData.getEmail());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(friendData.getUsername());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         System.out.println("ok ok very Good");
+        setViews(3);
+
 
     }
 
@@ -59,7 +94,7 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     public void notFriendView(int userId) {
-        System.out.println("not friend");
+        System.out.println("not friend error !!!");
     }
 
 
@@ -71,7 +106,7 @@ public class MessagingPage extends AppCompatActivity {
                     currentUser = dataSnapshot.getValue(User.class);
                     if (currentUser.getFriends().containsKey(FriendId)) {
                         if (currentUser.getFriends().get(FriendId)) {
-                            System.out.println("you are friend with " + FriendName);
+                            System.out.println("you are firend with " + FriendName);
 
                             DBref.child(FriendId).addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -85,10 +120,12 @@ public class MessagingPage extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            System.out.println("you are not . friend with " + FriendName);
+                            System.out.println("you are not . firend with " + FriendName);
+                            setViews(1);
                         }
                     } else {
-                        System.out.println("you are not . friend with 2" + FriendName);
+                        System.out.println("you are not . firend with 2" + FriendName);
+                        setViews(1);
                     }
                 }
 
