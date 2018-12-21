@@ -47,7 +47,9 @@
 
             >
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+
+
+            <ImageView
                 android:id="@+id/userPhoto"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -55,13 +57,10 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/circle_profile"
                 android:src="@drawable/default_user_image"
-                app:civ_border_color="@color/colorPrimary_dark"
-                app:civ_border_width="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
             <!-- Email Label -->
 

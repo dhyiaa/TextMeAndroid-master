@@ -114,7 +114,8 @@ public class Search extends AppCompatActivity {
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
             startActivity(Message);
-            listView.setClickable(true);
+            finish();
+            //listView.setClickable(true);
 
         }
     };

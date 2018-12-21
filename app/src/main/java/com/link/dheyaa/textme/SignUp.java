@@ -1,8 +1,11 @@
 package com.link.dheyaa.textme;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -32,7 +35,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -70,7 +77,7 @@ public class SignUp extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                finish();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,13 +124,16 @@ public class SignUp extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 loading.setVisibility(View.INVISIBLE);
-                               final FirebaseUser  authUser = mAuth.getCurrentUser();
+                                final FirebaseUser authUser = mAuth.getCurrentUser();
 
                                 User userObject = new User(
                                         username.getText().toString(),
                                         email.getText().toString(),
-                                        new  HashMap<String , Boolean>()
+                                        new HashMap<String, Boolean>()
                                 );
+
+                                String ImagePath = uploadImage(authUser);
+                                userObject.setImagePath(ImagePath);
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference myRef = database.getReference("Users");
@@ -131,11 +141,10 @@ public class SignUp extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            uploadImage(authUser);
                                             loading.setVisibility(View.INVISIBLE);
 
                                             FirebaseUser authUser = mAuth.getCurrentUser();
-                                            //updateUI(authUser);
+                                            updateUI(authUser);
                                         } else {
                                             Snackbar.make(parentLayout, "saving  failed", Snackbar.LENGTH_LONG).show();
                                         }
@@ -144,7 +153,7 @@ public class SignUp extends AppCompatActivity {
                             } else {
                                 loading.setVisibility(View.INVISIBLE);
                                 String errorMsg = task.getException().getMessage();
-                                Snackbar.make( parentLayout , errorMsg, Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(parentLayout, errorMsg, Snackbar.LENGTH_LONG).show();
                                 updateUI(null);
                             }
                         }
@@ -157,7 +166,7 @@ public class SignUp extends AppCompatActivity {
 
     public void SignInPage(View v) {
 
-       // startActivity(new Intent(getApplicationContext(), SignIn.class));
+        // startActivity(new Intent(getApplicationContext(), SignIn.class));
         finish();
     }
 
@@ -166,33 +175,59 @@ public class SignUp extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select your profile picture"), PICK_IMAGE_REQUEST);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                userPhoto.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
         }
     }
-
-    private void uploadImage(FirebaseUser authUser) {
-        final FirebaseUser authUser_ = authUser;
-        if(filePath != null)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
         {
+            filePath = data.getData();
+            System.out.println("file path "+filePath.toString());
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
+                //userPhoto.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+
+
+
+    private String uploadImage(FirebaseUser authUser) {
+        final FirebaseUser authUser_ = authUser;
+        if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-
-            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString()+authUser_.getUid());
+            String uniqueImagePath = "images/" + UUID.randomUUID().toString() + authUser_.getUid();
+            StorageReference ref = storageReference.child(uniqueImagePath);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -201,27 +236,29 @@ public class SignUp extends AppCompatActivity {
                             Snackbar.make(parentLayout, "Uploaded", Snackbar.LENGTH_LONG).show();
                             updateUI(authUser_);
 
-                            //  Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                             Toast.makeText(SignUp.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Snackbar.make(parentLayout, "Failed "+e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(parentLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_LONG).show();
 
-                            //Toast.makeText(MainActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                     .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
+            return uniqueImagePath;
         }
+        return null;
     }
 
 }
