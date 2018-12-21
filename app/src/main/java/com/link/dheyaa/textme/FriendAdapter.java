@@ -1,6 +1,7 @@
 package com.link.dheyaa.textme;
 
 import android.content.Context;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -17,6 +25,7 @@ public class FriendAdapter extends ArrayAdapter<User> {
 
     private ArrayList<User> friends;
     Context mContext;
+    ImageView imageView;
 
     public FriendAdapter(ArrayList<User> friends, Context context) {
         super(context, R.layout.friends_list_item, friends);
@@ -38,6 +47,31 @@ public class FriendAdapter extends ArrayAdapter<User> {
 
         TextView friendEmail = (TextView) listItem.findViewById(R.id.user_email);
         friendEmail.setText(currentFriend.getEmail());
+
+         imageView = (ImageView) listItem.findViewById(R.id.imageView);
+        //imageView.setImageBitmap();
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        String urlUser = currentFriend.getImagePath() != null ? currentFriend.getImagePath() : "images/7d63e0a4-7a09-48a3-b27d-cd617704b0b2ru38LcDF7hOb1kcyMeKFJtd3p3L2";
+
+        storageReference.child(urlUser).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getContext())
+                        .load(uri) // the uri you got from Firebase
+                        .centerCrop()
+                        .into(imageView);            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
+       //Your imageView variable
 
         return listItem;
     }
