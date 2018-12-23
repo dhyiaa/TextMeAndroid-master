@@ -109,9 +109,4 @@ public class User {
                 ", Id='" + Id + '\'' +
                 '}';
     }
-    /*
-    *      ", password='" + password + '\'' +
-
-
-    * */
 }

@@ -1,6 +1,7 @@
 package com.link.dheyaa.textme.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,20 +20,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.models.Message;
+import com.link.dheyaa.textme.models.Room;
 import com.link.dheyaa.textme.models.User;
+import com.link.dheyaa.textme.utils.MessagesHelpers;
 
 public class MessagingPage extends AppCompatActivity {
 
     private String FriendId;
     private String FriendName;
     private FirebaseAuth mAuth;
-    private DatabaseReference DBref;
+    private DatabaseReference DBref, DBrefMessages;
     private User currentUser;
 
     private android.support.constraint.ConstraintLayout FriendView;
     private ScrollView notFriendView;
     private ScrollView LoadingView;
-    
+
     private EditText message;
     private Toolbar toolbar;
     private Button sendReq;
@@ -43,21 +49,20 @@ public class MessagingPage extends AppCompatActivity {
         FriendName = getIntent().getStringExtra("friend_name");
         FriendId = getIntent().getStringExtra("friend_id");
 
-        System.out.println("friend id is :"+FriendId);
+        System.out.println("friend id is :" + FriendId);
 
         DBref = FirebaseDatabase.getInstance().getReference("Users");
+        DBrefMessages = FirebaseDatabase.getInstance().getReference("Messages");
         mAuth = FirebaseAuth.getInstance();
+
+        DBrefMessages.orderByKey().equalTo(MessagesHelpers.getRoomId(FriendId , mAuth.getUid())).addValueEventListener(roomEventListener);
 
         updateUI(mAuth.getCurrentUser());
 
-
         setContentView(R.layout.activity_messaging_page);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         Toolbar toolbar2 = (Toolbar) findViewById(R.id.toolbar2);
         toolbar2.setTitle(FriendName);
-
 
         setSupportActionBar(toolbar2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,9 +87,40 @@ public class MessagingPage extends AppCompatActivity {
 
     }
 
-    public void sendFriendRequest(){
+    ValueEventListener roomEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Room room = dataSnapshot.getValue(Room.class);
+            if (room == null) {
+                Room room1 = new Room();
+                DBrefMessages.child(MessagesHelpers.getRoomId(FriendId , mAuth.getUid())).setValue(room1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            //FirebaseUser authUser = mAuth.getCurrentUser();
+                          //  updateUI(authUser);
+                        } else {
+                            //Snackbar.make(parentLayout, "saving  failed", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }else{
+               if(room.getMessages() == null){
+                   System.out.println("you have no messages yet");
+               }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    public void sendFriendRequest() {
         DBref.child(FriendId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(false);
-        Snackbar.make(notFriendView, "your request has been sent to"+FriendName, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(notFriendView, "your request has been sent to" + FriendName, Snackbar.LENGTH_LONG).show();
     }
 
     public void setViews(int type) {
@@ -112,7 +148,6 @@ public class MessagingPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //System.out.println("ok ok very Good");
         setViews(3);
 
 
@@ -129,7 +164,7 @@ public class MessagingPage extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
-                    if(currentUser.getFriends() != null){
+                    if (currentUser.getFriends() != null) {
                         if (currentUser.getFriends().containsKey(FriendId)) {
                             if (currentUser.getFriends().get(FriendId)) {
                                 System.out.println("you are firend with " + FriendName);
