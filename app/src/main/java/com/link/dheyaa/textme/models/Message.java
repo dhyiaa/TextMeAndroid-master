@@ -72,4 +72,14 @@ public class Message {
                 senderId.equals(message.senderId);
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "roomId='" + roomId + '\'' +
+                ", reciverId='" + reciverId + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", time=" + time +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +41,8 @@ public class MessagingPage extends AppCompatActivity {
     private EditText message;
     private Toolbar toolbar;
     private Button sendReq;
-
+    private TextView noMsg;
+    private Button sendMsgBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class MessagingPage extends AppCompatActivity {
         DBrefMessages = FirebaseDatabase.getInstance().getReference("Messages");
         mAuth = FirebaseAuth.getInstance();
 
-        DBrefMessages.orderByKey().equalTo(MessagesHelpers.getRoomId(FriendId , mAuth.getUid())).addValueEventListener(roomEventListener);
+        DBrefMessages.orderByKey().equalTo(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).addValueEventListener(roomEventListener);
 
         updateUI(mAuth.getCurrentUser());
 
@@ -69,12 +71,18 @@ public class MessagingPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         message = (EditText) findViewById(R.id.msg);
-
+        noMsg = (TextView) findViewById(R.id.noMsg);
         FriendView = findViewById(R.id.friendView);
         notFriendView = findViewById(R.id.notFriendView);
         LoadingView = findViewById(R.id.loadingView);
         sendReq = findViewById(R.id.req_btn);
-
+        sendMsgBtn = findViewById(R.id.sendMsgBtn);
+        sendMsgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
         sendReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,8 +91,24 @@ public class MessagingPage extends AppCompatActivity {
         });
 
         setViews(1);
+    }
 
+    public void sendMessage() {
+        String value = message.getText().toString();
+        String senderId = mAuth.getUid();
+        String reciverId = FriendId;
 
+        Long time = System.currentTimeMillis() / 1000;
+
+        Message message = new Message(
+                MessagesHelpers.getRoomId(FriendId, mAuth.getUid()),
+                reciverId,
+                senderId,
+                time,
+                value
+        );
+        //DBrefMessages.getKey(MessagesHelpers.getRoomId(FriendId, mAuth.getUid()).setValue(message);
+        DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).child("values").push().setValue(message);
     }
 
     ValueEventListener roomEventListener = new ValueEventListener() {
@@ -92,29 +116,32 @@ public class MessagingPage extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             Room room = dataSnapshot.getValue(Room.class);
             if (room == null) {
-                Room room1 = new Room();
-                DBrefMessages.child(MessagesHelpers.getRoomId(FriendId , mAuth.getUid())).setValue(room1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).setValue(new Room()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
-                            //FirebaseUser authUser = mAuth.getCurrentUser();
-                          //  updateUI(authUser);
+                            noMsg.setVisibility(View.VISIBLE);
                         } else {
-                            //Snackbar.make(parentLayout, "saving  failed", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });
-            }else{
-               if(room.getMessages() == null){
-                   System.out.println("you have no messages yet");
-               }
+            } else {
+                if (room.getRoomId() == null) {
+                    System.out.println("you have no messages yet");
+                    System.out.println(room.toString());
+
+                    noMsg.setVisibility(View.VISIBLE);
+                } else {
+                    noMsg.setVisibility(View.GONE);
+
+                    //System.out.println(room.toString());
+                }
             }
         }
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-
+            System.out.println(databaseError.toString());
         }
     };
 
