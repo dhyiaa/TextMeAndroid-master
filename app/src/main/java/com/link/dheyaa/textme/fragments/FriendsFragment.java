@@ -92,14 +92,14 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         }
     };
 
-    public void SetViews(boolean hasFreiends, boolean isLoading) {
+    public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);
             noFriends.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
         } else {
-            listView.setVisibility(hasFreiends ? View.VISIBLE : View.INVISIBLE);
-            noFriends.setVisibility(hasFreiends ? View.INVISIBLE : View.VISIBLE);
+            listView.setVisibility(hasFriends ? View.VISIBLE : View.INVISIBLE);
+            noFriends.setVisibility(hasFriends ? View.INVISIBLE : View.VISIBLE);
             loading.setVisibility(View.INVISIBLE);
         }
     }
