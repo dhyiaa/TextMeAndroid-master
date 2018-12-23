@@ -1,55 +1,75 @@
 package com.link.dheyaa.textme.models;
 
+import java.util.Objects;
+
 public class Message {
-    private String value;
+    private String roomId;
+    private String reciverId;
+    private String senderId;
     private long time;
+    private String value;
 
-    private Message(){
-
-    }
-    public Message(String value,long time){
-        this.value=value;
-        this.time=time;
+    public Message() {
     }
 
-    public String getValue(){
-        return value;
+    public Message(String roomId, String reciverId, String senderId, long time, String value) {
+        this.roomId = roomId;
+        this.reciverId = reciverId;
+        this.senderId = senderId;
+        this.time = time;
+        this.value = value;
     }
 
-    public void setValue(String value){
-        this.value=value;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public long getTime(){
+    public String getReciverId() {
+        return reciverId;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public long getTime() {
         return time;
     }
 
-    public void setTime(long time){
-        this.time=time;
+    public String getValue() {
+        return value;
     }
 
-    public Message clone(){
-        Message msg=new Message(value,time);
-        return msg;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public void setReciverId(String reciverId) {
+        this.reciverId = reciverId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(o instanceof Message){
-            Message msg=(Message)o;
-            if(this==msg){
-                return true;
-            }
-            else{
-                return (this.time==msg.time&&this.value.equals(msg.value));
-            }
-        }
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return time == message.time &&
+                roomId.equals(message.roomId) &&
+                reciverId.equals(message.reciverId) &&
+                value.equals(message.value) &&
+                senderId.equals(message.senderId);
     }
 
-    @Override
-    public String toString(){
-        String s="Message{ time='"+time+"\', Content='"+value+"}";
-        return s;
-    }
 }

@@ -1,6 +1,7 @@
 package com.link.dheyaa.textme.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -82,7 +83,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     public void sendFriendRequest(){
-
+        DBref.child(FriendId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(false);
+        Snackbar.make(notFriendView, "your request has been sent to"+FriendName, Snackbar.LENGTH_LONG).show();
     }
 
     public void setViews(int type) {

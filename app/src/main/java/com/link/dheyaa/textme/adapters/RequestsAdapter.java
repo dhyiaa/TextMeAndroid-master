@@ -100,13 +100,18 @@ public class RequestsAdapter extends ArrayAdapter<User> {
           final int position = listView.getPositionForView(parentRow);
             String currentRequestId = friends.get(position).getId();
           DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(true);
+          DBref.child(currentRequestId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(true);
       }
   };
 
   View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+          View parentRow = (View) v.getParent();
+          ListView listView = (ListView) parentRow.getParent();
+          final int position = listView.getPositionForView(parentRow);
+          String currentRequestId = friends.get(position).getId();
+          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).removeValue();
       }
   };
 

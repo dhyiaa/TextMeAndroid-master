@@ -12,7 +12,8 @@
             android:defaultValue="true"
             android:key="key1"
             android:summary="Switch Summary"
-            android:title="Switch Preference" />
+            android:title="Switch Preference"
+            />
 
         <!--Button
             android:id="@+id/sign_out"
