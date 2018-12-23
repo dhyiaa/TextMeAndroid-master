@@ -13,6 +13,8 @@
     <string name="title_activity_guest">Sign in</string>
     <string name="null_string"></string>
     <string name="no_friends">You have no friends.</string>
+    <string name="no_requests">You have not friend requests.</string>
+
 
     <!-- Sign in strings -->
     <string name="prompt_email">Email</string>

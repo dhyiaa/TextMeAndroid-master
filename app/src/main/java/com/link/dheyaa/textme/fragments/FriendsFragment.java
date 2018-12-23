@@ -67,8 +67,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
             }
         });
         itemCLicked = false;
-
-        //return the view from the fragment
         return root;
 
     }
@@ -84,15 +82,12 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
     AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            //  listView.setClickable(false);
-            //  if (itemCLicked == false) {
             Intent Message = new Intent(getActivity(), MessagingPage.class);
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
             startActivity(Message);
             listView.setClickable(true);
             itemCLicked = true;
-            // }
 
         }
     };
@@ -115,7 +110,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
             HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
             if (friendIds != null) {
                 SetViews(true, false);
-
                 Iterator it = friendIds.entrySet().iterator();
                 while (it.hasNext()) {
                     final Map.Entry pair = (Map.Entry) it.next();
@@ -129,18 +123,13 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                             if (user != null) {
                                 user.setId(userId);
                                 user.setFriends(null);
-
                                 adapter.removeOld(user, friends);
                                 friends.add(user);
 
                                 adapter.clear();
                                 adapter.removeAll(friends);
-
                                 Sorting.quickSortByAlphabet(friends);
                                 adapter.addAll(friends);
-
-                                //  System.out.println(friends.toString());
-
                                 adapter.notifyDataSetChanged();
                             }
                         }

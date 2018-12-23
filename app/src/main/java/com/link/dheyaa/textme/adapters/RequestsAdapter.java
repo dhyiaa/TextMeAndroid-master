@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
@@ -27,6 +32,8 @@ public class RequestsAdapter extends ArrayAdapter<User> {
     private ArrayList<User> friends;
     Context mContext;
     ImageView imageView;
+    private FirebaseAuth mAuth;
+    private DatabaseReference DBref;
 
     public RequestsAdapter(ArrayList<User> friends, Context context) {
         super(context, R.layout.requests_list_item, friends);
@@ -49,7 +56,15 @@ public class RequestsAdapter extends ArrayAdapter<User> {
         friendEmail.setText(currentFriend.getEmail());
 
         imageView = (ImageView) listItem.findViewById(R.id.imageView);
-        //imageView.setImageBitmap();
+
+         Button requestAccept = (Button) listItem.findViewById(R.id.req_accept);
+        Button requestDissime = (Button) listItem.findViewById(R.id.req_dissime);
+
+        requestAccept.setOnClickListener(AcceptRequestAcction);
+        requestDissime.setOnClickListener(dissimeRequestAcction);
+
+        mAuth = FirebaseAuth.getInstance();
+        DBref = FirebaseDatabase.getInstance().getReference("Users");
 
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -75,6 +90,26 @@ public class RequestsAdapter extends ArrayAdapter<User> {
 
         return listItem;
     }
+
+
+ View.OnClickListener AcceptRequestAcction = new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+          View parentRow = (View) v.getParent();
+          ListView listView = (ListView) parentRow.getParent();
+          final int position = listView.getPositionForView(parentRow);
+            String currentRequestId = friends.get(position).getId();
+          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(true);
+      }
+  };
+
+  View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+      }
+  };
+
 
     public void removeOld(User user, ArrayList<User> Myfriends) {
         for (int i = 0; i < Myfriends.size(); i++) {

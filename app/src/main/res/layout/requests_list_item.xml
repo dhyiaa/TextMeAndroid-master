@@ -54,7 +54,7 @@
         android:id="@+id/imageView"
         android:layout_width="107dp"
         android:layout_height="112dp"
-
+        android:background="@android:color/transparent"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/profile"

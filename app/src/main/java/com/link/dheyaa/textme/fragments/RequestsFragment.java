@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.link.dheyaa.textme.R;
+
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +25,7 @@ import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.adapters.RequestsAdapter;
 import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.models.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,6 +43,8 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
     private android.support.constraint.ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
+   // private Button requestAccept;
+   // private Button requestDissime;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -46,6 +52,12 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
         listView = (ListView) root.findViewById(R.id.friends_list);
 
         noFriends = (android.support.constraint.ConstraintLayout) root.findViewById(R.id.nofriends);
+
+       // requestAccept = (Button) root.findViewById(R.id.req_accept);
+        //requestDissime = (Button) root.findViewById(R.id.req_dissime);
+
+        //requestAccept.setOnClickListener(AcceptRequestAcction);
+       // requestDissime.setOnClickListener(dissimeRequestAcction);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
@@ -56,41 +68,25 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
         listView.setAdapter(this.adapter);
 
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
-        //listView.setOnItemClickListener(itemClicked);
         SetViews(false, true);
-        Button searchBtn = root.findViewById(R.id.search_btn);
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent Search = new Intent(getContext(), com.link.dheyaa.textme.activities.Search.class);
-                startActivity(Search);
-            }
-        });
-        itemCLicked = false;
-
-        //return the view from the fragment
         return root;
 
     }
-
-
-/*
-*     AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
+  /*
+  *   View.OnClickListener AcceptRequestAcction = new View.OnClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            //  listView.setClickable(false);
-            //  if (itemCLicked == false) {
-            Intent Message = new Intent(getActivity(), MessagingPage.class);
-            Message.putExtra("friend_name", requests.get(i).getUsername());
-            Message.putExtra("friend_id", requests.get(i).getId());
-            startActivity(Message);
-            listView.setClickable(true);
-            itemCLicked = true;
-            // }
+        public void onClick(View v) {
+            DBref.child(mAuth.getCurrentUser().getUid()).child("friends").setValue("");
+        }
+    };
+
+    View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
         }
     };
-* */
+  * */
 
     public void SetViews(boolean hasFreiends, boolean isLoading) {
         if (isLoading) {
@@ -124,18 +120,12 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
                             if (user != null) {
                                 user.setId(userId);
                                 user.setFriends(null);
-
                                 adapter.removeOld(user, requests);
                                 requests.add(user);
-
                                 adapter.clear();
                                 adapter.removeAll(requests);
-
                                 Sorting.quickSortByAlphabet(requests);
                                 adapter.addAll(requests);
-
-                                //  System.out.println(friends.toString());
-
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -151,7 +141,6 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
                 SetViews(false, false);
             }
         }
-
         @Override
         public void onCancelled(DatabaseError error) {
             SetViews(false, false);
