@@ -1,4 +1,4 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,12 +13,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,8 +24,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
+import com.link.dheyaa.textme.fragments.FriendsFragment;
+import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.fragments.RequestsFragment;
+import com.link.dheyaa.textme.fragments.SettingsFragment;
+import com.link.dheyaa.textme.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    protected void updateUI(FirebaseUser currentUser) {
+    public void updateUI(FirebaseUser currentUser) {
         if (currentUser == null) {
             startActivity(new Intent(getApplicationContext(), SignIn.class));
             this.finish();
@@ -141,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PlaceholderFragment extends Fragment {
+/*
+*
+*     public static class PlaceholderFragment extends Fragment {
         private static String sectionId;
 
         public PlaceholderFragment() {
@@ -172,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+* */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -180,13 +184,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if ((position) == 0) {
+            if (position == 0) {
                 return new FriendsFragment();
             }
-            else if (position == 2) {
+            else if (position == 1) {
+                return new RequestsFragment();
+            }
+            else  {
                 return new SettingsFragment();
             }
-            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override

@@ -1,15 +1,15 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.models.Message;
 
 import java.util.ArrayList;
 

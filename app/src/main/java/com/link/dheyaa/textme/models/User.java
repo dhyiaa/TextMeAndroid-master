@@ -1,6 +1,5 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {

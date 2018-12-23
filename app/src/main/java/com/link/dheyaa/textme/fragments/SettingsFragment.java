@@ -1,19 +1,14 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.fragments;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.EventListener;
+import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.activities.MainActivity;
 
 
 public class SettingsFragment extends android.support.v4.app.Fragment {

@@ -1,11 +1,9 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.models.User;
 
 import java.util.ArrayList;
 
@@ -54,7 +54,7 @@ public class FriendAdapter extends ArrayAdapter<User> {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
-        String urlUser = currentFriend.getImagePath() != null ? currentFriend.getImagePath() : "images/7d63e0a4-7a09-48a3-b27d-cd617704b0b2ru38LcDF7hOb1kcyMeKFJtd3p3L2";
+        String urlUser = currentFriend.getImagePath() != null ? currentFriend.getImagePath() : "static/profile.png";
 
         storageReference.child(urlUser).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

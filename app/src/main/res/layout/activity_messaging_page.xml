@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context=".MessagingPage">
+    tools:context=".activities.MessagingPage">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/friendView"
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            tools:context=".MessagingPage">
+            tools:context=".activities.MessagingPage">
 
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appBarLayout2"
@@ -150,7 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            tools:context=".MessagingPage">
+            tools:context=".activities.MessagingPage">
 
             <TextView
                 android:id="@+id/textView3"
