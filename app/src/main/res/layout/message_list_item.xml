@@ -3,65 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="3dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_margin="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginRight="176dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/bubble_msg"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="10dp"
+        android:paddingBottom="0dp"
+        android:singleLine="false"
+        android:text="hello "
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+
+        android:textStyle="normal"
+        app:fontFamily="sans-serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.461">
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="0dp"
-            android:gravity="left"
-            android:padding="5dp"
-            android:paddingBottom="0dp"
-            android:text="hi hello !"
-            android:textColor="#ffffff"
-            android:textSize="18dp"
-            android:textStyle="normal"
-            app:fontFamily="sans-serif"
-            tools:layout_editor_absoluteY="302dp" />
-    </LinearLayout>
+        app:layout_constraintVertical_bias="0.458"
+        app:layout_constraintWidth_default="wrap" />
 
     <TextView
         android:id="@+id/user_email"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_centerHorizontal="true"
+        android:layout_margin="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="228dp"
-        android:layout_marginRight="228dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="240dp"
+        android:layout_marginRight="240dp"
+        android:layout_marginBottom="8dp"
         android:padding="0dp"
         android:text="2 mins ago"
         android:textColor="#7b7b7b"
         android:textSize="12sp"
         android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/imageView"

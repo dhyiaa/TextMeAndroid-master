@@ -73,7 +73,15 @@ public class MessagingPage extends AppCompatActivity {
             public void onChildAdded(DataSnapshot newMessage, String s) {
                 Message message = newMessage.getValue(Message.class);
                 messageAdapter.add(message);
-               // messageAdapter.addMessage(message);
+                long numsOfChildren = newMessage.getChildrenCount();
+                if (numsOfChildren < 0) {
+                    setViews(4);
+
+                } else {
+                    setViews(3);
+
+                }
+                // messageAdapter.addMessage(message);
             }
 
             @Override
@@ -109,13 +117,13 @@ public class MessagingPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        HashMap<String , String> extraDAta  = new HashMap<String , String>() ;
-        extraDAta.put("FriendName" , FriendName);
-        extraDAta.put("FriendId" , FriendId);
-        extraDAta.put("currentAuthId" , mAuth.getUid());
+        HashMap<String, String> extraDAta = new HashMap<String, String>();
+        extraDAta.put("FriendName", FriendName);
+        extraDAta.put("FriendId", FriendId);
+        extraDAta.put("currentAuthId", mAuth.getCurrentUser().getUid());
 
 
-        messageAdapter = new MessageAdapter(new ArrayList<Message>(), this , extraDAta);
+        messageAdapter = new MessageAdapter(new ArrayList<Message>(), this, extraDAta);
 
         messageList = findViewById(R.id.message_list);
         messageList.setAdapter(messageAdapter);
@@ -140,15 +148,19 @@ public class MessagingPage extends AppCompatActivity {
             }
         });
 
+
         setViews(1);
+
+
     }
 
     public void sendMessage() {
         String value = message.getText().toString();
-        if(!value.trim().equals("")){
+        if (!value.trim().equals("")) {
             message.setText("");
-            String senderId = mAuth.getUid();
+            String senderId = mAuth.getCurrentUser().getUid();
             String reciverId = FriendId;
+            System.out.println("reciverId=" + reciverId + "   \n   senderId=" + senderId);
 
             Long time = System.currentTimeMillis() / 1000;
 
@@ -267,7 +279,7 @@ public void onCancelled(DatabaseError databaseError) {
     }
 
     public void freindView(User friendData) {
-       // message.setText(friendData.getEmail());
+        // message.setText(friendData.getEmail());
 
         toolbar.setTitle(friendData.getUsername());
         setSupportActionBar(toolbar);

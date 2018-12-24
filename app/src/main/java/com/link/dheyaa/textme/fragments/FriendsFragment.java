@@ -126,7 +126,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                                 adapter.removeOld(user, friends);
                                 friends.add(user);
 
-                                adapter.clear();
+                                //adapter.clear();
                                 adapter.removeAll(friends);
                                 Sorting.quickSortByAlphabet(friends);
                                 adapter.addAll(friends);

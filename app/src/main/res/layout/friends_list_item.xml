@@ -58,7 +58,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/profile"
         app:civ_border_color="@color/colorPrimary"
-        app:civ_border_width="4dp"
+        app:civ_border_width="1dp"
         app:civ_shadow="true"
         app:civ_shadow_color="@android:color/transparent"
         app:civ_shadow_radius="10"
