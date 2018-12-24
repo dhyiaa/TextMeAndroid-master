@@ -20,34 +20,44 @@ import com.link.dheyaa.textme.models.Message;
 import com.link.dheyaa.textme.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MessageAdapter extends ArrayAdapter<Message> {
 
     private ArrayList<Message> messages;
     Context mContext;
     ImageView imageView;
+    HashMap<String , String> extraData;
 
-    public MessageAdapter(ArrayList<Message> messages, Context context) {
-        super(context, R.layout.friends_list_item, messages);
+    public MessageAdapter(ArrayList<Message> messages, Context context ,     HashMap<String , String>  extraData) {
+        super(context, R.layout.message_list_item, messages);
         this.messages = messages;
         this.mContext = context;
+        this.extraData = extraData;
     }
+    public String getSenderName( String senderId){
+        if(senderId == extraData.get("currentAuthId")){
+            return "you";
+        }else{
+            return extraData.get("FriendName");
 
+        }
+    }
 
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.friends_list_item, parent, false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
 
-        Message currentFriend = messages.get(position);
+        Message currentMessage = messages.get(position);
 
         TextView friendName = (TextView) listItem.findViewById(R.id.user_name);
-        friendName.setText(currentFriend.getValue());
+        friendName.setText(currentMessage.getValue());
         //friendName.setText("message value");
 
         TextView friendEmail = (TextView) listItem.findViewById(R.id.user_email);
-        friendEmail.setText(Long.toString(currentFriend.getTime()));
+        friendEmail.setText(getSenderName(currentMessage.getSenderId()));
        // friendEmail.setText("time");
 
        //  imageView = (ImageView) listItem.findViewById(R.id.imageView);

@@ -109,7 +109,13 @@ public class MessagingPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        messageAdapter = new MessageAdapter(new ArrayList<Message>(), this);
+        HashMap<String , String> extraDAta  = new HashMap<String , String>() ;
+        extraDAta.put("FriendName" , FriendName);
+        extraDAta.put("FriendId" , FriendId);
+        extraDAta.put("currentAuthId" , mAuth.getUid());
+
+
+        messageAdapter = new MessageAdapter(new ArrayList<Message>(), this , extraDAta);
 
         messageList = findViewById(R.id.message_list);
         messageList.setAdapter(messageAdapter);
@@ -139,6 +145,7 @@ public class MessagingPage extends AppCompatActivity {
 
     public void sendMessage() {
         String value = message.getText().toString();
+        message.setText("");
         String senderId = mAuth.getUid();
         String reciverId = FriendId;
 

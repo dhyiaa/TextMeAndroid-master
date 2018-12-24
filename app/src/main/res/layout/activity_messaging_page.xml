@@ -64,9 +64,14 @@
             app:layout_constraintBottom_toTopOf="@+id/msg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true"
+            android:dividerHeight="0dp"
+            android:divider="@android:color/transparent"
 
-        </ListView>
+            />
+
 
         <EditText
             android:id="@+id/msg"
