@@ -145,21 +145,23 @@ public class MessagingPage extends AppCompatActivity {
 
     public void sendMessage() {
         String value = message.getText().toString();
-        message.setText("");
-        String senderId = mAuth.getUid();
-        String reciverId = FriendId;
+        if(!value.trim().equals("")){
+            message.setText("");
+            String senderId = mAuth.getUid();
+            String reciverId = FriendId;
 
-        Long time = System.currentTimeMillis() / 1000;
+            Long time = System.currentTimeMillis() / 1000;
 
-        Message message = new Message(
-                MessagesHelpers.getRoomId(FriendId, mAuth.getUid()),
-                reciverId,
-                senderId,
-                time,
-                value
-        );
-        //DBrefMessages.getKey(MessagesHelpers.getRoomId(FriendId, mAuth.getUid()).setValue(message);
-        DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).child("values").push().setValue(message);
+            Message message = new Message(
+                    MessagesHelpers.getRoomId(FriendId, mAuth.getUid()),
+                    reciverId,
+                    senderId,
+                    time,
+                    value
+            );
+            //DBrefMessages.getKey(MessagesHelpers.getRoomId(FriendId, mAuth.getUid()).setValue(message);
+            DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).child("values").push().setValue(message);
+        }
     }
 
     /*

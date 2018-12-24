@@ -46,11 +46,16 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View listItem = convertView;
-        if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
+
 
         Message currentMessage = messages.get(position);
+
+
+        View listItem = convertView;
+        if (currentMessage.getSenderId() == extraData.get("currentAuthId"))
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_you, parent, false);
+        else
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
 
         TextView friendName = (TextView) listItem.findViewById(R.id.user_name);
         friendName.setText(currentMessage.getValue());
@@ -93,7 +98,10 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         return listItem;
     }
 
-    public void addIfNotExist(Message msg){
+/*
+*
+*
+*     public void addIfNotExist(Message msg){
         boolean found = false;
         for(int i = 0 ; i< this.messages.size() ; i++){
             if(this.messages.get(i).equals(msg)){
@@ -113,6 +121,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
 
     }
+* */
 
 
 
