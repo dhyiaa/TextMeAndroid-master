@@ -8,7 +8,6 @@
     </solid>
 
     <!-- The radius makes the corners rounded -->
-    <corners
-        android:radius="20dp">
-    </corners>
+    <corners android:radius="30dp" android:bottomLeftRadius="0dp" />
+
 </shape>

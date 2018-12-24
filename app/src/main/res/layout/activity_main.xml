@@ -29,6 +29,7 @@
                 android:id="@+id/profileView"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:layout_marginLeft="-10dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="3dp"
                 android:background="@android:color/transparent"
@@ -49,9 +50,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
                 android:padding="5dp"
                 android:text="Loading..."
-                android:textSize="18dp"
+                android:textSize="22dp"
                 android:textStyle="bold" />
         </android.support.v7.widget.Toolbar>
 

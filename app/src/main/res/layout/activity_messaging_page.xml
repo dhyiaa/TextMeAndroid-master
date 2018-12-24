@@ -6,14 +6,20 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context=".activities.MessagingPage">
+    tools:context=".activities.MessagingPage"
+    android:focusableInTouchMode="true"
+
+    >
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/friendView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:fillViewport="true"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:focusableInTouchMode="true"
+
+        >
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
