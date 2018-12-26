@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.link.dheyaa.textme.R;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.widget.AdapterView;
+import androidx.annotation.Nullable;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -20,8 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.link.dheyaa.textme.activities.MessagingPage;
-import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.adapters.RequestsAdapter;
 import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.models.User;
@@ -31,8 +26,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
-public class RequestsFragment extends android.support.v4.app.Fragment {
+
+public class RequestsFragment extends Fragment {
 
     @Nullable
     ListView listView;
@@ -40,7 +38,7 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
     private DatabaseReference DBref;
     private RequestsAdapter adapter;
     private ArrayList<User> requests = new ArrayList<User>();
-    private android.support.constraint.ConstraintLayout noFriends;
+    private ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
    // private Button requestAccept;
@@ -51,7 +49,7 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
         View root = inflater.inflate(R.layout.activity_requests, container, false);
         listView = (ListView) root.findViewById(R.id.friends_list);
 
-        noFriends = (android.support.constraint.ConstraintLayout) root.findViewById(R.id.nofriends);
+        noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
        // requestAccept = (Button) root.findViewById(R.id.req_accept);
         //requestDissime = (Button) root.findViewById(R.id.req_dissime);

@@ -7,9 +7,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +42,7 @@ public class SignUp extends AppCompatActivity {
     private FirebaseAuth mAuth;
     public ProgressBar loading;
     View parentLayout;
-    private android.support.v7.widget.Toolbar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
 
     private ImageView userPhoto;
 
@@ -66,7 +66,7 @@ public class SignUp extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar2);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

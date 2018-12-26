@@ -10,8 +10,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.activities.MainActivity;
 
+import androidx.fragment.app.Fragment;
 
-public class SettingsFragment extends android.support.v4.app.Fragment {
+
+public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {
         //root.update();

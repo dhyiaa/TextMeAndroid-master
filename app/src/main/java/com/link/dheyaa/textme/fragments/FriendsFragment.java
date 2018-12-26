@@ -2,7 +2,7 @@ package com.link.dheyaa.textme.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +28,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
-public class FriendsFragment extends android.support.v4.app.Fragment {
+
+public class FriendsFragment extends Fragment {
 
     @Nullable
     ListView listView;
@@ -37,7 +40,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
     private DatabaseReference DBref;
     private FriendAdapter adapter;
     private ArrayList<User> friends = new ArrayList<User>();
-    private android.support.constraint.ConstraintLayout noFriends;
+    private ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
 
@@ -46,7 +49,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (ListView) root.findViewById(R.id.friends_list);
 
-        noFriends = (android.support.constraint.ConstraintLayout) root.findViewById(R.id.nofriends);
+        noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");

@@ -1,10 +1,12 @@
 package com.link.dheyaa.textme.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +14,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -25,15 +25,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.MessageAdapter;
 import com.link.dheyaa.textme.models.Message;
-import com.link.dheyaa.textme.models.Room;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.MessagesHelpers;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class MessagingPage extends AppCompatActivity {
 
@@ -43,7 +39,7 @@ public class MessagingPage extends AppCompatActivity {
     private DatabaseReference DBref, DBrefMessages;
     private User currentUser;
 
-    private android.support.constraint.ConstraintLayout FriendView;
+    private ConstraintLayout FriendView;
     private ScrollView notFriendView;
     private ScrollView LoadingView;
 

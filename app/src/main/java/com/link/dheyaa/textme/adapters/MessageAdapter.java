@@ -1,8 +1,8 @@
 package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +36,12 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         this.extraData = extraData;
     }
     public String getSenderName( String senderId){
-        if(senderId == extraData.get("currentAuthId")){
+        if (senderId.equals(extraData.get("currentAuthId")) ){
             return "you";
-        }else{
+        }else {
             return extraData.get("FriendName");
-
         }
+
     }
 
     @Override
@@ -52,11 +52,13 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
 
         View listItem = convertView;
-        if (currentMessage.getSenderId() == extraData.get("currentAuthId"))
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_you, parent, false);
-        else
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
 
+        if (currentMessage.getSenderId().equals(extraData.get("currentAuthId")) ){
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_you, parent, false);
+        }
+        else {
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
+        }
         TextView friendName = (TextView) listItem.findViewById(R.id.user_name);
         friendName.setText(currentMessage.getValue());
         //friendName.setText("message value");

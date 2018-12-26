@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -8,14 +8,15 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -29,13 +30,13 @@
                 android:id="@+id/profileView"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginLeft="-10dp"
+                android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="0dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/profile"
                 app:civ_border_color="#FFFFFF"
-                app:civ_border_width="1dp"
+                app:civ_border_width="0dp"
                 app:civ_shadow="true"
                 app:civ_shadow_color="@android:color/transparent"
                 app:civ_shadow_radius="10"
@@ -55,45 +56,47 @@
                 android:text="Loading..."
                 android:textSize="22dp"
                 android:textStyle="bold" />
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
+        <!--com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_1" />
 
-            <!--android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tab_text_2" /-->
-
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_3" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_4" />
 
-        </android.support.design.widget.TabLayout>
-    </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.tabs.TabLayout-->
 
-    <android.support.v4.view.ViewPager
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         />
 
     <!--android.support.design.widget.FloatingActionButton
@@ -105,4 +108,4 @@
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/msg_icon" /-->
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
