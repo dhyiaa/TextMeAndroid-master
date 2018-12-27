@@ -47,7 +47,7 @@ public class MessagingPage extends AppCompatActivity {
     private Toolbar toolbar;
     private Button sendReq;
     private TextView noMsg;
-    private Button sendMsgBtn;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton sendMsgBtn;
     private ListView messageList;
     private MessageAdapter messageAdapter;
 

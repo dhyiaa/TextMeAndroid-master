@@ -64,7 +64,10 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         //friendName.setText("message value");
 
         TextView friendEmail = (TextView) listItem.findViewById(R.id.user_email);
-        friendEmail.setText(getSenderName(currentMessage.getSenderId()));
+      //  friendEmail.setText(getSenderName(currentMessage.getSenderId()));
+
+
+
        // friendEmail.setText("time");
 
        //  imageView = (ImageView) listItem.findViewById(R.id.imageView);

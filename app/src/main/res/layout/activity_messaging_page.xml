@@ -64,6 +64,7 @@
             android:layout_margin="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:stackFromBottom="true"
@@ -78,44 +79,45 @@
 
         <EditText
             android:id="@+id/msg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:layout_margin="4dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:background="#455a64"
+            android:background="@drawable/message_input_bg"
             android:gravity="left|center_vertical|center"
-            android:hint="write  your message"
-            android:padding="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="10dp"
+            android:hint="Type a message"
+            android:padding="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingBottom="10dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#cccccc"
+            android:textColor="#000000"
+            android:textColorHint="#414141"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendMsgBtn"
-            app:layout_constraintHorizontal_bias="0.095"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sendMsgBtn"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.984" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendMsgBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/cirlce_btn"
-            android:drawableTop="@drawable/send_icon"
-            android:padding="18dp"
-            android:text="@string/null_string"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/send_icon"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabCustomSize="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/msg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
