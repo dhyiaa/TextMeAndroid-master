@@ -9,6 +9,25 @@ public class User {
     private HashMap<String, Boolean> friends;
     private String Id;
     private String imagePath;
+    private String registrationToken;
+
+    public User(String username, String password, String email, HashMap<String, Boolean> friends, String id, String imagePath, String registrationToken) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.friends = friends;
+        Id = id;
+        this.imagePath = imagePath;
+        this.registrationToken = registrationToken;
+    }
+
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
+    }
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

@@ -56,6 +56,8 @@ public class FriendAdapter extends ArrayAdapter<User> {
         StorageReference storageReference = storage.getReference();
         String urlUser = currentFriend.getImagePath() != null ? currentFriend.getImagePath() : "static/profile.png";
 
+        System.out.println("the user-------  "+currentFriend.getUsername()+"  ----------has the image url of"+urlUser);
+
         storageReference.child(urlUser).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

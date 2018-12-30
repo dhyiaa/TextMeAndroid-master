@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "988342277983-26vhkihhs86qc102og4g0jmnaapfv7d0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.link.dheyaa.textme",
+            "certificate_hash": "bc7296ff7fddecf55340bf0f01126d1eb9c3d8fd"
+          }
+        },
+        {
           "client_id": "988342277983-97bfu0bco15pk81hf6iukvcj5kusmadb.apps.googleusercontent.com",
           "client_type": 3
         }

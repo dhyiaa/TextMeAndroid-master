@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.fragments.FriendsFragment;
@@ -135,7 +137,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
+        FirebaseAuth  mAuth = FirebaseAuth.getInstance();
+        DatabaseReference DBref = FirebaseDatabase.getInstance().getReference("Users");
+        DBref.child(mAuth.getUid()).child("registrationToken").setValue(refreshedToken);
+
+        Log.d("token1" , refreshedToken);
+        Log.d("token2" , mAuth.getCurrentUser().getToken(true).toString());
     }
 
 

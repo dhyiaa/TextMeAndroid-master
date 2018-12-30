@@ -32,9 +32,6 @@ public class Search extends AppCompatActivity {
     FriendAdapter adapter;
     EditText searchIput;
 
-    public void Search(MainActivity main) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
