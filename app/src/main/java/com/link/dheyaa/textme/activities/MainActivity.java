@@ -43,6 +43,7 @@ import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.fragments.RequestsFragment;
 import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
+import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,15 +137,17 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+       /*
+       *
+       *  if(FirebaseInstanceId.getInstance().getToken() != null){
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            dataBaeseHelpers.setToken(refreshedToken);
+            Log.d("token1" , refreshedToken);
+            Log.d("token2" , mAuth.getCurrentUser().getToken(true).toString());
+        }
+       *
+       * */
 
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
-        FirebaseAuth  mAuth = FirebaseAuth.getInstance();
-        DatabaseReference DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getUid()).child("registrationToken").setValue(refreshedToken);
-
-        Log.d("token1" , refreshedToken);
-        Log.d("token2" , mAuth.getCurrentUser().getToken(true).toString());
     }
 
 

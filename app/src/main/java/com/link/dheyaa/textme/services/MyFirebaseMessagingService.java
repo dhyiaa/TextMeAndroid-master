@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.activities.MainActivity;
-
+import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 import java.util.Date;
 import java.util.Random;
 
@@ -26,6 +26,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    public void onNewToken(String token) {
+        dataBaeseHelpers.setToken(token);
+    }
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
