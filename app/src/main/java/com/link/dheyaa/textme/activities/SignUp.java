@@ -226,8 +226,8 @@ public class SignUp extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Snackbar.make(parentLayout, "Uploaded", Snackbar.LENGTH_LONG).show();
+                          //  progressDialog.dismiss();
+                           // Snackbar.make(parentLayout, "Uploaded", Snackbar.LENGTH_LONG).show();
                             updateUI(authUser_);
 
                              Toast.makeText(SignUp.this, "Uploaded", Toast.LENGTH_SHORT).show();

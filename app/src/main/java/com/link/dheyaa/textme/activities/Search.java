@@ -3,6 +3,9 @@ package com.link.dheyaa.textme.activities;
 import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,12 +28,12 @@ import java.util.ArrayList;
 
 public class Search extends AppCompatActivity {
 
-    ListView listView;
+    private RecyclerView listView;
     private FirebaseAuth mAuth;
     private ArrayList<User> friends = new ArrayList<User>();
     private DatabaseReference DBref;
-    FriendAdapter adapter;
-    EditText searchIput;
+    private FriendAdapter adapter;
+    private EditText searchIput;
 
 
     @Override
@@ -42,12 +45,18 @@ public class Search extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
 
-        listView = (ListView) findViewById(R.id.searched_friends);
+        listView = (RecyclerView) findViewById(R.id.searched_friends);
         searchIput = (EditText) findViewById(R.id.search_input);
-        listView.setOnItemClickListener(itemClickedSearch);
 
-        adapter = new FriendAdapter(friends, this);
+
+
+        adapter = new FriendAdapter(this, R.layout.friends_list_item, friends);
+
+        listView.setHasFixedSize(true);
         listView.setAdapter(adapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(layoutManager);
+
 
         //search("m");
 
@@ -75,6 +84,7 @@ public class Search extends AppCompatActivity {
         });
 
 
+
         // DBref.child().child("friends").orderByValue().addValueEventListener(userEventListener);
 
         FloatingActionButton backBtn = (FloatingActionButton) findViewById(R.id.backBtn);
@@ -92,8 +102,8 @@ public class Search extends AppCompatActivity {
             DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
 
         } else {
-            adapter.clear();
-            adapter.removeAll(friends);
+           // adapter.clear();
+           // adapter.removeAll(friends);
         }
        // System.out.println("searching with " + searchQuery);
     }
@@ -121,14 +131,21 @@ public class Search extends AppCompatActivity {
                 user.setId(postSnapshot.getKey());
                 if(!user.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
                     users.add(user);
+                    adapter.addFreind(user , true);
+                    adapter.notifyDataSetChanged();
                 }
             }
             //System.out.println(users.toString());
-            adapter.removeAll(friends);
-            adapter.addAll(users);
+
+
+          //  adapter.removeAll(friends);
+          //  adapter.addAll(users);
+
+
          //   System.out.println(users.toString());
-            adapter.notifyDataSetChanged();
-            friends = users;
+           // adapter.notifyDataSetChanged();
+          //  friends = users;
+
         }
 
         @Override
