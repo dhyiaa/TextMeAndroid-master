@@ -1,31 +1,27 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.link.dheyaa.textme.adapters.FriendAdapter;
+import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.models.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Search extends AppCompatActivity {
 
@@ -95,7 +91,7 @@ public class Search extends AppCompatActivity {
 
     public void search(String searchQuery) {
         if (!searchQuery.trim().equals("")) {
-            DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
+            //DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
             DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
 
         } else {
@@ -114,7 +110,8 @@ public class Search extends AppCompatActivity {
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
             startActivity(Message);
-            listView.setClickable(true);
+            finish();
+            //listView.setClickable(true);
 
         }
     };
@@ -125,7 +122,9 @@ public class Search extends AppCompatActivity {
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                 User user = postSnapshot.getValue(User.class);
                 user.setId(postSnapshot.getKey());
-                users.add(user);
+                if(!user.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                    users.add(user);
+                }
             }
             //System.out.println(users.toString());
             adapter.removeAll(friends);

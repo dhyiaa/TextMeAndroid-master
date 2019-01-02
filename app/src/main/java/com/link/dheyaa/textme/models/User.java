@@ -1,6 +1,5 @@
-package com.link.dheyaa.textme;
+package com.link.dheyaa.textme.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
@@ -9,6 +8,15 @@ public class User {
     private String email;
     private HashMap<String, Boolean> friends;
     private String Id;
+    private String imagePath;
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 
     public User(String username, String email, HashMap<String, Boolean> friends, String id) {
         this.username = username;
@@ -101,9 +109,4 @@ public class User {
                 ", Id='" + Id + '\'' +
                 '}';
     }
-    /*
-    *      ", password='" + password + '\'' +
-
-
-    * */
 }

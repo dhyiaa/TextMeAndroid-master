@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".SignIn">
+    tools:context=".activities.SignIn">
 
     <LinearLayout
         android:id="@+id/container_main"
@@ -20,7 +20,7 @@
 
         >
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_margin="0dp"
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
 
 
         <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -67,10 +67,10 @@
                 android:inputType="textEmailAddress"
                 android:textColor="#ffffff"
                 android:textColorHint="#EEEEEE" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -85,7 +85,7 @@
                 android:inputType="textPassword"
                 android:textColor="#ffffff"
                 android:textColorHint="#EEEEEE" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <ProgressBar
