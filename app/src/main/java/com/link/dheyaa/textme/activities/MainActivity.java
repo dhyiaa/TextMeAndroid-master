@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private User currentAuthUser;
+    public User currentAuthUser;
     private DatabaseReference DBref;
     private Toolbar toolbar;
     private TextView toolBarTitle;

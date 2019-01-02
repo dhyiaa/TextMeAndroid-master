@@ -126,6 +126,7 @@ public class MessagingPage extends AppCompatActivity {
         extraDAta.put("FriendName", FriendName);
         extraDAta.put("FriendId", FriendId);
         extraDAta.put("currentAuthId", mAuth.getCurrentUser().getUid());
+        //extraDAta.put("currentAuthProfile", mAuth.getCurrentUser().getUid());
 
 
         messageAdapter = new MessageAdapter(new ArrayList<Message>(), this, extraDAta);
@@ -167,7 +168,7 @@ public class MessagingPage extends AppCompatActivity {
             String reciverId = FriendId;
             System.out.println("reciverId=" + reciverId + "   \n   senderId=" + senderId);
 
-            Long time = System.currentTimeMillis() / 1000;
+            Long time = System.currentTimeMillis();
 
             Message message = new Message(
                     MessagesHelpers.getRoomId(FriendId, mAuth.getUid()),

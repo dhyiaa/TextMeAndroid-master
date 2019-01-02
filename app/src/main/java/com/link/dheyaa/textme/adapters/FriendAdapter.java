@@ -11,7 +11,6 @@ import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.viewHolders.FriendsViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,6 +59,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         }
         notifyItemInserted(friends.size() - 1 );
     }
+
     public void removeOld(User friend){
         for(int i = 0 ; i< friends.size() ; i++){
             if(friends.get(i).getId().equals(friend.getId())){

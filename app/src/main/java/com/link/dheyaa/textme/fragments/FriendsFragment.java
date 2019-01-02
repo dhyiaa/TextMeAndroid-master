@@ -54,6 +54,7 @@ public class FriendsFragment extends Fragment {
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (RecyclerView) root.findViewById(R.id.friends_list);
 
+
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
         mAuth = FirebaseAuth.getInstance();
@@ -141,14 +142,15 @@ public class FriendsFragment extends Fragment {
 
                     DBref.child(pair.getKey().toString()).orderByKey().addValueEventListener(new ValueEventListener() {
                         String userId = pair.getKey().toString();
-
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
+                            System.out.println("eventListenner ->> user ->>" + user);
                             if (user != null) {
                                 //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                                 user.setId(userId);
                                 user.setFriends(null);
+                                //friends.add(user);
                                 //adapter.clear();
                              /*
                              *  friends.add(user);
@@ -159,12 +161,10 @@ public class FriendsFragment extends Fragment {
                              * */
                              //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
                               adapter.addFreind(user , true);
                               adapter.notifyDataSetChanged();
-
-
                             }
-
                         }
 
                         @Override
