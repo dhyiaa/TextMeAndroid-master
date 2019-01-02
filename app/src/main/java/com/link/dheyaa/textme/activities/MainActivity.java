@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.fragments.FriendsFragment;
@@ -41,13 +43,14 @@ import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.fragments.RequestsFragment;
 import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
+import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private User currentAuthUser;
+    public User currentAuthUser;
     private DatabaseReference DBref;
     private Toolbar toolbar;
     private TextView toolBarTitle;
@@ -134,7 +137,16 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
+       /*
+       *
+       *  if(FirebaseInstanceId.getInstance().getToken() != null){
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            dataBaeseHelpers.setToken(refreshedToken);
+            Log.d("token1" , refreshedToken);
+            Log.d("token2" , mAuth.getCurrentUser().getToken(true).toString());
+        }
+       *
+       * */
 
     }
 

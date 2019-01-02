@@ -7,8 +7,48 @@ public class User {
     private String password;
     private String email;
     private HashMap<String, Boolean> friends;
+    private HashMap<String, Boolean> blockedUsers;
     private String Id;
     private String imagePath;
+    private String registrationToken;
+
+    public User(String username, String password, String email, HashMap<String, Boolean> friends, HashMap<String, Boolean> blockedUsers, String id, String imagePath, String registrationToken) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.friends = friends;
+        this.blockedUsers = blockedUsers;
+        Id = id;
+        this.imagePath = imagePath;
+        this.registrationToken = registrationToken;
+    }
+
+
+    public User(String username, String password, String email, HashMap<String, Boolean> friends, String id, String imagePath, String registrationToken) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.friends = friends;
+        Id = id;
+        this.imagePath = imagePath;
+        this.registrationToken = registrationToken;
+    }
+
+    public void setBlockedUsers(HashMap<String, Boolean> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
+
+    public HashMap<String, Boolean> getBlockedUsers() {
+        return blockedUsers;
+    }
+
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
+    }
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

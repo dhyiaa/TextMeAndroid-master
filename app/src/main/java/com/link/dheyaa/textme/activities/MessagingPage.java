@@ -1,12 +1,21 @@
 package com.link.dheyaa.textme.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -117,6 +126,7 @@ public class MessagingPage extends AppCompatActivity {
         extraDAta.put("FriendName", FriendName);
         extraDAta.put("FriendId", FriendId);
         extraDAta.put("currentAuthId", mAuth.getCurrentUser().getUid());
+        //extraDAta.put("currentAuthProfile", mAuth.getCurrentUser().getUid());
 
 
         messageAdapter = new MessageAdapter(new ArrayList<Message>(), this, extraDAta);
@@ -158,7 +168,7 @@ public class MessagingPage extends AppCompatActivity {
             String reciverId = FriendId;
             System.out.println("reciverId=" + reciverId + "   \n   senderId=" + senderId);
 
-            Long time = System.currentTimeMillis() / 1000;
+            Long time = System.currentTimeMillis();
 
             Message message = new Message(
                     MessagesHelpers.getRoomId(FriendId, mAuth.getUid()),

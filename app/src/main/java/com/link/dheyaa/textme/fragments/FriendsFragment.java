@@ -2,7 +2,9 @@ package com.link.dheyaa.textme.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +28,19 @@ import com.link.dheyaa.textme.models.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FriendsFragment extends Fragment {
 
     @Nullable
-    ListView listView;
+    private RecyclerView listView;
     private FirebaseAuth mAuth;
     private DatabaseReference DBref;
     private FriendAdapter adapter;
@@ -47,7 +52,8 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.friends_tab, container, false);
-        listView = (ListView) root.findViewById(R.id.friends_list);
+        listView = (RecyclerView) root.findViewById(R.id.friends_list);
+
 
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
@@ -55,7 +61,22 @@ public class FriendsFragment extends Fragment {
         DBref = FirebaseDatabase.getInstance().getReference("Users");
         DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addValueEventListener(userEventListener);
 
-        this.adapter = new FriendAdapter(new ArrayList(), getContext());
+
+
+         adapter = new FriendAdapter(getContext(), R.layout.friends_list_item, friends);
+
+        listView.setHasFixedSize(true);
+        listView.setAdapter(adapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(layoutManager);
+
+        loading = (ProgressBar) root.findViewById(R.id.progressBar);
+
+        SetViews(true, false);
+        /*
+        *
+        listingsView.setAdapter(adapter);
+         this.adapter = new FriendAdapter(new ArrayList(), getContext());
         listView.setAdapter(this.adapter);
 
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
@@ -70,6 +91,8 @@ public class FriendsFragment extends Fragment {
             }
         });
         itemCLicked = false;
+
+        * */
         return root;
 
     }
@@ -119,21 +142,28 @@ public class FriendsFragment extends Fragment {
 
                     DBref.child(pair.getKey().toString()).orderByKey().addValueEventListener(new ValueEventListener() {
                         String userId = pair.getKey().toString();
-
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
+                            System.out.println("eventListenner ->> user ->>" + user);
                             if (user != null) {
+                                //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                                 user.setId(userId);
                                 user.setFriends(null);
-                                adapter.removeOld(user, friends);
-                                friends.add(user);
-
+                                //friends.add(user);
                                 //adapter.clear();
-                                adapter.removeAll(friends);
+                             /*
+                             *  friends.add(user);
+                             *    adapter.removeAll(friends);
                                 Sorting.quickSortByAlphabet(friends);
                                 adapter.addAll(friends);
                                 adapter.notifyDataSetChanged();
+                             * */
+                             //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+                              adapter.addFreind(user , true);
+                              adapter.notifyDataSetChanged();
                             }
                         }
 

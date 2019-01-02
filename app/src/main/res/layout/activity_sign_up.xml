@@ -11,15 +11,13 @@
     <LinearLayout
         android:id="@+id/container_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
-        android:paddingRight="0dp"
-
-        >
+        android:paddingRight="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar2"
@@ -43,10 +41,7 @@
             android:orientation="vertical"
             android:paddingLeft="24dp"
             android:paddingTop="24dp"
-            android:paddingRight="24dp"
-
-            >
-
+            android:paddingRight="24dp">
 
 
             <ImageView
@@ -56,13 +51,12 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/circle_profile"
-                app:srcCompat="@drawable/default_user_image"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/default_user_image" />
 
-            <!-- Email Label -->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -103,7 +97,6 @@
                     android:textColorHint="#EEEEEE" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Password Label -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,5 +149,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>
