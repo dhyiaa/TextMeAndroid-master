@@ -24,7 +24,9 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:elevation="1dp"
+            >
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/profileView"

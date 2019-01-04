@@ -86,6 +86,8 @@ public class RequestsFragment extends Fragment {
     };
   * */
 
+
+
     public void SetViews(boolean hasFreiends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);

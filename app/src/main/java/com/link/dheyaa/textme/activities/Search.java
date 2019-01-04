@@ -135,17 +135,6 @@ public class Search extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-            //System.out.println(users.toString());
-
-
-          //  adapter.removeAll(friends);
-          //  adapter.addAll(users);
-
-
-         //   System.out.println(users.toString());
-           // adapter.notifyDataSetChanged();
-          //  friends = users;
-
         }
 
         @Override

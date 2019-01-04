@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.activities.MessagingPage;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.FriendAdapter;
+import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
 import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.models.User;
 
@@ -48,55 +52,111 @@ public class FriendsFragment extends Fragment {
     private ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
+    private boolean sortingAcending;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (RecyclerView) root.findViewById(R.id.friends_list);
 
+        sortingAcending = true;
 
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addValueEventListener(userEventListener);
+        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
 
+        final ToggleButton switchSorting = (ToggleButton) root.findViewById(R.id.switchSorting);
+        switchSorting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchSorting.getText().equals("A-Z")) {
+                    sortingAcending = true;
+                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
 
+                } else {
+                    sortingAcending = false;
+                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
 
-         adapter = new FriendAdapter(getContext(), R.layout.friends_list_item, friends);
+                }
+            }
+        });
+
+        adapter = new FriendAdapter(getContext(), R.layout.friends_list_item, friends);
 
         listView.setHasFixedSize(true);
         listView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(layoutManager);
 
+        listView.addItemDecoration(new friendsItemDecorator(0));
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
 
         SetViews(true, false);
-        /*
-        *
-        listingsView.setAdapter(adapter);
-         this.adapter = new FriendAdapter(new ArrayList(), getContext());
-        listView.setAdapter(this.adapter);
-
-        loading = (ProgressBar) root.findViewById(R.id.progressBar);
-        listView.setOnItemClickListener(itemClicked);
-        SetViews(false, true);
-        Button searchBtn = root.findViewById(R.id.search_btn);
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent Search = new Intent(getContext(), com.link.dheyaa.textme.activities.Search.class);
-                startActivity(Search);
-            }
-        });
-        itemCLicked = false;
-
-        * */
         return root;
 
     }
+    ChildEventListener FriendsChildEventListner =  new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            System.out.println("childAdded");
+            System.out.println("snap added key:" +dataSnapshot.getKey() + " ,value:"+dataSnapshot.getValue() );
+            if(dataSnapshot.getValue(boolean.class) == true){
+                addFriendData(dataSnapshot.getKey());
+            }else{
+                adapter.removeOldbyID(dataSnapshot.getKey());
+            }
 
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            if(dataSnapshot.getValue(boolean.class) == true){
+                addFriendData(dataSnapshot.getKey());
+            }else{
+                adapter.removeOldbyID(dataSnapshot.getKey());
+            }
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            adapter.removeOldbyID(dataSnapshot.getKey());
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    public void addFriendData(final String friendId){
+        DBref.child(friendId).orderByKey().addValueEventListener(new ValueEventListener() {
+            String userId = friendId;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                System.out.println("eventListenner ->> user ->>" + user);
+                if (user != null) {
+                    user.setId(userId);
+                    user.setFriends(null);
+                    adapter.addFreind(user, sortingAcending);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                SetViews(false, false);
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,60 +190,7 @@ public class FriendsFragment extends Fragment {
         }
     }
 
-    ValueEventListener userEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
-            if (friendIds != null) {
-                SetViews(true, false);
-                Iterator it = friendIds.entrySet().iterator();
-                while (it.hasNext()) {
-                    final Map.Entry pair = (Map.Entry) it.next();
 
-                    DBref.child(pair.getKey().toString()).orderByKey().addValueEventListener(new ValueEventListener() {
-                        String userId = pair.getKey().toString();
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User user = dataSnapshot.getValue(User.class);
-                            System.out.println("eventListenner ->> user ->>" + user);
-                            if (user != null) {
-                                //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                                user.setId(userId);
-                                user.setFriends(null);
-                                //friends.add(user);
-                                //adapter.clear();
-                             /*
-                             *  friends.add(user);
-                             *    adapter.removeAll(friends);
-                                Sorting.quickSortByAlphabet(friends);
-                                adapter.addAll(friends);
-                                adapter.notifyDataSetChanged();
-                             * */
-                             //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-                              adapter.addFreind(user , true);
-                              adapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            SetViews(false, false);
-                        }
-                    });
-                    it.remove();
-                }
-            } else {
-                SetViews(false, false);
-            }
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            SetViews(false, false);
-        }
-    };
 
 
 }
