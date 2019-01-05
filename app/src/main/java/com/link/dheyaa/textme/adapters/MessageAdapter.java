@@ -44,7 +44,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     private DatabaseReference DBref;
 
-    public MessageAdapter(ArrayList<Message> messages, Context context ,     HashMap<String , String>  extraData) {
+    public MessageAdapter(ArrayList<Message> messages, Context context , HashMap<String , String>  extraData) {
         super(context, R.layout.message_list_item, messages);
         this.messages = messages;
         this.mContext = context;
@@ -70,6 +70,18 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         }
         return (minutes == 0) ? "just now ." : msg+" ago." ;
     }
+
+    /*
+    *
+    *     extraDAta.put("FriendName", FriendName);
+        extraDAta.put("FriendId", FriendId);
+        extraDAta.put("FriendImage" , FriendImage);
+        extraDAta.put("currentAuthId", currentUser.getId());
+        extraDAta.put("currentAuthImage", currentUser.getImagePath());
+    * */
+
+
+
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
@@ -78,13 +90,17 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
 
         View listItem = convertView;
+        String profileUrl =  "static/profile.png";
 
         if (currentMessage.getSenderId().equals(extraData.get("currentAuthId")) ){
             listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_you, parent, false);
+            profileUrl =  extraData.get("currentAuthImage") != null ?  extraData.get("currentAuthImage") : profileUrl;
 
         }
         else {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
+            profileUrl =  extraData.get("FriendImage") != null ?  extraData.get("FriendImage") : profileUrl;
+
         }
 
         TextView friendName = (TextView) listItem.findViewById(R.id.user_name);
@@ -122,30 +138,21 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         imageView = (ImageView) listItem.findViewById(R.id.imageView);
 
 
-       /*
-       *  FirebaseStorage storage = FirebaseStorage.getInstance();
+       FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
 
 
-        storageReference.child(profileImage).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child(profileUrl).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                System.out.println("profileImage "+uri);
                 Glide.with(getContext())
-                        .load(uri) // the uri you got from Firebase
+                        .load(uri)
                         .centerCrop()
-                        .into(imageView);            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
+                        .into(imageView);
             }
         });
-       * */
 
-
-
-
-       //Your imageView variable
 
         return listItem;
     }
@@ -153,103 +160,4 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
 }
 
-
-/*
-      *
-      *
-      *   if (currentMessage.getSenderId().equals(extraData.get("currentAuthId"))) {
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_you, parent, false);
-            imageView = (ImageView) listItem.findViewById(R.id.imageView);
-
-            if (authUserProfile == null) {
-                DBref.child(extraData.get("currentAuthId")).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        String profileImage = user.getImagePath() != null ? user.getImagePath() : "static/profile.png";
-                        storageReference.child(profileImage).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(getContext())
-                                        .load(uri) // the uri you got from Firebase
-                                        .centerCrop()
-                                        .into(imageView);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-            } else {
-                storageReference.child(authUserProfile).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(getContext())
-                                .load(uri) // the uri you got from Firebase
-                                .centerCrop()
-                                .into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-            }
-        } else {
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.message_list_item, parent, false);
-
-            imageView = (ImageView) listItem.findViewById(R.id.imageView);
-
-            if (authUserProfile == null) {
-                DBref.child(extraData.get("FriendId")).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        String profileImage = user.getImagePath() != null ? user.getImagePath() : "static/profile.png";
-                        storageReference.child(profileImage).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(getContext())
-                                        .load(uri) // the uri you got from Firebase
-                                        .centerCrop()
-                                        .into(imageView);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-            } else {
-                storageReference.child(authUserProfile).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(getContext())
-                                .load(uri) // the uri you got from Firebase
-                                .centerCrop()
-                                .into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                });
-            }
-        }
-      *
-      * */
 

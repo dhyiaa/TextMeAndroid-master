@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
-    private   ArrayList<User>  friends;
+    public   ArrayList<User>  friends;
     private Context context;
     private int itemResource;
 

@@ -126,6 +126,7 @@ public class User {
         return "User {" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", imagePath='" + imagePath + '\'' +
                 ", friends=" + friends +
                 ", Id='" + Id + '\'' +
                 '}';

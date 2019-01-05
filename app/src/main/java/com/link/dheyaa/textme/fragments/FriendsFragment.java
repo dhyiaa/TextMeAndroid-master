@@ -68,7 +68,7 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent Search = new Intent(getContext(), com.link.dheyaa.textme.activities.Search.class);
-                startActivity(Search);  
+                startActivity(Search);
             }
         });
         SetViews(false, true);
@@ -158,6 +158,7 @@ public class FriendsFragment extends Fragment {
                 if (user != null) {
                     user.setId(userId);
                     user.setFriends(null);
+                    friends.add (user);
                     adapter.addFreind(user, sortingAcending);
                     adapter.notifyDataSetChanged();
                 }
@@ -177,18 +178,22 @@ public class FriendsFragment extends Fragment {
 
     }
 
-    AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
+/*
+*
+*     AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent Message = new Intent(getActivity(), MessagingPage.class);
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
-            startActivity(Message);
-            listView.setClickable(true);
-            itemCLicked = true;
+            Message.putExtra("friend_image", friends.get(i).getImagePath());
 
+            System.out.println ("image123 ->>"+friends.get(i).getImagePath());
+
+            //startActivity(Message);
         }
     };
+* */
 
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {

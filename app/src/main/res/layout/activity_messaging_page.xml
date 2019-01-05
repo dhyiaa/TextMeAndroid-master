@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".activities.MessagingPage"
-    android:focusableInTouchMode="true"
 
     >
 
@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:fillViewport="true"
-        android:visibility="visible"
         android:focusableInTouchMode="true"
+        android:visibility="visible"
 
         >
 
@@ -38,7 +38,6 @@
 
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/noMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,12 +51,13 @@
             android:text="you have no messages with this user try to send some thing."
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/msg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-        <ListView
+        <!--ListView
             android:id="@+id/message_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -74,6 +74,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" /-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/message_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="10dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:padding="0dp"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@+id/msg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 
@@ -147,7 +170,7 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/mesgNoFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

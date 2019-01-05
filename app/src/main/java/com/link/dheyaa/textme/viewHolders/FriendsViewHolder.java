@@ -84,6 +84,8 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
             Intent Message = new Intent(v.getContext(), MessagingPage.class);
             Message.putExtra("friend_name", friend.getUsername());
             Message.putExtra("friend_id", friend.getId());
+            Message.putExtra("friend_image", friend.getImagePath ());
+
             context.startActivity(Message);
         }
     }
