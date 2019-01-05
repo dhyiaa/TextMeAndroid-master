@@ -99,8 +99,8 @@ public class RequestsAdapter extends ArrayAdapter<User> {
           ListView listView = (ListView) parentRow.getParent();
           final int position = listView.getPositionForView(parentRow);
             String currentRequestId = friends.get(position).getId();
-          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(true);
-          DBref.child(currentRequestId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(true);
+          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(1);
+          DBref.child(currentRequestId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(1);
       }
   };
 

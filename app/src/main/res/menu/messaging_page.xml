@@ -12,7 +12,7 @@
         />
 
     <item
-        android:id="@+id/search_btn"
+        android:id="@+id/muteFriend"
         android:orderInCategory="100"
         android:title="mute"
         app:showAsAction="always"

@@ -6,25 +6,13 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private HashMap<String, Boolean> friends;
-    private HashMap<String, Boolean> blockedUsers;
+    private HashMap<String, Integer> friends;
     private String Id;
     private String imagePath;
     private String registrationToken;
 
-    public User(String username, String password, String email, HashMap<String, Boolean> friends, HashMap<String, Boolean> blockedUsers, String id, String imagePath, String registrationToken) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.friends = friends;
-        this.blockedUsers = blockedUsers;
-        Id = id;
-        this.imagePath = imagePath;
-        this.registrationToken = registrationToken;
-    }
 
-
-    public User(String username, String password, String email, HashMap<String, Boolean> friends, String id, String imagePath, String registrationToken) {
+    public User(String username, String password, String email, HashMap<String, Integer> friends, String id, String imagePath, String registrationToken) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -34,13 +22,6 @@ public class User {
         this.registrationToken = registrationToken;
     }
 
-    public void setBlockedUsers(HashMap<String, Boolean> blockedUsers) {
-        this.blockedUsers = blockedUsers;
-    }
-
-    public HashMap<String, Boolean> getBlockedUsers() {
-        return blockedUsers;
-    }
 
     public String getRegistrationToken() {
         return registrationToken;
@@ -58,14 +39,14 @@ public class User {
         return imagePath;
     }
 
-    public User(String username, String email, HashMap<String, Boolean> friends, String id) {
+    public User(String username, String email, HashMap<String, Integer> friends, String id) {
         this.username = username;
         this.email = email;
         this.friends = friends;
         Id = id;
     }
 
-    public User(String username, String password, String email, HashMap<String, Boolean> friends, String id) {
+    public User(String username, String password, String email, HashMap<String, Integer> friends, String id) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -94,7 +75,7 @@ public class User {
         Id = id;
     }
 
-    public User(String username, String password, String email, HashMap<String, Boolean> friends) {
+    public User(String username, String password, String email, HashMap<String, Integer> friends) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -102,7 +83,7 @@ public class User {
     }
 
 
-    public User(String username, String email, HashMap<String, Boolean> friends) {
+    public User(String username, String email, HashMap<String, Integer> friends) {
         this.username = username;
         this.email = email;
         this.friends = friends;
@@ -120,7 +101,7 @@ public class User {
         return email;
     }
 
-    public HashMap<String, Boolean> getFriends() {
+    public HashMap<String, Integer> getFriends() {
         return friends;
     }
 
@@ -136,7 +117,7 @@ public class User {
         this.email = email;
     }
 
-    public void setFriends(HashMap<String, Boolean> friends) {
+    public void setFriends(HashMap<String, Integer> friends) {
         this.friends = friends;
     }
 

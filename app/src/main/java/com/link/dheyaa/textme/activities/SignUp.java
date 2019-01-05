@@ -123,7 +123,7 @@ public class SignUp extends AppCompatActivity {
                                 User userObject = new User(
                                         username.getText().toString(),
                                         email.getText().toString(),
-                                        new HashMap<String, Boolean>()
+                                        new HashMap<String, Integer>()
                                 );
 
                                 String ImagePath = uploadImage(authUser);

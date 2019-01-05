@@ -59,8 +59,7 @@ public class RequestsFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(false).addValueEventListener(userEventListener);
-
+        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(0).addValueEventListener(userEventListener);
 
         this.adapter = new RequestsAdapter(new ArrayList(), getContext());
         listView.setAdapter(this.adapter);

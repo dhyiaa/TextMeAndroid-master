@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.activities.MessagingPage;
 import com.link.dheyaa.textme.R;
+import com.link.dheyaa.textme.activities.Search;
 import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
 import com.link.dheyaa.textme.utils.Sorting;
@@ -35,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,14 +60,24 @@ public class FriendsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (RecyclerView) root.findViewById(R.id.friends_list);
-
         sortingAcending = true;
-
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
+        loading = (ProgressBar) root.findViewById(R.id.progressBar);
+        AppCompatButton searchBtn = (AppCompatButton) root.findViewById(R.id.search_btn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Search = new Intent(getContext(), com.link.dheyaa.textme.activities.Search.class);
+                startActivity(Search);  
+            }
+        });
+        SetViews(false, true);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
+        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
+
+        SetViews(false, false);
 
         final ToggleButton switchSorting = (ToggleButton) root.findViewById(R.id.switchSorting);
         switchSorting.setOnClickListener(new View.OnClickListener() {
@@ -73,11 +85,11 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                 if (switchSorting.getText().equals("A-Z")) {
                     sortingAcending = true;
-                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
+                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
                 } else {
                     sortingAcending = false;
-                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(true).addChildEventListener(FriendsChildEventListner);
+                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
                 }
             }
@@ -91,9 +103,7 @@ public class FriendsFragment extends Fragment {
         listView.setLayoutManager(layoutManager);
 
         listView.addItemDecoration(new friendsItemDecorator(0));
-        loading = (ProgressBar) root.findViewById(R.id.progressBar);
 
-        SetViews(true, false);
         return root;
 
     }
@@ -102,8 +112,9 @@ public class FriendsFragment extends Fragment {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             System.out.println("childAdded");
             System.out.println("snap added key:" +dataSnapshot.getKey() + " ,value:"+dataSnapshot.getValue() );
-            if(dataSnapshot.getValue(boolean.class) == true){
+            if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
+                SetViews(true, false);
             }else{
                 adapter.removeOldbyID(dataSnapshot.getKey());
             }
@@ -112,8 +123,9 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            if(dataSnapshot.getValue(boolean.class) == true){
+            if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
+                SetViews(true, false);
             }else{
                 adapter.removeOldbyID(dataSnapshot.getKey());
             }

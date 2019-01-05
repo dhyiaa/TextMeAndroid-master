@@ -1,13 +1,19 @@
 package com.link.dheyaa.textme.activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.MessageAdapter;
+import com.link.dheyaa.textme.models.Friend;
 import com.link.dheyaa.textme.models.Message;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.MessagesHelpers;
@@ -157,6 +164,39 @@ public class MessagingPage extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.messaging_page, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.blockFriend) {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle("Blocking a friend ")
+                    .setMessage("Are you sure you want to block "+FriendName)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            DBref.child(mAuth.getUid()).child("friends").child(FriendId).setValue(-1);
+                            DBref.child(FriendId).child("friends").child(FriendId).setValue(-1);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else if (id == R.id.muteFriend) {
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     public void sendMessage() {
         String value = message.getText().toString();
         if (!value.trim().equals("")) {
@@ -179,7 +219,109 @@ public class MessagingPage extends AppCompatActivity {
         }
     }
 
-    /*
+
+    public void sendFriendRequest() {
+        DBref.child(FriendId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(0);
+        Snackbar.make(notFriendView, "your request has been sent to" + FriendName, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void setViews(int type) {
+
+        if (type == 1) {
+            LoadingView.setVisibility(View.VISIBLE);
+            notFriendView.setVisibility(View.GONE);
+            FriendView.setVisibility(View.GONE);
+        } else if (type == 2) {
+            notFriendView.setVisibility(View.VISIBLE);
+            LoadingView.setVisibility(View.GONE);
+            FriendView.setVisibility(View.GONE);
+        } else if (type == 3) {
+            FriendView.setVisibility(View.VISIBLE);
+
+            notFriendView.setVisibility(View.GONE);
+            LoadingView.setVisibility(View.GONE);
+            messageList.setVisibility(View.VISIBLE);
+            noMsg.setVisibility(View.GONE);
+
+
+        } else {
+            noMsg.setVisibility(View.VISIBLE);
+            messageList.setVisibility(View.GONE);
+        }
+
+    }
+
+    public void freindView(User friendData) {
+        // message.setText(friendData.getEmail());
+
+        toolbar.setTitle(friendData.getUsername());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setViews(3);
+
+
+    }
+
+    public void errorView() {
+        System.out.println("error when retrieving the friend");
+    }
+
+
+    public void updateUI(FirebaseUser user) {
+        if (user != null) {
+            DBref.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    currentUser = dataSnapshot.getValue(User.class);
+                    if (currentUser.getFriends() != null) {
+                        if (currentUser.getFriends().containsKey(FriendId)) {
+                            if (currentUser.getFriends().get(FriendId) == 1) {
+                                System.out.println("you are firend with " + FriendName);
+
+                                DBref.child(FriendId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        freindView(dataSnapshot.getValue(User.class));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        errorView();
+                                    }
+                                });
+                            }else if (currentUser.getFriends().get(FriendId) == -1){
+                                finish();
+                            }
+                            else {
+                                System.out.println("you are not . firend with " + FriendName);
+                                setViews(2);
+                            }
+                        }
+                    } else {
+                        System.out.println("you are not . firend with 2" + FriendName);
+                        setViews(2);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+}
+
+
+
+ /*
                *  DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).setValue(new Room()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -249,99 +391,3 @@ public void onCancelled(DatabaseError databaseError) {
 *
 *
 * */
-
-    public void sendFriendRequest() {
-        DBref.child(FriendId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(false);
-        Snackbar.make(notFriendView, "your request has been sent to" + FriendName, Snackbar.LENGTH_LONG).show();
-    }
-
-    public void setViews(int type) {
-
-        if (type == 1) {
-            LoadingView.setVisibility(View.VISIBLE);
-            notFriendView.setVisibility(View.GONE);
-            FriendView.setVisibility(View.GONE);
-        } else if (type == 2) {
-            notFriendView.setVisibility(View.VISIBLE);
-            LoadingView.setVisibility(View.GONE);
-            FriendView.setVisibility(View.GONE);
-        } else if (type == 3) {
-            FriendView.setVisibility(View.VISIBLE);
-
-            notFriendView.setVisibility(View.GONE);
-            LoadingView.setVisibility(View.GONE);
-            messageList.setVisibility(View.VISIBLE);
-            noMsg.setVisibility(View.GONE);
-
-
-        } else {
-            noMsg.setVisibility(View.VISIBLE);
-            messageList.setVisibility(View.GONE);
-        }
-
-    }
-
-    public void freindView(User friendData) {
-        // message.setText(friendData.getEmail());
-
-        toolbar.setTitle(friendData.getUsername());
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setViews(3);
-
-
-    }
-
-    public void errorView() {
-        System.out.println("error when retrieving the friend");
-    }
-
-
-    public void updateUI(FirebaseUser user) {
-        if (user != null) {
-            DBref.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    currentUser = dataSnapshot.getValue(User.class);
-                    if (currentUser.getFriends() != null) {
-                        if (currentUser.getFriends().containsKey(FriendId)) {
-                            if (currentUser.getFriends().get(FriendId)) {
-                                System.out.println("you are firend with " + FriendName);
-
-                                DBref.child(FriendId).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        freindView(dataSnapshot.getValue(User.class));
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        errorView();
-                                    }
-                                });
-                            } else {
-                                System.out.println("you are not . firend with " + FriendName);
-                                setViews(2);
-                            }
-                        }
-                    } else {
-                        System.out.println("you are not . firend with 2" + FriendName);
-                        setViews(2);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-}
