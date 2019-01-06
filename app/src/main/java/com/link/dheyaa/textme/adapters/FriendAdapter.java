@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
-    public   ArrayList<User>  friends;
+    public ArrayList<User> friends;
     private Context context;
     private int itemResource;
 
@@ -33,9 +33,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // 3. Inflate the view and return the new ViewHolder
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.friends_list_item, parent, false);
-        return new FriendsViewHolder(this.context, view);
+        View view = LayoutInflater.from (parent.getContext ())
+                .inflate (R.layout.friends_list_item, parent, false);
+        return new FriendsViewHolder (this.context, view);
     }
 
     // 4. Override the onBindViewHolder method
@@ -43,39 +43,39 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     public void onBindViewHolder(FriendsViewHolder holder, int position) {
 
         // 5. Use position to access the correct Bakery object
-        User friend = this.friends.get(position);
-        if(friend != null){
-            holder.bindFriend(friend);
+        User friend = this.friends.get (position);
+        if (friend != null) {
+            holder.bindFriend (friend);
 
         }
         // 6. Bind the bakery object to the holder
     }
 
-    public void addFreind(User friend , boolean sortingAccending){
-        removeOld(friend);
-        friends.add(friend);
-        if(sortingAccending ){
-            Sorting.quickSortByAlphabet(friends , true);
-        }else{
+    public void addFreind(User friend, boolean sortingAccending) {
+        removeOld (friend);
+        friends.add (friend);
+        if (sortingAccending) {
+            Sorting.quickSortByAlphabet (friends, true);
+        } else {
         }
-        notifyItemInserted(friends.size() - 1 );
+        notifyItemInserted (friends.size () - 1);
     }
 
-    public void removeOld(User friend){
-        for(int i = 0 ; i< friends.size() ; i++){
-            if(friends.get(i).getId().equals(friend.getId())){
-                friends.remove(i);
+    public void removeOld(User friend) {
+        for (int i = 0; i < friends.size (); i++) {
+            if (friends.get (i).getId ().equals (friend.getId ())) {
+                friends.remove (i);
             }
         }
     }
 
-    public void removeOldbyID(String id){
-        for(int i = 0 ; i< friends.size() ; i++){
-            if(friends.get(i).getId().equals(id)){
-                friends.remove(i);
+    public void removeOldbyID(String id) {
+        for (int i = 0; i < friends.size (); i++) {
+            if (friends.get (i).getId ().equals (id)) {
+                friends.remove (i);
             }
         }
-        this.notifyDataSetChanged();
+        this.notifyDataSetChanged ();
 
     }
 
@@ -99,17 +99,20 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     }
 * */
 
-    public void setFreinds(ArrayList<User> friends){
+    public void setFreinds(ArrayList<User> friends) {
         this.friends = friends;
     }
 
     @Override
     public int getItemCount() {
-        return this.friends.size();
+        return this.friends.size ();
     }
 
-    public void sortFirends(boolean accending){
-            Sorting.quickSortByAlphabet(this.friends , accending);
+    public void sortFirends(boolean accending) {
+        System.out.println ("sorting ->> " + accending);
+        Sorting.quickSortByAlphabet (this.friends, accending);
+        this.notifyDataSetChanged ();
+
     }
 }
 
