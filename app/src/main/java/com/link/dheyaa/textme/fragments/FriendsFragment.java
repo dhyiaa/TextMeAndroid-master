@@ -85,11 +85,18 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                 if (switchSorting.getText().equals("A-Z")) {
                     sortingAcending = true;
-                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
+                    adapter.sortFirends(sortingAcending);
+                    //friends.removeAll (friends);
+
+                  //  DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
                 } else {
                     sortingAcending = false;
-                    DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
+                    adapter.sortFirends(sortingAcending);
+
+                    // friends.removeAll (friends);
+
+                  //  DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
                 }
             }
@@ -153,19 +160,25 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                System.out.println("eventListenner ->> user ->>" + user);
-                if (user != null) {
-                    user.setId(userId);
-                    user.setFriends(null);
-                    friends.add (user);
-                    adapter.addFreind(user, sortingAcending);
-                    adapter.notifyDataSetChanged();
+                try {
+                    User user = dataSnapshot.getValue(User.class);
+                    System.out.println("eventListenner ->> user ->>" + user);
+                    if (user != null) {
+                        user.setId(userId);
+                        user.setFriends(null);
+                        friends.add (user);
+                        adapter.addFreind(user, sortingAcending);
+                        adapter.notifyDataSetChanged();
+                    }
+                }catch (Exception err){
+                    System.out.println ("err123 ->>> "+err.toString ());
                 }
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
                 SetViews(false, false);
             }
         });

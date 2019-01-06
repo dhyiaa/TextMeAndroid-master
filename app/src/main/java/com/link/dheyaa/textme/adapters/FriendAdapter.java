@@ -74,10 +74,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         for(int i = 0 ; i< friends.size() ; i++){
             if(friends.get(i).getId().equals(id)){
                 friends.remove(i);
-                this.notifyDataSetChanged();
                 break;
             }
         }
+        this.notifyDataSetChanged();
+
     }
 
 
@@ -107,6 +108,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     @Override
     public int getItemCount() {
         return this.friends.size();
+    }
+
+    public void sortFirends(boolean accending){
+        if(accending){
+            Sorting.quickSortByAlphabet(this.friends);
+        }else{
+            //desending sorting method
+        }
     }
 }
 

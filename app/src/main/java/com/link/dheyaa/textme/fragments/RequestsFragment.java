@@ -102,7 +102,7 @@ public class RequestsFragment extends Fragment {
     ValueEventListener userEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
+            HashMap<String, Integer> friendIds = (HashMap<String, Integer>) dataSnapshot.getValue();
             if (friendIds != null) {
                 SetViews(true, false);
 

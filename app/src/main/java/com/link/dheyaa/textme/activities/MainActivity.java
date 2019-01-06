@@ -1,9 +1,11 @@
 package com.link.dheyaa.textme.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -20,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -96,9 +99,14 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
 
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+        TypedValue typedValue = new TypedValue ();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        @ColorInt int color = typedValue.data;
+
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FFFFFF"));
         bottomNavigation.setBehaviorTranslationEnabled(false);
-        bottomNavigation.setAccentColor(this.getResources().getColor(R.color.colorPrimaryDark));
+        bottomNavigation.setAccentColor(color);
         bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
 
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
