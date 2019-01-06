@@ -65,7 +65,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         for(int i = 0 ; i< friends.size() ; i++){
             if(friends.get(i).getId().equals(friend.getId())){
                 friends.remove(i);
-                break;
             }
         }
     }
@@ -74,7 +73,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         for(int i = 0 ; i< friends.size() ; i++){
             if(friends.get(i).getId().equals(id)){
                 friends.remove(i);
-                break;
             }
         }
         this.notifyDataSetChanged();
