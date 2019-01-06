@@ -70,7 +70,7 @@ public class Sorting {
             if ((charOfUser1 > 122 || charOfUser1 < 97) && (charOfUser2 > 122 || charOfUser2 < 97)) {
                 if (charOfUser1 > charOfUser2) {
                     same = false;
-                    change = !change;
+                    change = order;
                     o = minLength;
                 } else if (charOfUser1 < charOfUser2) {
                     same = false;
@@ -78,14 +78,14 @@ public class Sorting {
                 }
             } else if (charOfUser1 > 122 || charOfUser1 < 97) {
                 same = false;
-                change = !change;
+                change = order;
                 o = minLength;
             } else if (charOfUser2 > 122 || charOfUser2 < 97) {
                 same = false;
                 o = minLength;
             } else if (charOfUser1 > charOfUser2) {
                 same = false;
-                change = !change;
+                change = order;
                 o = minLength;
             } else if (charOfUser1 < charOfUser2) {
                 same = false;
@@ -102,13 +102,13 @@ public class Sorting {
                     o = minLength;
                 } else if (x < y) {
                     same = false;
-                    change = !change;
+                    change = order;
                     o = minLength;
                 }
             }
         }
         if (same && username1.length() > username2.length()) {
-            change = !change;
+            change = order;
         }
         return change;
     }
