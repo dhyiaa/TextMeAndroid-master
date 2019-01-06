@@ -17,7 +17,7 @@ public class Message {
         this.reciverId = reciverId;
         this.senderId = senderId;
         this.time = time;
-        this.value = value;f
+        this.value = value;
     }
 
     public String getRoomId() {
