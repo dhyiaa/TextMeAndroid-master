@@ -34,4 +34,23 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.Primary.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#25d366</item>
+        <item name="colorPrimaryDark">#00b248</item>
+        <item name="colorAccent">#66ffa6</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <!--item name="android:windowBackground">#FFFFFF</item-->
+
+    </style>
+    <!-- Dark base activity theme -->
+    <style name="ActivityTheme.Primary.Base.Dark"  parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#33343B</item>
+        <item name="colorPrimaryDark">#8033343B</item>
+        <item name="colorAccent">#28292e</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

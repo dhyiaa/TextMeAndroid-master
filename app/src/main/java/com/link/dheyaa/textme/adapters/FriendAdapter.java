@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
-    private final  ArrayList<User>  friends;
+    public   ArrayList<User>  friends;
     private Context context;
     private int itemResource;
 
@@ -56,6 +56,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         friends.add(friend);
         if(sortingAccending ){
             Sorting.quickSortByAlphabet(friends);
+        }else{
         }
         notifyItemInserted(friends.size() - 1 );
     }
@@ -68,9 +69,53 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
             }
         }
     }
+
+    public void removeOldbyID(String id){
+        for(int i = 0 ; i< friends.size() ; i++){
+            if(friends.get(i).getId().equals(id)){
+                friends.remove(i);
+                break;
+            }
+        }
+        this.notifyDataSetChanged();
+
+    }
+
+
+
+/*
+*
+*     public void removeOld(User user, ArrayList<User> Myfriends) {
+        for (int i = 0; i < Myfriends.size(); i++) {
+            if (Myfriends.get(i).getId().equals(user.getId())) {
+                Myfriends.remove(Myfriends.get(i));
+            }
+        }
+    }
+
+    public void removeAll(ArrayList<User> Myfriends) {
+        for (int i = 0; i < Myfriends.size(); i++) {
+            this.friends.remove(Myfriends.get(i));
+            //   Myfriends.remove(i);
+        }
+    }
+* */
+
+    public void setFreinds(ArrayList<User> friends){
+        this.friends = friends;
+    }
+
     @Override
     public int getItemCount() {
         return this.friends.size();
+    }
+
+    public void sortFirends(boolean accending){
+        if(accending){
+            Sorting.quickSortByAlphabet(this.friends);
+        }else{
+            //desending sorting method
+        }
     }
 }
 

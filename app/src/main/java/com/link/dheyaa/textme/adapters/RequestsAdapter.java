@@ -95,19 +95,19 @@ public class RequestsAdapter extends ArrayAdapter<User> {
  View.OnClickListener AcceptRequestAcction = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-          View parentRow = (View) v.getParent();
+          View parentRow = (View) v.getParent().getParent().getParent().getParent();
           ListView listView = (ListView) parentRow.getParent();
           final int position = listView.getPositionForView(parentRow);
             String currentRequestId = friends.get(position).getId();
-          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(true);
-          DBref.child(currentRequestId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(true);
+          DBref.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentRequestId).setValue(1);
+          DBref.child(currentRequestId).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(1);
       }
   };
 
   View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-          View parentRow = (View) v.getParent();
+          View parentRow = (View) v.getParent().getParent().getParent().getParent();
           ListView listView = (ListView) parentRow.getParent();
           final int position = listView.getPositionForView(parentRow);
           String currentRequestId = friends.get(position).getId();
@@ -131,6 +131,7 @@ public class RequestsAdapter extends ArrayAdapter<User> {
             //   Myfriends.remove(i);
         }
     }
+
 
     public void setFriends(ArrayList<User> Myfriends) {
         this.friends = Myfriends;

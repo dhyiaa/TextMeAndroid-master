@@ -59,8 +59,7 @@ public class RequestsFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(false).addValueEventListener(userEventListener);
-
+        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(0).addValueEventListener(userEventListener);
 
         this.adapter = new RequestsAdapter(new ArrayList(), getContext());
         listView.setAdapter(this.adapter);
@@ -86,6 +85,8 @@ public class RequestsFragment extends Fragment {
     };
   * */
 
+
+
     public void SetViews(boolean hasFreiends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);
@@ -101,7 +102,7 @@ public class RequestsFragment extends Fragment {
     ValueEventListener userEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, Boolean> friendIds = (HashMap<String, Boolean>) dataSnapshot.getValue();
+            HashMap<String, Integer> friendIds = (HashMap<String, Integer>) dataSnapshot.getValue();
             if (friendIds != null) {
                 SetViews(true, false);
 
