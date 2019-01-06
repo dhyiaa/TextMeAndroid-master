@@ -41,8 +41,8 @@ public class SearchingAlgorithm {
                 relatedResult.add(users.get(i));
             }
         }
-        Sorting.quickSortByAlphabet(result,true);
-        Sorting.quickSortByAlphabet(relatedResult,true);
+        Sorting.quickSortByAlphabet(result , true);
+        Sorting.quickSortByAlphabet(relatedResult , true);
 
         for(int i=0;i<result.size();i++){
             relatedResult.add(i,result.get(i));

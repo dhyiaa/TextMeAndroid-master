@@ -143,8 +143,8 @@
         android:background="@drawable/cirlce_btn"
         android:padding="0dp"
         android:text="switch sorting"
-        android:textOff="A-Z"
-        android:textOn="Z-A"
+        android:textOff="Z-A"
+        android:textOn="A-Z"
         app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/title" />
