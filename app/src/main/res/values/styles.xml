@@ -38,7 +38,7 @@
 
     <!-- Light base activity theme -->
     <style name="ActivityTheme.Primary.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#4fc3f7</item>
+        <item name="colorPrimary">#29b6f6</item>
         <item name="colorPrimaryDark">#0093c4</item>
         <item name="colorAccent">#FFFFFF</item>
         <item name="android:textColor">#FFFFFF</item>
