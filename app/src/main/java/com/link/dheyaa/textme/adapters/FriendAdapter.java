@@ -55,7 +55,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         removeOld(friend);
         friends.add(friend);
         if(sortingAccending ){
-            Sorting.quickSortByAlphabet(friends);
+            Sorting.quickSortByAlphabet(friends , true);
         }else{
         }
         notifyItemInserted(friends.size() - 1 );
@@ -109,11 +109,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     }
 
     public void sortFirends(boolean accending){
-        if(accending){
-            Sorting.quickSortByAlphabet(this.friends);
-        }else{
-            //desending sorting method
-        }
+            Sorting.quickSortByAlphabet(this.friends , accending);
     }
 }
 
