@@ -60,7 +60,7 @@ public class SettingsFragment extends Fragment {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
 
-                storageReference.child(currentAuthUser.getImagePath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                storageReference.child(currentAuthUser.getImagePath() != null ? currentAuthUser.getImagePath() :  "static/profile.png" ).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Glide.with(getContext())
