@@ -9,7 +9,7 @@ public class Sorting {
     public Sorting() {
 
     }
-    
+
     public static void bubbleSortByAlphabet(ArrayList<User> friendList,boolean order) {
 
         for (int i = 0; i < friendList.size(); i++) {
@@ -59,7 +59,7 @@ public class Sorting {
         }
     }
 
-    private static boolean checkAlphabetOrder(String username1, String username2,boolean order) {
+    public static boolean checkAlphabetOrder(String username1, String username2, boolean order) {
 
         boolean change =!order;
         boolean same = true;
