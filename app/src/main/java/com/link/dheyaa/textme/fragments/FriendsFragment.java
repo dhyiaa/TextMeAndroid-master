@@ -117,8 +117,7 @@ public class FriendsFragment extends Fragment {
     ChildEventListener FriendsChildEventListner =  new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            System.out.println("childAdded");
-            System.out.println("snap added key:" +dataSnapshot.getKey() + " ,value:"+dataSnapshot.getValue() );
+            System.out.println("child->>>>Added : key->>> "+dataSnapshot.getKey());
             if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
@@ -130,6 +129,8 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            System.out.println ("child->>>> cahnges important");
+
             if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
@@ -145,12 +146,9 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
         }
-
         @Override
         public void onCancelled(DatabaseError databaseError) {
-
         }
     };
 
@@ -162,11 +160,12 @@ public class FriendsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     User user = dataSnapshot.getValue(User.class);
-                    System.out.println("eventListenner ->> user ->>" + user);
                     if (user != null) {
                         user.setId(userId);
                         user.setFriends(null);
-                        friends.add (user);
+                       // friends.add (user);
+                        System.out.println("userAdded ->> user ->>" + user);
+
                         adapter.addFreind(user, sortingAcending);
                         adapter.notifyDataSetChanged();
                     }
@@ -190,23 +189,6 @@ public class FriendsFragment extends Fragment {
         itemCLicked = false;
 
     }
-
-/*
-*
-*     AdapterView.OnItemClickListener itemClicked = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent Message = new Intent(getActivity(), MessagingPage.class);
-            Message.putExtra("friend_name", friends.get(i).getUsername());
-            Message.putExtra("friend_id", friends.get(i).getId());
-            Message.putExtra("friend_image", friends.get(i).getImagePath());
-
-            System.out.println ("image123 ->>"+friends.get(i).getImagePath());
-
-            //startActivity(Message);
-        }
-    };
-* */
 
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
