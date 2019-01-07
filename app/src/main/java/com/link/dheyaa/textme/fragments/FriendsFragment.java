@@ -71,13 +71,24 @@ public class FriendsFragment extends Fragment {
                 startActivity(Search);
             }
         });
-        SetViews(false, true);
+        SetViews(false, false);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
         DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
-        SetViews(false, false);
+        DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addValueEventListener (new ValueEventListener () {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue () == null){
+                    SetViews(false, false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         final ToggleButton switchSorting = (ToggleButton) root.findViewById(R.id.switchSorting);
         switchSorting.setOnClickListener(new View.OnClickListener() {
@@ -86,18 +97,9 @@ public class FriendsFragment extends Fragment {
                 if (switchSorting.getText().equals("A-Z")) {
                     sortingAcending = true;
                     adapter.sortFirends(sortingAcending);
-                    //friends.removeAll (friends);
-
-                  //  DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
-
                 } else {
                     sortingAcending = false;
                     adapter.sortFirends(sortingAcending);
-
-                    // friends.removeAll (friends);
-
-                  //  DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
-
                 }
             }
         });

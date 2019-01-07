@@ -121,7 +121,6 @@ public class RequestsFragment extends Fragment {
                                 user.setFriends(null);
                                 adapter.removeOld(user, requests);
                                 requests.add(user);
-                                adapter.clear();
                                 adapter.removeAll(requests);
                                 Sorting.quickSortByAlphabet(requests , true);
                                 adapter.addAll(requests);
