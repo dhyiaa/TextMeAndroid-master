@@ -1,3 +1,10 @@
+
+/* TextMe Team
+* Jan 2019
+* MainActivity class:
+* Main activity of TextMe Program
+*/
+
 package com.link.dheyaa.textme.activities;
 
 import android.content.Intent;
@@ -23,7 +30,6 @@ public class SignIn extends AppCompatActivity {
     private ProgressBar loading;
     private View parentLayout;
     private Toolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +122,5 @@ public class SignIn extends AppCompatActivity {
     }
 
    * */
-
 
 }
