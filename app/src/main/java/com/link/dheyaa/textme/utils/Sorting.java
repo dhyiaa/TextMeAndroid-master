@@ -6,10 +6,18 @@ import java.util.ArrayList;
 
 public class Sorting {
 
+    /**
+     * default constructor
+     */
     public Sorting() {
 
     }
 
+    /**
+     * Sort the ArrayList of Users according to alphabet with bubble sorting
+     * @param friendList = an ArrayList of Users
+     * @param order = a boolean value to indicate the sorting order, true = ascending, false = descending
+     */
     public static void bubbleSortByAlphabet(ArrayList<User> friendList,boolean order) {
 
         for (int i = 0; i < friendList.size(); i++) {
@@ -29,10 +37,22 @@ public class Sorting {
         }
     }
 
+    /**
+     * call the method to sort the ArrayList of Users according to alphabet with quick sorting
+     * @param friendList = an ArrayList of Users
+     * @param order = a boolean value to indicate the sorting order, true = ascending, false = descending
+     */
     public static void quickSortByAlphabet(ArrayList<User> friendList,boolean order) {
         quickSort(friendList, 0, friendList.size() - 1,order);
     }
 
+    /**
+     * Sort the ArrayList of Users according to alphabet with quick sorting
+     * @param friendList = an ArrayList of Users
+     * @param begin = 
+     * @param end
+     * @param order = a boolean value to indicate the sorting order, true = ascending, false = descending
+     */
     private static void quickSort(ArrayList<User> friendList, int begin, int end,boolean order) {
 
         if (begin < end) {
