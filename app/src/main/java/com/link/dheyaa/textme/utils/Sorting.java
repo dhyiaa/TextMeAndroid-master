@@ -10,14 +10,14 @@ public class Sorting {
 
     }
 
-    public static void bubbleSortByAlphabet(ArrayList<User> friendList) {
+    public static void bubbleSortByAlphabet(ArrayList<User> friendList,boolean order) {
 
         for (int i = 0; i < friendList.size(); i++) {
             for (int j = 0; j < friendList.size() - i - 1; j++) {
                 String username1 = friendList.get(j).getUsername();
                 String username2 = friendList.get(j + 1).getUsername();
 
-                if (checkAlphabetOrder(username1, username2)) {
+                if (checkAlphabetOrder(username1, username2,order)) {
                     User user1 = friendList.get(j);
                     User user2 = friendList.get(j + 1);
                     friendList.remove(j);
@@ -29,17 +29,17 @@ public class Sorting {
         }
     }
 
-    public static void quickSortByAlphabet(ArrayList<User> friendList) {
-        quickSort(friendList, 0, friendList.size() - 1);
+    public static void quickSortByAlphabet(ArrayList<User> friendList,boolean order) {
+        quickSort(friendList, 0, friendList.size() - 1,order);
     }
 
-    private static void quickSort(ArrayList<User> friendList, int begin, int end) {
+    private static void quickSort(ArrayList<User> friendList, int begin, int end,boolean order) {
 
         if (begin < end) {
             String comparingName = friendList.get(end).getUsername();
             int wall = begin - 1;
             for (int i = begin; i < end; i++) {
-                if (checkAlphabetOrder(comparingName, friendList.get(i).getUsername())) {
+                if (checkAlphabetOrder(comparingName, friendList.get(i).getUsername(),order)) {
                     User store = friendList.get(i);
                     friendList.remove(i);
                     friendList.add(i, friendList.get(wall + 1));
@@ -54,14 +54,14 @@ public class Sorting {
             friendList.remove(wall + 1);
             friendList.add(wall + 1, store);
 
-            quickSort(friendList, begin, wall);
-            quickSort(friendList, wall + 2, end);
+            quickSort(friendList, begin, wall,order);
+            quickSort(friendList, wall + 2, end,order);
         }
     }
 
-    private static boolean checkAlphabetOrder(String username1, String username2) {
+    public static boolean checkAlphabetOrder(String username1, String username2, boolean order) {
 
-        boolean change = false;
+        boolean change =!order;
         boolean same = true;
         int minLength = Math.min(username1.trim().length(), username2.trim().length());
         for (int o = 0; o < minLength; o++) {
@@ -70,7 +70,7 @@ public class Sorting {
             if ((charOfUser1 > 122 || charOfUser1 < 97) && (charOfUser2 > 122 || charOfUser2 < 97)) {
                 if (charOfUser1 > charOfUser2) {
                     same = false;
-                    change = true;
+                    change = order;
                     o = minLength;
                 } else if (charOfUser1 < charOfUser2) {
                     same = false;
@@ -78,14 +78,14 @@ public class Sorting {
                 }
             } else if (charOfUser1 > 122 || charOfUser1 < 97) {
                 same = false;
-                change = true;
+                change = order;
                 o = minLength;
             } else if (charOfUser2 > 122 || charOfUser2 < 97) {
                 same = false;
                 o = minLength;
             } else if (charOfUser1 > charOfUser2) {
                 same = false;
-                change = true;
+                change = order;
                 o = minLength;
             } else if (charOfUser1 < charOfUser2) {
                 same = false;
@@ -102,13 +102,13 @@ public class Sorting {
                     o = minLength;
                 } else if (x < y) {
                     same = false;
-                    change = true;
+                    change = order;
                     o = minLength;
                 }
             }
         }
         if (same && username1.length() > username2.length()) {
-            change = true;
+            change = order;
         }
         return change;
     }

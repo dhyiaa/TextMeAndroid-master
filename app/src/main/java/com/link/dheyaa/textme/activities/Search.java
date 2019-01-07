@@ -116,6 +116,8 @@ public class Search extends AppCompatActivity {
             Intent Message = new Intent(getBaseContext(), MessagingPage.class);
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
+            Message.putExtra("friend_image", friends.get(i).getImagePath ());
+            
             startActivity(Message);
             finish();
             //listView.setClickable(true);

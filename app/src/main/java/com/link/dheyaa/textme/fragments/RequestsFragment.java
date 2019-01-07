@@ -123,7 +123,7 @@ public class RequestsFragment extends Fragment {
                                 requests.add(user);
                                 adapter.clear();
                                 adapter.removeAll(requests);
-                                Sorting.quickSortByAlphabet(requests);
+                                Sorting.quickSortByAlphabet(requests , true);
                                 adapter.addAll(requests);
                                 adapter.notifyDataSetChanged();
                             }
