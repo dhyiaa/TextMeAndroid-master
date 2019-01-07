@@ -30,73 +30,87 @@ import androidx.fragment.app.Fragment;
 
 public class SettingsFragment extends Fragment {
 
-    public String userName;
     public String email;
     private DatabaseReference DBref;
     private FirebaseAuth mAuth;
 
-    public SettingsFragment(){
+    private EditText usernameInput;
+    private EditText emailInput;
+    private EditText passwordInput;
+    private ImageView imageView;
+
+    public SettingsFragment() {
 
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.setting_tab, container, false);
+        View root = inflater.inflate (R.layout.setting_tab, container, false);
 
-        MainActivity parent = (MainActivity) getActivity();
-        final EditText username = (EditText) root.findViewById(R.id.input_name);
-        final EditText email = (EditText) root.findViewById(R.id.input_email);
-        final EditText password = (EditText) root.findViewById(R.id.input_password);
-        final ImageView imageView = (ImageView) root.findViewById(R.id.imageView);
+        MainActivity parent = (MainActivity) getActivity ();
+        usernameInput = (EditText) root.findViewById (R.id.input_name);
+        emailInput = (EditText) root.findViewById (R.id.input_email);
+        passwordInput = (EditText) root.findViewById (R.id.input_password);
+        imageView = (ImageView) root.findViewById (R.id.imageView);
 
-        mAuth = FirebaseAuth.getInstance();
-        DBref = FirebaseDatabase.getInstance().getReference("Users");
-        DBref.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User currentAuthUser = dataSnapshot.getValue(User.class);
-                username.setText(currentAuthUser.getUsername());
-                email.setText(currentAuthUser.getEmail());
-
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageReference = storage.getReference();
-
-                storageReference.child(currentAuthUser.getImagePath() != null ? currentAuthUser.getImagePath() :  "static/profile.png" ).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(getContext())
-                                .load(uri) // the uri you got from Firebase
-                                .centerCrop()
-                                .into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
+        final Button updateBtn = (Button) root.findViewById (R.id.updateBtn);
+        updateBtn.setOnClickListener (UpdateData);
 
 
+        Button signOut = (Button) root.findViewById (R.id.sign_out);
+        signOut.setOnClickListener (SignOut);
 
-        Button signOut = (Button) root.findViewById(R.id.sign_out);
 
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                ((MainActivity) getActivity()).updateUI(FirebaseAuth.getInstance().getCurrentUser());
-            }
-        });
-
+        mAuth = FirebaseAuth.getInstance ();
+        DBref = FirebaseDatabase.getInstance ().getReference ("Users");
+        DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (getUserData);
 
         return root;
-
     }
+
+    View.OnClickListener UpdateData = new View.OnClickListener () {
+        @Override
+        public void onClick(View v) {
+            //mAuth.getCurrentUser ().s
+        }
+    };
+    View.OnClickListener SignOut = new View.OnClickListener () {
+        @Override
+        public void onClick(View v) {
+            FirebaseAuth.getInstance ().signOut ();
+            ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
+        }
+    };
+
+
+    ValueEventListener getUserData = new ValueEventListener () {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            User currentAuthUser = dataSnapshot.getValue (User.class);
+            usernameInput.setText (currentAuthUser.getUsername ());
+            emailInput.setText (currentAuthUser.getEmail ());
+
+            FirebaseStorage storage = FirebaseStorage.getInstance ();
+            StorageReference storageReference = storage.getReference ();
+
+            storageReference.child (currentAuthUser.getImagePath () != null ? currentAuthUser.getImagePath () : "static/profile.png").getDownloadUrl ().addOnSuccessListener (new OnSuccessListener<Uri> () {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with (getContext ())
+                            .load (uri) // the uri you got from Firebase
+                            .centerCrop ()
+                            .into (imageView);
+                }
+            }).addOnFailureListener (new OnFailureListener () {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+
+        @Override
+        public void onCancelled(DatabaseError error) {
+        }
+    };
 }
 
