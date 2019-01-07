@@ -2,7 +2,8 @@
 /* TextMe Team
  * Jan 2019
  * Sorting methods class:
- * containing methods of bubble sort and quick sort to rearrange 
+ * containing bubble sort and quick sort methods to
+ * rearrange ArrayList of Users in ascending or descending alphabetic order
  */
 
 package com.link.dheyaa.textme.utils;
@@ -33,6 +34,7 @@ public class Sorting {
                 String username2 = friendList.get(j + 1).getUsername();
 
                 if (checkAlphabetOrder(username1, username2,order)) {
+                    //if the users needs to be switched
                     User user1 = friendList.get(j);
                     User user2 = friendList.get(j + 1);
                     friendList.remove(j);
@@ -67,6 +69,7 @@ public class Sorting {
             int wall = begin - 1;
             for (int i = begin; i < end; i++) {
                 if (checkAlphabetOrder(comparingName, friendList.get(i).getUsername(),order)) {
+                    //if the users needs to be switched
                     User store = friendList.get(i);
                     friendList.remove(i);
                     friendList.add(i, friendList.get(wall + 1));
@@ -81,6 +84,8 @@ public class Sorting {
             friendList.remove(wall + 1);
             friendList.add(wall + 1, store);
 
+            //recursion
+            //call split the Users' ArrayList in half and call this method twice
             quickSort(friendList, begin, wall,order);
             quickSort(friendList, wall + 2, end,order);
         }
@@ -101,7 +106,9 @@ public class Sorting {
         for (int o = 0; o < minLength; o++) {
             char charOfUser1 = username1.toLowerCase().trim().charAt(o);
             char charOfUser2 = username2.toLowerCase().trim().charAt(o);
+
             if ((charOfUser1 > 122 || charOfUser1 < 97) && (charOfUser2 > 122 || charOfUser2 < 97)) {
+                //if both user names start with an alphabet from a~z
                 if (charOfUser1 > charOfUser2) {
                     same = false;
                     change = order;
@@ -111,13 +118,17 @@ public class Sorting {
                     o = minLength;
                 }
             } else if (charOfUser1 > 122 || charOfUser1 < 97) {
+                //if only username1 start with an alphabet from a~z
                 same = false;
                 change = order;
                 o = minLength;
             } else if (charOfUser2 > 122 || charOfUser2 < 97) {
+                //if only username2 start with an alphabet from a~z
                 same = false;
                 o = minLength;
-            } else if (charOfUser1 > charOfUser2) {
+            }
+            //if both user names do not start with aan alphabet from a~z
+            else if (charOfUser1 > charOfUser2) {
                 same = false;
                 change = order;
                 o = minLength;
@@ -128,21 +139,24 @@ public class Sorting {
 
         }
         if (same) {
+            //if the first minLength letters of both user names in lower case are the same
             for (int o = 0; o < minLength; o++) {
-                char x = username1.charAt(o);
-                char y = username2.charAt(o);
+                char x = username1.trim().charAt(o);
+                char y = username2.trim().charAt(o);
                 if (x > y) {
                     same = false;
+                    change = order;
                     o = minLength;
                 } else if (x < y) {
                     same = false;
-                    change = order;
                     o = minLength;
                 }
             }
         }
         if (same && username1.length() > username2.length()) {
+            //if the first minLength letters of both user names are the same, and the first user name has a larger length
             change = order;
+            same=false;
         }
         return change;
     }
