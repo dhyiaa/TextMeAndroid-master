@@ -125,18 +125,21 @@ public class FriendsFragment extends Fragment {
                 SetViews(true, false);
             }else{
                 adapter.removeOldbyID(dataSnapshot.getKey());
+                System.out.println ("child->>removeById->>1->"+dataSnapshot.getKey());
+
             }
 
         }
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            System.out.println ("child->>>> cahnges important");
+            System.out.println ("child->cahnges->important");
 
             if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
             }else{
+                System.out.println ("child->>removeById->>2->"+dataSnapshot.getKey());
                 adapter.removeOldbyID(dataSnapshot.getKey());
             }
         }

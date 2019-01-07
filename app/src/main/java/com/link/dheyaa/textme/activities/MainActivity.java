@@ -146,15 +146,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        /*
-        *
-        *  if(FirebaseInstanceId.getInstance().getToken() != null){
+          if(FirebaseInstanceId.getInstance().getToken() != null){
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             dataBaeseHelpers.setToken(refreshedToken);
             Log.d("token1" , refreshedToken);
             Log.d("token2" , mAuth.getCurrentUser().getToken(true).toString());
         }
-        * */
+
 
 
     }
