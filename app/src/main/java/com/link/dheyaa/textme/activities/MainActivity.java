@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SignIn.class));
             this.finish();
 
+            
         } else {
             DBref.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                 @Override

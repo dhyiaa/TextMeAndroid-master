@@ -2,11 +2,16 @@ package com.link.dheyaa.textme.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +36,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.MessagingRecyclingAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
@@ -71,9 +78,9 @@ public class MessagingPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
 
-        FriendName = getIntent().getStringExtra ("friend_name");
-        FriendId = getIntent().getStringExtra ("friend_id");
-        FriendImage = getIntent().getStringExtra ("friend_image");
+        FriendName = getIntent ().getStringExtra ("friend_name");
+        FriendId = getIntent ().getStringExtra ("friend_id");
+        FriendImage = getIntent ().getStringExtra ("friend_image");
 
         layoutManager = new LinearLayoutManager (_context);
 
@@ -83,87 +90,67 @@ public class MessagingPage extends AppCompatActivity {
         DBrefMessages = FirebaseDatabase.getInstance ().getReference ("Messages");
         mAuth = FirebaseAuth.getInstance ();
 
-        updateUI (mAuth.getCurrentUser ());
 
-
-        DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () {
+        DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () {
             @Override
-            public void onChildAdded(DataSnapshot newMessage, String s) {
-                Message message = newMessage.getValue (Message.class);
-                messageAdapter.addMessage (message, layoutManager);
-                long numsOfChildren = newMessage.getChildrenCount ();
-                if (numsOfChildren < 0) {
-                    setViews (4);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue (User.class);
+                currentUser.setId (dataSnapshot.getKey ());
 
-                } else {
-                    setViews (3);
 
-                }
-                // messageAdapter.addMessage(message);
+                extraDAta.put ("currentAuthImage", currentUser.getImagePath ());
+                extraDAta.put ("FriendName", FriendName);
+                extraDAta.put ("FriendId", FriendId);
+                extraDAta.put ("FriendImage", FriendImage);
+                extraDAta.put ("currentAuthId", mAuth.getUid ());
+
+                // messageAdapter = new MessageAdapter(new ArrayList<Message>(), _context, extraDAta);
+                ArrayList<Message> msgs = new ArrayList<Message> ();
+                messageAdapter = new MessagingRecyclingAdapter (_context, R.layout.message_list_item_you, msgs, extraDAta);
+
+
+                setContentView (R.layout.activity_messaging_page);
+                toolbar = (Toolbar) findViewById (R.id.toolbar);
+                Toolbar toolbar2 = (Toolbar) findViewById (R.id.toolbar2);
+                toolbar2.setTitle (FriendName);
+
+                setSupportActionBar (toolbar2);
+                getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
+                getSupportActionBar ().setDisplayShowHomeEnabled (true);
+
+                messageList = (RecyclerView) findViewById (R.id.message_list);
+
+                message = (EditText) findViewById (R.id.msg);
+                noMsg = (TextView) findViewById (R.id.noMsg);
+                FriendView = findViewById (R.id.friendView);
+                notFriendView = findViewById (R.id.notFriendView);
+                LoadingView = findViewById (R.id.loadingView);
+                sendReq = findViewById (R.id.req_btn);
+                sendMsgBtn = findViewById (R.id.sendMsgBtn);
+                msgNoFriend = findViewById (R.id.mesgNoFriend);
+                setViews (1);
+
+                sendMsgBtn.setOnClickListener (new View.OnClickListener () {
+                    @Override
+                    public void onClick(View v) {
+                        sendMessage ();
+                    }
+                });
+                sendReq.setOnClickListener (new View.OnClickListener () {
+                    @Override
+                    public void onClick(View v) {
+                        sendFriendRequest ();
+                    }
+                });
+
+
+                updateUI ();
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        setContentView (R.layout.activity_messaging_page);
-        toolbar = (Toolbar) findViewById (R.id.toolbar);
-        Toolbar toolbar2 = (Toolbar) findViewById (R.id.toolbar2);
-        toolbar2.setTitle (FriendName);
-
-        setSupportActionBar (toolbar2);
-        getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
-        getSupportActionBar ().setDisplayShowHomeEnabled (true);
-
-
-        //extraDAta.put("currentAuthProfile", mAuth.getCurrentUser().getUid());
-
-
-        messageList = (RecyclerView) findViewById (R.id.message_list);
-
-
-        message = (EditText) findViewById (R.id.msg);
-        noMsg = (TextView) findViewById (R.id.noMsg);
-        FriendView = findViewById (R.id.friendView);
-        notFriendView = findViewById (R.id.notFriendView);
-        LoadingView = findViewById (R.id.loadingView);
-        sendReq = findViewById (R.id.req_btn);
-        sendMsgBtn = findViewById (R.id.sendMsgBtn);
-        msgNoFriend = findViewById (R.id.mesgNoFriend);
-
-        sendMsgBtn.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                sendMessage ();
+            public void onCancelled(DatabaseError error) {
             }
         });
-        sendReq.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                sendFriendRequest ();
-            }
-        });
-
-
-        setViews (1);
 
 
     }
@@ -241,12 +228,15 @@ public class MessagingPage extends AppCompatActivity {
             LoadingView.setVisibility (View.VISIBLE);
             notFriendView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
+            System.out.println ("type ->> 1");
         } else if (type == 2) {
             sendReq.setActivated (true);
             msgNoFriend.setText ("you are not friends with " + FriendName);
             notFriendView.setVisibility (View.VISIBLE);
             LoadingView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
+            System.out.println ("type ->> 2");
+
         } else if (type == 3) {
             FriendView.setVisibility (View.VISIBLE);
 
@@ -254,26 +244,72 @@ public class MessagingPage extends AppCompatActivity {
             LoadingView.setVisibility (View.GONE);
             messageList.setVisibility (View.VISIBLE);
             noMsg.setVisibility (View.GONE);
+            System.out.println ("type ->> 3");
 
 
         } else if (type == 10) {
             msgNoFriend.setText ("You have already sent a request to " + FriendName);
             sendReq.setActivated (false);
             sendReq.setVisibility (View.INVISIBLE);
+            System.out.println ("type ->> 10");
+
         } else {
             noMsg.setVisibility (View.VISIBLE);
             messageList.setVisibility (View.GONE);
+            System.out.println ("type ->> else");
+
         }
 
     }
 
-    public void freindView(User friendData) {
+    public void freindView(User currentUser) {
         // message.setText(friendData.getEmail());
 
-        toolbar.setTitle (friendData.getUsername ());
+        messageList.setAdapter (messageAdapter);
+        messageList.setHasFixedSize (true);
+        messageList.setLayoutManager (new LinearLayoutManager (_context));
+        messageList.addItemDecoration (new friendsItemDecorator (0));
+        messageList.getRecycledViewPool ().setMaxRecycledViews (1, 0);
+        messageList.getRecycledViewPool ().setMaxRecycledViews (0, 0);
+
+        toolbar.setTitle (currentUser.getUsername ());
         setSupportActionBar (toolbar);
         getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
         getSupportActionBar ().setDisplayShowHomeEnabled (true);
+
+        DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () {
+            @Override
+            public void onChildAdded(DataSnapshot newMessage, String s) {
+                Message message = newMessage.getValue (Message.class);
+                messageAdapter.addMessage (message, layoutManager);
+                long numsOfChildren = newMessage.getChildrenCount ();
+                if (numsOfChildren < 1) {
+                    setViews (4);
+
+                } else {
+                    setViews (3);
+                }
+                // messageAdapter.addMessage(message);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
         setViews (3);
 
 
@@ -284,69 +320,34 @@ public class MessagingPage extends AppCompatActivity {
     }
 
 
-    public void updateUI(FirebaseUser user) {
-        if (user != null) {
-            DBref.child (user.getUid ()).addValueEventListener (new ValueEventListener () {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+    public void updateUI() {
 
-                    System.out.println ("checking from m p : -->>> "+FriendImage);
-                    System.out.println ("checking from m p I: -->>> "+getIntent().getStringExtra ("friend_image"));
+        if (currentUser != null && currentUser.getFriends () != null) {
+            if (currentUser.getFriends ().containsKey (FriendId)) {
+                if (currentUser.getFriends ().get (FriendId) == 1) {
+                    System.out.println ("you are firend with " + FriendName);
 
-
-
-                    currentUser = dataSnapshot.getValue (User.class);
-                    extraDAta.put ("currentAuthImage", currentUser.getImagePath ());
-                    extraDAta.put ("FriendName", FriendName);
-                    extraDAta.put ("FriendId", FriendId);
-                    extraDAta.put ("FriendImage", FriendImage);
-                    extraDAta.put ("currentAuthId", mAuth.getUid ());
-
-                    // messageAdapter = new MessageAdapter(new ArrayList<Message>(), _context, extraDAta);
-                    ArrayList<Message> msgs = new ArrayList<Message> ();
-                    messageAdapter = new MessagingRecyclingAdapter (_context, R.layout.message_list_item_you, msgs, extraDAta);
-
-                    messageList.setAdapter (messageAdapter);
-                    messageList.setHasFixedSize (true);
-                    messageList.setLayoutManager (layoutManager);
-                    messageList.addItemDecoration (new friendsItemDecorator (0));
-                    messageList.getRecycledViewPool().setMaxRecycledViews(1, 0);
-                    messageList.getRecycledViewPool().setMaxRecycledViews(0, 0);
-
-
-                    if (currentUser.getFriends () != null) {
-                        if (currentUser.getFriends ().containsKey (FriendId)) {
-                            if (currentUser.getFriends ().get (FriendId) == 1) {
-                                System.out.println ("you are firend with " + FriendName);
-
-                                DBref.child (FriendId).addValueEventListener (new ValueEventListener () {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        freindView (dataSnapshot.getValue (User.class));
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        errorView ();
-                                    }
-                                });
-                            } else if (currentUser.getFriends ().get (FriendId) == -1) {
-                                finish ();
-                            } else {
-                                System.out.println ("you are not . firend with " + FriendName);
-                                setViews (2);
-                            }
+                    DBref.child (FriendId).addValueEventListener (new ValueEventListener () {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            freindView (dataSnapshot.getValue (User.class));
                         }
-                    } else {
-                        System.out.println ("you are not . firend with " + FriendName);
-                        setViews (2);
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError error) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            errorView ();
+                        }
+                    });
+                } else if (currentUser.getFriends ().get (FriendId) == -1) {
+                    finish ();
+                } else {
+                    System.out.println ("you are. firend with " + FriendName);
+                    setViews (2);
                 }
-            });
+            }
+        } else {
+            System.out.println ("you are not . firend with " + FriendName);
+            setViews (2);
         }
     }
 
@@ -357,76 +358,3 @@ public class MessagingPage extends AppCompatActivity {
     }
 
 }
-
-
-
- /*
-               *  DBrefMessages.child(MessagesHelpers.getRoomId(FriendId, mAuth.getUid())).setValue(new Room()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            noMsg.setVisibility(View.VISIBLE);
-                        } else {
-                        }
-                    }
-                });
-
-     ValueEventListener roomEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            HashMap<String, Message> newMessage = (HashMap<String, Message>) dataSnapshot.getValue();
-
-
-
-
-
-            if (newMessage.size() < 1) {
-                setViews(4);
-                System.out.println("room == null");
-
-            } else {
-
-                Iterator it = newMessage.entrySet().iterator();
-                while (it.hasNext()) {
-                    final Map.Entry pair = (Map.Entry) it.next();
-                    Message myMessage = (Message) pair.getValue();
-                    System.out.println(pair.getValue().toString() +"--------------------------------------------- \n ---------------------------------------------");
-                    messageAdapter.addIfNotExist((Message) pair.getValue());
-                    messageAdapter.addMessage((Message) pair.getValue());
-                }
-
-                System.out.println(_messages.toString());
-                setViews(3);
-
-
-
-               /*
-
-                for (int i = 0; i < _messages.size(); i++) {
-                    System.out.println(_messages.toString() +"--------------------------------------------- \n ---------------------------------------------");
-                    messageAdapter.addIfNotExist(_messages.get(i));
-                    messageAdapter.addMessage(_messages.get(i));
-                }
-
-               *  if (room.getValues() != null && room.getValues().values() != null) {
-                    HashMap<String, Message> messages = room.getValues();
-                   // messageAdapter.addAll();
-                    noMsg.setVisibility(View.VISIBLE);
-                } else {
-                    noMsg.setVisibility(View.GONE);
-
-                    //System.out.println(room.toString());
-                }
-
-
-}
-        }
-
-@Override
-public void onCancelled(DatabaseError databaseError) {
-        System.out.println(databaseError.toString());
-        }
-        };
-*
-*
-* */
