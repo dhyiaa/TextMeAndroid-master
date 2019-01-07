@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Sorting methods class:
+ * containing methods of bubble sort and quick sort to rearrange 
+ */
+
 package com.link.dheyaa.textme.utils;
 
 import com.link.dheyaa.textme.models.User;
@@ -49,8 +56,8 @@ public class Sorting {
     /**
      * Sort the ArrayList of Users according to alphabet with quick sorting
      * @param friendList = an ArrayList of Users
-     * @param begin = 
-     * @param end
+     * @param begin = the beginning index
+     * @param end = the ending index
      * @param order = a boolean value to indicate the sorting order, true = ascending, false = descending
      */
     private static void quickSort(ArrayList<User> friendList, int begin, int end,boolean order) {
@@ -79,6 +86,13 @@ public class Sorting {
         }
     }
 
+    /**
+     * check the alphabet order of the Strings
+     * @param username1 = String containing the first Username
+     * @param username2 = String containing the second Username
+     * @param order = a boolean value to indicate the sorting order, true = ascending, false = descending
+     * @return true changes in order need to be made, false if the user names follow the @param order
+     */
     public static boolean checkAlphabetOrder(String username1, String username2, boolean order) {
 
         boolean change =!order;
