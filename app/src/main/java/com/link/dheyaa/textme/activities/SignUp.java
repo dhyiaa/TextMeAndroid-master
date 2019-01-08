@@ -141,9 +141,8 @@ public class SignUp extends AppCompatActivity {
                                 final FirebaseUser authUser = mAuth.getCurrentUser();
 
                                 User userObject = new User(
-                                        username.getText().toString(),
-                                        email.getText().toString(),
-                                        new HashMap<String, Integer>()
+                                        username.getText().toString().toLowerCase (),
+                                        email.getText().toString()
                                 );
 
                                 String ImagePath = uploadImage(authUser);

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Message {
     private String roomId;
-    private String reciverId;
+    private String receiverId;
     private String senderId;
     private long time;
     private String value;
@@ -14,7 +14,7 @@ public class Message {
 
     public Message(String roomId, String reciverId, String senderId, long time, String value) {
         this.roomId = roomId;
-        this.reciverId = reciverId;
+        this.receiverId = reciverId;
         this.senderId = senderId;
         this.time = time;
         this.value = value;
@@ -24,8 +24,8 @@ public class Message {
         return roomId;
     }
 
-    public String getReciverId() {
-        return reciverId;
+    public String getReceiverId() {
+        return receiverId;
     }
 
     public String getSenderId() {
@@ -44,8 +44,8 @@ public class Message {
         this.roomId = roomId;
     }
 
-    public void setReciverId(String reciverId) {
-        this.reciverId = reciverId;
+    public void setReceiverId(String reciverId) {
+        this.receiverId = reciverId;
     }
 
     public void setSenderId(String senderId) {
@@ -67,7 +67,7 @@ public class Message {
         Message message = (Message) o;
         return time == message.time &&
                 roomId.equals(message.roomId) &&
-                reciverId.equals(message.reciverId) &&
+                receiverId.equals(message.receiverId) &&
                 value.equals(message.value) &&
                 senderId.equals(message.senderId);
     }
@@ -76,7 +76,7 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "roomId='" + roomId + '\'' +
-                ", reciverId='" + reciverId + '\'' +
+                ", reciverId='" + receiverId + '\'' +
                 ", senderId='" + senderId + '\'' +
                 ", time=" + time +
                 ", value='" + value + '\'' +

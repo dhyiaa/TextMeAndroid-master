@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.link.dheyaa.textme.R;
@@ -30,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         dataBaeseHelpers.setToken(token);
     }
+
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
