@@ -11,6 +11,8 @@ public class User {
     private String imagePath;
     private String registrationToken;
 
+    public User() {
+    }
 
     public User(String username, String password, String email, HashMap<String, Integer> friends, String id, String imagePath, String registrationToken) {
         this.username = username;
@@ -22,6 +24,10 @@ public class User {
         this.registrationToken = registrationToken;
     }
 
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 
     public String getRegistrationToken() {
         return registrationToken;
@@ -64,9 +70,6 @@ public class User {
         return new User(this.username, this.password, this.email, this.friends, this.Id);
     }
 
-    public User() {
-    }
-
     public String getId() {
         return Id;
     }
@@ -81,7 +84,6 @@ public class User {
         this.email = email;
         this.friends = friends;
     }
-
 
     public User(String username, String email, HashMap<String, Integer> friends) {
         this.username = username;
