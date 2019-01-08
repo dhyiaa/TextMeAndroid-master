@@ -131,6 +131,8 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder implements View
         });
 
 
+
+
     }
 
     @Override

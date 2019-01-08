@@ -25,7 +25,7 @@ public class MessagingRecyclingAdapter extends RecyclerView.Adapter<MessagingVie
     private Context context;
     private int itemResource;
 
-    private ArrayList<Message> messages;
+    public ArrayList<Message> messages;
     private Context mContext;
     private ImageView imageView;
     private HashMap<String, String> extraData;

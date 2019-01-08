@@ -100,12 +100,7 @@ public class Search extends AppCompatActivity {
         if (!searchQuery.trim().equals("")) {
             //DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
             DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
-
-        } else {
-           // adapter.clear();
-           // adapter.removeAll(friends);
         }
-       // System.out.println("searching with " + searchQuery);
     }
 
 

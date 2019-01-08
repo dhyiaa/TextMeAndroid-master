@@ -84,12 +84,15 @@ public class MessagingPage extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager (_context);
 
-        System.out.println ("friend id is :" + FriendId);
+        System.out.println ("msg->friend->id->" + FriendId);
+        System.out.println ("msg->friend->id->" + FriendName);
+        System.out.println ("msg->friend->id->" + FriendImage);
 
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
         DBrefMessages = FirebaseDatabase.getInstance ().getReference ("Messages");
         mAuth = FirebaseAuth.getInstance ();
 
+        System.out.println ("msg->getCurrentUser->id->" + mAuth.getCurrentUser ().getUid ());
 
         DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () {
             @Override
@@ -97,6 +100,8 @@ public class MessagingPage extends AppCompatActivity {
                 currentUser = dataSnapshot.getValue (User.class);
                 currentUser.setId (dataSnapshot.getKey ());
 
+                System.out.println ("msg->userChanged->id->" + dataSnapshot.getKey ());
+                System.out.println ("msg->userChanged->user->" + currentUser.toString ());
 
                 extraDAta.put ("currentAuthImage", currentUser.getImagePath ());
                 extraDAta.put ("FriendName", FriendName);
@@ -280,8 +285,12 @@ public class MessagingPage extends AppCompatActivity {
         DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () {
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
+                System.out.println ("msg->freindView->onChildAdded ");
+
                 Message message = newMessage.getValue (Message.class);
                 messageAdapter.addMessage (message, layoutManager);
+                messageList.scrollToPosition(messageAdapter.messages.size() - 1);
+
                 long numsOfChildren = newMessage.getChildrenCount ();
                 if (numsOfChildren < 1) {
                     setViews (4);
@@ -321,11 +330,16 @@ public class MessagingPage extends AppCompatActivity {
 
 
     public void updateUI() {
+        System.out.println ("msg->updateUi");
 
         if (currentUser != null && currentUser.getFriends () != null) {
+            System.out.println ("msg->updateUi->currentUser != null ");
+
             if (currentUser.getFriends ().containsKey (FriendId)) {
+                System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : true ");
+
                 if (currentUser.getFriends ().get (FriendId) == 1) {
-                    System.out.println ("you are firend with " + FriendName);
+                    System.out.println ("msg->updateUi->isFriend->true ");
 
                     DBref.child (FriendId).addValueEventListener (new ValueEventListener () {
                         @Override
@@ -339,14 +353,18 @@ public class MessagingPage extends AppCompatActivity {
                         }
                     });
                 } else if (currentUser.getFriends ().get (FriendId) == -1) {
+                    System.out.println ("msg->updateUi->isBLocked->true ");
                     finish ();
                 } else {
-                    System.out.println ("you are. firend with " + FriendName);
+                    System.out.println ("msg->updateUi->isFriend->false ");
                     setViews (2);
                 }
+            }else{
+                setViews (2);
+
             }
         } else {
-            System.out.println ("you are not . firend with " + FriendName);
+            System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : false");
             setViews (2);
         }
     }
