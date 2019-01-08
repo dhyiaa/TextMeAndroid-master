@@ -2,7 +2,7 @@
 /* TextMe Team
  * Jan 2019
  * Message class:
- * contain the attributes and functions of Messages
+ * containing the attributes and functions of Message
  */
 
 package com.link.dheyaa.textme.models;
