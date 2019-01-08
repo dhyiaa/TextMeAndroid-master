@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Search class:
+ * Search activity of TextMe Program
+ */
+
 package com.link.dheyaa.textme.activities;
 
 import android.content.Intent;
