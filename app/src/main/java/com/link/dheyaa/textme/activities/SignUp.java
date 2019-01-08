@@ -110,8 +110,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     /* method to update UI
-    *
-    *
+    * @param currentUser - the current user got from firebase
     * */
     protected void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
@@ -121,6 +120,9 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+    /* method for signing up an account
+    * no param
+    * */
     public void SignUp() {
         loading.setVisibility(View.VISIBLE);
 
@@ -128,12 +130,13 @@ public class SignUp extends AppCompatActivity {
         final EditText email = (EditText) findViewById(R.id.input_email);
         final EditText password = (EditText) findViewById(R.id.input_password);
 
-        if (email.getText().length() != 0 && password.getText().length() != 0 && username.getText().length() != 0) {
+        if (email.getText().length() != 0 && password.getText().length() != 0 && username.getText().length() != 0) { // check if fields are valid
+            // create user
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                            if (task.isSuccessful()) { // if task is successful
                                 loading.setVisibility(View.INVISIBLE);
                                 final FirebaseUser authUser = mAuth.getCurrentUser();
 
@@ -161,7 +164,7 @@ public class SignUp extends AppCompatActivity {
                                         }
                                     }
                                 });
-                            } else {
+                            } else { // if task is not successful
                                 loading.setVisibility(View.INVISIBLE);
                                 String errorMsg = task.getException().getMessage();
                                 Snackbar.make(parentLayout, errorMsg, Snackbar.LENGTH_LONG).show();
@@ -175,13 +178,18 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
+    /* method to switch between auth and sign in page
+    * @param v - current view
+    */
     public void SignInPage(View v) {
 
         // startActivity(new Intent(getApplicationContext(), SignIn.class));
         finish();
     }
 
-
+    /* method to choose image
+    * no param
+    * */
     private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -189,7 +197,10 @@ public class SignUp extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select your profile picture"), PICK_IMAGE_REQUEST);
     }
 
-
+    /* method to get real path from URI
+    * @param context - current context
+    * @param contentUri - URI of current content
+    * */
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
@@ -199,11 +210,17 @@ public class SignUp extends AppCompatActivity {
             cursor.moveToFirst();
             return cursor.getString(column_index);
         } finally {
-            if (cursor != null) {
+            if (cursor != null) { // if cursor is changed
                 cursor.close();
             }
         }
     }
+
+    /* method to get data
+    * @param requestCode - request code
+    * @param resultCode - result code
+    * @param data - the data being processed
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -222,18 +239,21 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-
+    /* method to get power of two for sample ratio
+     * @param ratio - ratio in double
+     */
     private static int getPowerOfTwoForSampleRatio(double ratio){
         int k = Integer.highestOneBit((int)Math.floor(ratio));
         if(k==0) return 1;
         else return k;
     }
 
-
-
+    /* method to upload image
+    * @param authUser - the current User
+    * */
     private String uploadImage(FirebaseUser authUser) {
         final FirebaseUser authUser_ = authUser;
-        if (filePath != null) {
+        if (filePath != null) { // if filePath is Valid
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
