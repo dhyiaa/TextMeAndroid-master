@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * SignUp class:
+ * SignUp activity of TextMe Program
+ */
+
 package com.link.dheyaa.textme.activities;
 
 import android.app.ProgressDialog;
@@ -39,6 +46,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class SignUp extends AppCompatActivity {
+
+    // variable declaration
     private FirebaseAuth mAuth;
     public ProgressBar loading;
     View parentLayout;
@@ -52,6 +61,9 @@ public class SignUp extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
 
+    /* onCreate method for activity
+    * @param savedInstanceState - data bundle for activity
+    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +71,13 @@ public class SignUp extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         updateUI(mAuth.getCurrentUser());
 
-
         setContentView(R.layout.activity_sign_up);
         parentLayout = findViewById(R.id.container_main);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        // toolbar setup
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -76,9 +88,10 @@ public class SignUp extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Sign Up Button Setup
         Button button = (Button) findViewById(R.id.btn_signUp);
         loading = (ProgressBar) findViewById(R.id.progressBar);
-        setTitle("sign up ");
+        setTitle("Sign Up");
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -86,7 +99,7 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-
+        // user photo setup
         ImageView userPhoto = parentLayout.findViewById(R.id.userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +109,10 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+    /* method to update UI
+    *
+    *
+    * */
     protected void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             startActivity(new Intent(SignUp.this, MainActivity.class));
