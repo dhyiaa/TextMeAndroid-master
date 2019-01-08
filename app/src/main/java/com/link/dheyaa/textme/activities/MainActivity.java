@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * MainActivity class:
+ * Main activity of TextMe Program
+ */
+
 package com.link.dheyaa.textme.activities;
 
 import android.content.Intent;

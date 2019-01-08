@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * MessagingPage class:
+ * Messaging activity of TextMe Program
+ */
+
 package com.link.dheyaa.textme.activities;
 
 import android.content.Context;
