@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Friend adapter:
+ * containing the attributes and functions of User
+ */
+
 package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
@@ -15,11 +22,17 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
-
+    //attributes of FriendAdapters
     public ArrayList<User> friends;
     private Context context;
     private int itemResource;
 
+    /**
+     * default constructor
+     * @param context
+     * @param itemResource
+     * @param friends
+     */
     public FriendAdapter(Context context, int itemResource, ArrayList<User> friends) {
 
         // 1. Initialize our adapter
