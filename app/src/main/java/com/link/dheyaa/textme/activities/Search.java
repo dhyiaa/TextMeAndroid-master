@@ -153,7 +153,7 @@ public class Search extends AppCompatActivity {
         }
     };
 
-    ValueEventListener userEventListener = new ValueEventListener() { // listen for finishing the searching
+    ValueEventListener userEventListener = new ValueEventListener() { // listen for value changing
 
         /* method launches when data changes
         * @param dataSnapshot - snapshot of current data
