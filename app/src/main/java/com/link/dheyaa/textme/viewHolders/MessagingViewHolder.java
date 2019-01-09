@@ -60,6 +60,15 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder implements View
 
             case "ago":
 
+                Date date = new Date(message.getTime());
+                return date.getYear () + "/" +
+                        date.getMonth () + "/" +
+                        date.getDay () + " on "+
+                        date.getHours ()+":"+
+                        date.getMinutes ();
+
+
+                /*
                 Date now = new Date();
                 Date date = new Date();
                 java.sql.Timestamp timestamp1 = new Timestamp(date.getTime());
@@ -83,6 +92,7 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder implements View
                 String ago =  (minutes == 0) ? "just now ." : msg+" ago." ;
 
                 return ago;
+                * */
 
                 default: return "";
         }

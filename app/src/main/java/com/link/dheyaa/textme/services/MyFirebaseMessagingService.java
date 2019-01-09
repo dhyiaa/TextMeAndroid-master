@@ -62,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
             mBuilder.setSmallIcon(R.drawable.app_icon);
-            mBuilder.setContentTitle(message.getNotification().getTitle());
+            mBuilder.setContentTitle("Msg from : "+message.getNotification().getTitle());
             mBuilder.setContentText(message.getNotification().getBody());
 
             mBuilder.setAutoCancel(true);
@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             int id = ((int) Math.random());
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 int notifyID = id;
-                String CHANNEL_ID = "3957";// The id of the channel.
+                String CHANNEL_ID = "TextMeChanal";// The id of the channel.
                 CharSequence name = "messagesChanal";// The user-visible name of the channel.
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);

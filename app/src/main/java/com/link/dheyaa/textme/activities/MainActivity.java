@@ -46,6 +46,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.fragments.FriendsFragment;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity   {
 
         mAuth = FirebaseAuth.getInstance ();
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
+
         updateUI (mAuth.getCurrentUser ());
         showContent ();
 
@@ -146,7 +148,6 @@ public class MainActivity extends AppCompatActivity   {
 
         getSupportActionBar ().setDisplayShowTitleEnabled (false);
 
-      //  dataBaeseHelpers.setToken (FirebaseInstanceId.getInstance ().getToken ());
     }
 
 
@@ -168,6 +169,16 @@ public class MainActivity extends AppCompatActivity   {
 
 
         } else {
+
+            FirebaseInstanceId.getInstance().getInstanceId ().addOnSuccessListener (new OnSuccessListener<InstanceIdResult> () {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    String token = FirebaseInstanceId.getInstance ().getToken ();
+                    DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
+                    //dataBaeseHelpers.setToken (FirebaseInstanceId.getInstance ().getToken ());
+                }
+            });
+
             DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

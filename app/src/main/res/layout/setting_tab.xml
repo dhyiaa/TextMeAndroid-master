@@ -104,10 +104,10 @@
             android:textColorHint="#cccccc">
 
             <EditText
-                android:id="@+id/input_email"
+                android:id="@+id/input_password_old"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
+                android:hint="your old password"
                 android:inputType="textEmailAddress"
                 android:textColor="#ffffff"
                 android:textColorHint="#cccccc" />
@@ -125,7 +125,7 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
+                android:hint="new password"
                 android:inputType="textPassword"
                 android:textColor="#ffffff"
                 android:textColorHint="#cccccc" />
