@@ -28,17 +28,16 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+
+    @Override
     public void onNewToken(String token) {
-        dataBaeseHelpers.setToken(token);
+        dataBaeseHelpers.setToken (token);
+        System.out.println ("new->>token");
     }
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
-
-        Log.d("message  ->> ", "BODY: " + message.getNotification().getBody());
-        Log.d("message  ->> ", "TITLE: " + message.getNotification().getTitle());
-
         sendMyNotification(message);
     }
 
@@ -55,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent resultIntent = new Intent(this, MessagingPage.class);
             resultIntent.putExtra("friend_name", message.getData().get("friendName").toString());
             resultIntent.putExtra("friend_id", message.getData().get("friendId").toString());
+            resultIntent.putExtra("friend_image", message.getData().get("friend_image").toString());
 
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -62,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
             mBuilder.setSmallIcon(R.drawable.app_icon);
-            mBuilder.setContentTitle(message.getNotification().getTitle());
+            mBuilder.setContentTitle("Msg from : "+message.getNotification().getTitle());
             mBuilder.setContentText(message.getNotification().getBody());
 
             mBuilder.setAutoCancel(true);
@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             int id = ((int) Math.random());
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 int notifyID = id;
-                String CHANNEL_ID = "3957";// The id of the channel.
+                String CHANNEL_ID = "TextMeChanal";// The id of the channel.
                 CharSequence name = "messagesChanal";// The user-visible name of the channel.
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);

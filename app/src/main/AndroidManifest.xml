@@ -65,7 +65,7 @@
         </service>
 
 
-        <!--meta-data
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/msg_icon" />
 
@@ -75,7 +75,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="1234567_id" /-->
+            android:value="1234567_id" />
 
     </application>
 

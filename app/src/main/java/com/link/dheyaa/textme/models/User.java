@@ -25,6 +25,12 @@ public class User {
     public User() {
     }
 
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+
     /**
      * secondary constructor
      * @param username = String value the user's user name

@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Friend adapter:
+ * containing the attributes and functions of User
+ */
+
 package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
@@ -15,21 +22,31 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
-
+    //attributes of FriendAdapters
     public ArrayList<User> friends;
     private Context context;
     private int itemResource;
 
+    /**
+     * default constructor
+     * @param context = Context value of the activities
+     * @param itemResource = int value of the layouts
+     * @param friends = User ArrayList of the Friends
+     */
     public FriendAdapter(Context context, int itemResource, ArrayList<User> friends) {
-
-        // 1. Initialize our adapter
+        //Initialize our adapter
         this.friends = friends;
         this.context = context;
         this.itemResource = itemResource;
     }
 
-    // 2. Override the onCreateViewHolder method
-    @Override
+    /**
+     * Create a new FriendsViewHolder
+     * @param parent
+     * @param viewType = int value of the view type
+     * @return a new FriendsViewHolder with
+     */
+    @Override//Override the onCreateViewHolder method
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // 3. Inflate the view and return the new ViewHolder
@@ -51,7 +68,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         // 6. Bind the bakery object to the holder
     }
 
-    public void addFreind(User friend, boolean sortingAccending) {
+    public void addFriend(User friend, boolean sortingAccending) {
         removeOld (friend);
         friends.add (friend);
         if (sortingAccending) {

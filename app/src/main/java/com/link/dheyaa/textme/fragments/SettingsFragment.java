@@ -1,5 +1,6 @@
 package com.link.dheyaa.textme.fragments;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,14 +37,17 @@ import androidx.fragment.app.Fragment;
 
 public class SettingsFragment extends Fragment {
 
-    public String email;
     private DatabaseReference DBref;
     private FirebaseAuth mAuth;
 
     private EditText usernameInput;
-    private EditText emailInput;
+    private EditText inputPasswordOld;
     private EditText passwordInput;
     private ImageView imageView;
+
+    public String username;
+    public String email;
+
 
     public SettingsFragment() {
 
@@ -54,7 +58,7 @@ public class SettingsFragment extends Fragment {
 
         MainActivity parent = (MainActivity) getActivity ();
         usernameInput = (EditText) root.findViewById (R.id.input_name);
-        emailInput = (EditText) root.findViewById (R.id.input_email);
+        inputPasswordOld = (EditText) root.findViewById (R.id.input_password_old);
         passwordInput = (EditText) root.findViewById (R.id.input_password);
         imageView = (ImageView) root.findViewById (R.id.imageView);
 
@@ -74,30 +78,44 @@ public class SettingsFragment extends Fragment {
     }
 
     View.OnClickListener UpdateData = new View.OnClickListener () {
+
         @Override
         public void onClick(View v) {
-            AuthCredential credential = EmailAuthProvider.getCredential (emailInput.getText ().toString (), passwordInput.getText ().toString ());
-            mAuth.getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
+            AuthCredential credential = EmailAuthProvider.getCredential (email, inputPasswordOld.getText ().toString ());
+            FirebaseAuth.getInstance ().getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    FirebaseUser user = mAuth.getInstance ().getCurrentUser ();
-                    user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful ()) {
-                                System.out.println ("password updated correctly");
-                            }
-                        }
-                    });
-                    user.updateEmail (emailInput.getText ().toString ())
-                            .addOnCompleteListener (new OnCompleteListener<Void> () {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful ()) {
-                                        System.out.println ("email updated correctly");
+                    if (task.isSuccessful ()) {
+                        final FirebaseUser user = mAuth.getInstance ().getCurrentUser ();
+                        user.updateEmail (email)
+                                .addOnCompleteListener (new OnCompleteListener<Void> () {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful ()) {
+                                            System.out.println ("email updated correctly");
+                                            user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful ()) {
+                                                        System.out.println ("password updated correctly");
+                                                        if(!usernameInput.getText ().toString ().equals (null)){
+                                                            DBref.child (mAuth.getUid ()).child ("username").setValue (usernameInput.getText ().toString ());
+                                                        }
+                                                        if(inputPasswordOld.getText ().toString ().equals (passwordInput.getText ().toString ())){
+                                                            DBref.child (mAuth.getUid ()).child ("password").setValue (passwordInput.getText ().toString ());
+                                                        }
+
+                                                        getActivity ().finish ();
+                                                        startActivity(getActivity().getIntent ());
+                                                    }
+                                                }
+                                            });
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    } else {
+
+                    }
                 }
             });
         }
@@ -116,8 +134,8 @@ public class SettingsFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             User currentAuthUser = dataSnapshot.getValue (User.class);
             usernameInput.setText (currentAuthUser.getUsername ());
-            emailInput.setText (currentAuthUser.getEmail ());
-
+            email = currentAuthUser.getEmail ();
+            username = currentAuthUser.getUsername ();
             FirebaseStorage storage = FirebaseStorage.getInstance ();
             StorageReference storageReference = storage.getReference ();
 

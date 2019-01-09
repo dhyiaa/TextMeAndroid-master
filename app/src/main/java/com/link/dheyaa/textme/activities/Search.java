@@ -19,7 +19,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -167,7 +166,7 @@ public class Search extends AppCompatActivity {
                 user.setId(postSnapshot.getKey());
                 if(!user.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
                     users.add(user);
-                    adapter.addFreind(user , true);
+                    adapter.addFriend(user , true);
                     adapter.notifyDataSetChanged();
                 } // if user id matches in firebase
             } // loop through children of data snapshot
