@@ -25,11 +25,11 @@ public class Message {
 
     /**
      * secondary constructor
-     * @param roomId = Id of the messaging room
-     * @param receiverId = User Id of the receiver
-     * @param senderId = User Id of the sender
-     * @param time = sending time of the message
-     * @param value = content of the message
+     * @param roomId = String value of the messaging Room's Room Id
+     * @param receiverId = String value of the receiver's User Id
+     * @param senderId = String value of the sender's User Id
+     * @param time = long value of the message's sending time
+     * @param value = String value of the message's content
      */
     public Message(String roomId, String receiverId, String senderId, long time, String value) {
         this.roomId = roomId;
@@ -80,7 +80,7 @@ public class Message {
     }
 
     /**
-     * set the room Id
+     * set room Id
      * @param roomId = String value of the room Id
      */
     public void setRoomId(String roomId) {
@@ -88,23 +88,23 @@ public class Message {
     }
 
     /**
-     * set the receiver's Id
-     * @param receiverId = String value of the receiver's Id
+     * set receiver's User Id
+     * @param receiverId = String value of the receiver's User Id
      */
     public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
     }
 
     /**
-     * set the sender's Id
-     * @param senderId = String value of the sender's Id
+     * set sender's User Id
+     * @param senderId = String value of the sender's User Id
      */
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
     /**
-     * set the message's sending time
+     * set message's sending time
      * @param time = long value of the message's sending time
      */
     public void setTime(long time) {
@@ -112,7 +112,7 @@ public class Message {
     }
 
     /**
-     * set the message's content
+     * set message's content
      * @param value = String value of the message's content
      */
     public void setValue(String value) {
