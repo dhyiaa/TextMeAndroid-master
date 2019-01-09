@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 public class Search extends AppCompatActivity {
 
+    // variable declaration
     private RecyclerView listView;
     private FirebaseAuth mAuth;
     private ArrayList<User> friends = new ArrayList<User>();
@@ -42,20 +43,20 @@ public class Search extends AppCompatActivity {
     private FriendAdapter adapter;
     private EditText searchIput;
 
-
+    /* onCreate method for activity
+     * @param savedInstanceState - data bundle for activity
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
 
+        // find predefined views in XML
         listView = (RecyclerView) findViewById(R.id.searched_friends);
         searchIput = (EditText) findViewById(R.id.search_input);
-
-
 
         adapter = new FriendAdapter(this, R.layout.friends_list_item, friends);
 
@@ -64,57 +65,82 @@ public class Search extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
 
-
         //search("m");
+        // listen for text changing
+        searchIput.addTextChangedListener(
+            new TextWatcher() { // watch the text
+                /* method watches before text changes
+                * @param s - text
+                * @param start - starting value
+                * @param count - amount of chars
+                * @param after - overall value
+                * */
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        searchIput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //System.out.println("searching event");
+                /* method watches when text changes
+                 * @param s - text
+                 * @param start - starting value
+                 * @param count - amount of chars
+                 * @param after - overall value
+                 * */
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
+                    search(searchIput.getText().toString()); // search user
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //System.out.println("searching event");
-                search(searchIput.getText().toString());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() != 0) {
-                    search(searchIput.getText().toString());
-                   // System.out.println("searching event");
                 }
-            }
+
+                /* method watches after text changes
+                 * @param s - text
+                 * @param start - starting value
+                 * @param count - amount of chars
+                 * @param after - overall value
+                 * */
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.length() != 0) {
+                        search(searchIput.getText().toString()); // search user
+
+                    } // if input is not empty
+                }
         });
-
-
 
         // DBref.child().child("friends").orderByValue().addValueEventListener(userEventListener);
 
+        // back button setup
         FloatingActionButton backBtn = (FloatingActionButton) findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        backBtn.setOnClickListener(new View.OnClickListener() { // listen for clicking button
+            public void onClick(View v) { // launch when button is clicked
                 finish();
             }
         });
 
     }
 
+    /* method to search user
+    * @param searchQuery - searching input
+    * */
     public void search(String searchQuery) {
         if (!searchQuery.trim().equals("")) {
             //DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
             DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
-        }
+        } // if searching input is not empty
     }
 
+    AdapterView.OnItemClickListener itemClickedSearch = new AdapterView.OnItemClickListener() { // listen for clicking users prompted after search
 
-    AdapterView.OnItemClickListener itemClickedSearch = new AdapterView.OnItemClickListener() {
+        /* method launches when item is clicked
+        * @param adapterView - current adapterView
+        * @param view - current view
+        * @param i - the index of friend
+        * @param l - position of scrolling
+        * */
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             //  listView.setClickable(false);
+
+            // add friend's data into intent
             Intent Message = new Intent(getBaseContext(), MessagingPage.class);
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
@@ -126,7 +152,12 @@ public class Search extends AppCompatActivity {
 
         }
     };
-    ValueEventListener userEventListener = new ValueEventListener() {
+
+    ValueEventListener userEventListener = new ValueEventListener() { // listen for finishing the searching
+
+        /* method launches when data changes
+        * @param dataSnapshot - snapshot of current data
+        * */
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             ArrayList<User> users = new ArrayList<User>();
@@ -137,10 +168,13 @@ public class Search extends AppCompatActivity {
                     users.add(user);
                     adapter.addFreind(user , true);
                     adapter.notifyDataSetChanged();
-                }
-            }
+                } // if user id matches in firebase
+            } // loop through children of data snapshot
         }
 
+        /* method lauches when event cancelled
+        * @param error - firebase error
+        * */
         @Override
         public void onCancelled(DatabaseError error) {
         }
