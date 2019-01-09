@@ -57,6 +57,7 @@ import java.util.HashMap;
 
 public class MessagingPage extends AppCompatActivity {
 
+    // variable declaration
     private String FriendId;
     private String FriendName;
     private FirebaseAuth mAuth;
@@ -80,11 +81,14 @@ public class MessagingPage extends AppCompatActivity {
     public Context _context = this;
     public RecyclerView.LayoutManager layoutManager;
 
-
+    /* onCreate method for activity
+     * @param savedInstanceState - data bundle for activity
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
 
+        // get intents from search activity
         FriendName = getIntent ().getStringExtra ("friend_name");
         FriendId = getIntent ().getStringExtra ("friend_id");
         FriendImage = getIntent ().getStringExtra ("friend_image");
@@ -95,6 +99,7 @@ public class MessagingPage extends AppCompatActivity {
         System.out.println ("msg->friend->id->" + FriendName);
         System.out.println ("msg->friend->id->" + FriendImage);
 
+        // setup data from firebase
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
         DBrefMessages = FirebaseDatabase.getInstance ().getReference ("Messages");
         mAuth = FirebaseAuth.getInstance ();
@@ -331,11 +336,6 @@ public class MessagingPage extends AppCompatActivity {
 
     }
 
-    public void errorView() {
-        System.out.println ("error when retrieving the friend");
-    }
-
-
     public void updateUI() {
         System.out.println ("msg->updateUi");
 
@@ -356,7 +356,7 @@ public class MessagingPage extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            errorView ();
+                            setViews (2);
                         }
                     });
                 } else if (currentUser.getFriends ().get (FriendId) == -1) {
