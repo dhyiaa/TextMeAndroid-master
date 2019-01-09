@@ -55,7 +55,7 @@ import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity   {
 
     private FirebaseAuth mAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar ().setDisplayShowTitleEnabled (false);
 
-        dataBaeseHelpers.setToken (FirebaseInstanceId.getInstance ().getToken ());
+      //  dataBaeseHelpers.setToken (FirebaseInstanceId.getInstance ().getToken ());
     }
 
 

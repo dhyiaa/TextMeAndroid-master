@@ -28,17 +28,16 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+
+    @Override
     public void onNewToken(String token) {
-        dataBaeseHelpers.setToken(token);
+        dataBaeseHelpers.setToken (token);
+        System.out.println ("new->>token");
     }
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
-
-        Log.d("message  ->> ", "BODY: " + message.getNotification().getBody());
-        Log.d("message  ->> ", "TITLE: " + message.getNotification().getTitle());
-
         sendMyNotification(message);
     }
 
@@ -55,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent resultIntent = new Intent(this, MessagingPage.class);
             resultIntent.putExtra("friend_name", message.getData().get("friendName").toString());
             resultIntent.putExtra("friend_id", message.getData().get("friendId").toString());
+            resultIntent.putExtra("friend_image", message.getData().get("friend_image").toString());
 
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
