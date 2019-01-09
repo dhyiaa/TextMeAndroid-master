@@ -18,6 +18,7 @@ import com.link.dheyaa.textme.models.Message;
 import com.link.dheyaa.textme.models.User;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,12 +61,17 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder implements View
 
             case "ago":
 
-                Date date = new Date(message.getTime());
+                /*
+                * Date date = new Date(message.getTime());
                 return date.getYear () + "/" +
                         date.getMonth () + "/" +
                         date.getDay () + " on "+
                         date.getHours ()+":"+
-                        date.getMinutes ();
+                        date.getMinutes (
+                * */
+
+            Date date = new Date(message.getTime() * 1000);
+            return new SimpleDateFormat ("yyyy-MM-dd: HH:SS").format(date);
 
 
                 /*
