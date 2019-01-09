@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +49,7 @@ public class SettingsFragment extends Fragment {
 
     public String username;
     public String email;
+    public LinearLayout parentView;
 
 
     public SettingsFragment() {
@@ -61,6 +64,7 @@ public class SettingsFragment extends Fragment {
         inputPasswordOld = (EditText) root.findViewById (R.id.input_password_old);
         passwordInput = (EditText) root.findViewById (R.id.input_password);
         imageView = (ImageView) root.findViewById (R.id.imageView);
+        parentView = (LinearLayout) root.findViewById (R.id.container_main);
 
         final Button updateBtn = (Button) root.findViewById (R.id.updateBtn);
         updateBtn.setOnClickListener (UpdateData);
@@ -81,43 +85,58 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            AuthCredential credential = EmailAuthProvider.getCredential (email, inputPasswordOld.getText ().toString ());
-            FirebaseAuth.getInstance ().getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful ()) {
-                        final FirebaseUser user = mAuth.getInstance ().getCurrentUser ();
-                        user.updateEmail (email)
-                                .addOnCompleteListener (new OnCompleteListener<Void> () {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful ()) {
-                                            System.out.println ("email updated correctly");
-                                            user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful ()) {
-                                                        System.out.println ("password updated correctly");
-                                                        if(!usernameInput.getText ().toString ().equals (null)){
-                                                            DBref.child (mAuth.getUid ()).child ("username").setValue (usernameInput.getText ().toString ());
-                                                        }
-                                                        if(inputPasswordOld.getText ().toString ().equals (passwordInput.getText ().toString ())){
-                                                            DBref.child (mAuth.getUid ()).child ("password").setValue (passwordInput.getText ().toString ());
-                                                        }
+            if (
+                    email.trim ().equals ("") ||
+                            inputPasswordOld.getText ().toString ().trim ().equals ("") ||
+                            passwordInput.getText ().toString ().trim ().equals ("")
 
-                                                        getActivity ().finish ();
-                                                        startActivity(getActivity().getIntent ());
+                    ) {
+                Snackbar.make (parentView, "Please full all the fields", Snackbar.LENGTH_LONG).show ();
+            } else {
+                AuthCredential credential = EmailAuthProvider.getCredential (email, inputPasswordOld.getText ().toString ());
+                FirebaseAuth.getInstance ().getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful ()) {
+                            final FirebaseUser user = mAuth.getInstance ().getCurrentUser ();
+                            user.updateEmail (email)
+                                    .addOnCompleteListener (new OnCompleteListener<Void> () {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful ()) {
+                                                System.out.println ("email updated correctly");
+                                                user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful ()) {
+                                                            System.out.println ("password updated correctly");
+                                                            if (!usernameInput.getText ().toString ().equals (null)) {
+                                                                DBref.child (mAuth.getUid ()).child ("username").setValue (usernameInput.getText ().toString ());
+                                                            }
+                                                            if (inputPasswordOld.getText ().toString ().equals (passwordInput.getText ().toString ())) {
+                                                                DBref.child (mAuth.getUid ()).child ("password").setValue (passwordInput.getText ().toString ());
+                                                            }
+
+                                                            getActivity ().finish ();
+                                                            startActivity (getActivity ().getIntent ());
+                                                        } else {
+                                                            String errorMsg = task.getException ().getMessage ();
+                                                            Snackbar.make (parentView, errorMsg, Snackbar.LENGTH_LONG).show ();
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                            } else {
+                                                String errorMsg = task.getException ().getMessage ();
+                                                Snackbar.make (parentView, errorMsg, Snackbar.LENGTH_LONG).show ();
+                                            }
                                         }
-                                    }
-                                });
-                    } else {
+                                    });
+                        } else {
 
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     };
     View.OnClickListener SignOut = new View.OnClickListener () {
