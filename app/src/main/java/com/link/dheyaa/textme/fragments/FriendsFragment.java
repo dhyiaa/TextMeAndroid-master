@@ -5,13 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
@@ -22,19 +18,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.link.dheyaa.textme.activities.MessagingPage;
 import com.link.dheyaa.textme.R;
-import com.link.dheyaa.textme.activities.Search;
 import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
-import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.models.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -171,7 +160,7 @@ public class FriendsFragment extends Fragment {
                        // friends.add (user);
                         System.out.println("userAdded ->> user ->>" + user);
 
-                        adapter.addFreind(user, sortingAcending);
+                        adapter.addFriend(user, sortingAcending);
                         adapter.notifyDataSetChanged();
                     }
                 }catch (Exception err){

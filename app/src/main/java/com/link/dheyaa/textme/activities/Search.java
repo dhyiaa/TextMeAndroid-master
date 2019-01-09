@@ -19,7 +19,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +50,7 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // setup data from firebase
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -153,7 +153,7 @@ public class Search extends AppCompatActivity {
         }
     };
 
-    ValueEventListener userEventListener = new ValueEventListener() { // listen for finishing the searching
+    ValueEventListener userEventListener = new ValueEventListener() { // listen for value changing
 
         /* method launches when data changes
         * @param dataSnapshot - snapshot of current data
@@ -166,7 +166,7 @@ public class Search extends AppCompatActivity {
                 user.setId(postSnapshot.getKey());
                 if(!user.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
                     users.add(user);
-                    adapter.addFreind(user , true);
+                    adapter.addFriend(user , true);
                     adapter.notifyDataSetChanged();
                 } // if user id matches in firebase
             } // loop through children of data snapshot
