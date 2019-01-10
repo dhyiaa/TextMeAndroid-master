@@ -4,5 +4,6 @@
         <attr name="colorPrimary" format="color" />
         <attr name="colorPrimaryDark" format="color" />
         <attr name="colorAccent" format="color" />
+        <attr name="android:textColor" format="color" />
     </declare-styleable>
 </resources>

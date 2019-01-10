@@ -7,6 +7,7 @@
 
 package com.link.dheyaa.textme.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -83,6 +84,20 @@ public class MainActivity extends AppCompatActivity   {
 
     }
 
+    public static int getAttributeColor(
+            Context context,
+            int attributeId) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attributeId, typedValue, true);
+        int colorRes = typedValue.resourceId;
+        int color = -1;
+        try {
+            color = context.getResources().getColor(colorRes);
+        } catch (Resources.NotFoundException e) {
+        }
+        return color;
+    }
+
     private void showContent() {
 
         setContentView (R.layout.activity_main);
@@ -110,10 +125,16 @@ public class MainActivity extends AppCompatActivity   {
         theme.resolveAttribute (R.attr.colorPrimary, typedValue, true);
         @ColorInt int color = typedValue.data;
 
-        bottomNavigation.setDefaultBackgroundColor (Color.parseColor ("#FFFFFF"));
+
+        TypedValue typedValue2 = new TypedValue ();
+        Resources.Theme theme2 = this.getTheme ();
+        theme.resolveAttribute (R.attr.colorPrimaryDark, typedValue, true);
+        @ColorInt int color2 = typedValue.data;
+
+        bottomNavigation.setDefaultBackgroundColor (color2);
         bottomNavigation.setBehaviorTranslationEnabled (false);
-        bottomNavigation.setAccentColor (color);
-        bottomNavigation.setInactiveColor (Color.parseColor ("#747474"));
+        bottomNavigation.setAccentColor ( Color.parseColor ("#747474"));
+        bottomNavigation.setInactiveColor (color);
 
         bottomNavigation.setOnTabSelectedListener (new AHBottomNavigation.OnTabSelectedListener () {
             @Override

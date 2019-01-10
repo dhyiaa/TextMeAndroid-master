@@ -51,6 +51,8 @@
         <item name="colorPrimaryDark">#8033343B</item>
         <item name="colorAccent">#28292e</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:windowBackground">@color/darkBg</item>
+
     </style>
 
 </resources>

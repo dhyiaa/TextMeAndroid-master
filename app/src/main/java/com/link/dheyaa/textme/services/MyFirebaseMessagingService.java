@@ -61,11 +61,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
-           // mBuilder.setSmallIcon(R.drawable.app_icon);
+            mBuilder.setSmallIcon(R.drawable.send_icon);
             mBuilder.setContentTitle("Msg from : "+message.getNotification().getTitle());
             mBuilder.setContentText(message.getNotification().getBody());
 
-            mBuilder.setAutoCancel(true);
             Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             mBuilder.setSound(soundUri);
             mBuilder.setContentIntent(pendingIntent);
