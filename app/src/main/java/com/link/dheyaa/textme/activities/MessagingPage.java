@@ -431,15 +431,15 @@ public class MessagingPage extends AppCompatActivity {
                 } else if (currentUser.getFriends ().get (FriendId) == -1) { // if user blocked friend
                     System.out.println ("msg->updateUi->isBLocked->true ");
                     finish (); // close activity
-                } else {
+                } else { // if request is sent but not confirmed or rejected by the user
                     System.out.println ("msg->updateUi->isFriend->false ");
                     setViews (2); // set no friend view
                 }
-            }else{
+            } else { // if the friend is not in user's node
                 setViews (2); // set no friend view
 
             }
-        } else {
+        } else { // if there is no user or the user has no friends
             System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : false");
             setViews (2); // set no friend view
         }
