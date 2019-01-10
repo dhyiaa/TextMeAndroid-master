@@ -50,6 +50,7 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // setup data from firebase
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -152,7 +153,7 @@ public class Search extends AppCompatActivity {
         }
     };
 
-    ValueEventListener userEventListener = new ValueEventListener() { // listen for finishing the searching
+    ValueEventListener userEventListener = new ValueEventListener() { // listen for value changing
 
         /* method launches when data changes
         * @param dataSnapshot - snapshot of current data

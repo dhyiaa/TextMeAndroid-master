@@ -3,6 +3,7 @@ package com.link.dheyaa.textme.viewHolders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,9 +20,12 @@ import com.link.dheyaa.textme.models.User;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,10 +74,13 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder implements View
                         date.getMinutes (
                 * */
 
-            Date date = new Date(message.getTime() * 1000);
-            return new SimpleDateFormat ("yyyy-MM-dd: HH:SS").format(date);
 
 
+            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+            cal.setTimeInMillis(message.getTime());
+            String date = DateFormat.format("yyyy/MM/dd  hh:mm A", cal).toString();
+
+            return date;
                 /*
                 Date now = new Date();
                 Date date = new Date();
