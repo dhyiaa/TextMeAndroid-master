@@ -25,14 +25,18 @@ public class User {
     public User() {
     }
 
-
+    /**
+     * secondary constructor
+     * @param username = String value the user's user name
+     * @param email = String value of the user's email
+     */
     public User(String username, String email) {
         this.username = username;
         this.email = email;
     }
 
     /**
-     * secondary constructor
+     * tertiary constructor
      * @param username = String value the user's user name
      * @param email = String value of the user's email
      * @param friends = HashMap list of the user's friends
@@ -44,7 +48,7 @@ public class User {
     }
 
     /**
-     * tertiary constructor
+     * quaternary constructor
      * @param username = String value the user's user name
      * @param password = String value of the password
      * @param email = String value of the user's email
@@ -58,10 +62,10 @@ public class User {
     }
 
     /**
-     * quaternary constructor
+     * quinary constructor
      * @param username = String value the user's user name
-     * @param password = String value of the password
      * @param email = String value of the user's email
+     * @param friends = HashMap list of the user's friends
      * @param id = String value of the user's user id
      */
     public User(String username, String email, HashMap<String, Integer> friends, String id) {
@@ -72,7 +76,7 @@ public class User {
     }
 
     /**
-     * quinary constructor
+     * senary constructor
      * @param username = String value the user's user name
      * @param password = String value of the password
      * @param email = String value of the user's email
@@ -88,7 +92,7 @@ public class User {
     }
 
     /**
-     * senary constructor
+     * septenary constructor
      * @param username = String value the user's user name
      * @param password = String value of the password
      * @param email = String value of the user's email

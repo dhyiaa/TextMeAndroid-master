@@ -2,7 +2,7 @@
 /* TextMe Team
  * Jan 2019
  * Friend adapter:
- * containing the attributes and functions of User
+ * controls the friends' listing and layout
  */
 
 package com.link.dheyaa.textme.adapters;
@@ -31,7 +31,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
      * default constructor
      * @param context = Context value of the activities
      * @param itemResource = int value of the layouts
-     * @param friends = User ArrayList of the Friends
+     * @param friends = ArrayList<USer> of the friends
      */
     public FriendAdapter(Context context, int itemResource, ArrayList<User> friends) {
         //Initialize our adapter
@@ -42,42 +42,56 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
     /**
      * Create a new FriendsViewHolder
-     * @param parent
+     * Override the onCreateViewHolder method
+     * @param parent = ViewGroup of parent views
      * @param viewType = int value of the view type
-     * @return a new FriendsViewHolder with
+     * @return a new FriendsViewHolder based on the FriendAdapter
      */
-    @Override//Override the onCreateViewHolder method
+    @Override
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        // 3. Inflate the view and return the new ViewHolder
+        //Inflate the view and return the new ViewHolder
         View view = LayoutInflater.from (parent.getContext ())
                 .inflate (R.layout.friends_list_item, parent, false);
         return new FriendsViewHolder (this.context, view);
     }
 
-    // 4. Override the onBindViewHolder method
+    /**
+     * bind the position-th friend to the FriendViewHolder
+     * Override the onBindViewHolder method
+     * @param holder = FriendsViewHolder to bind the friend
+     * @param position = int value of the position index
+     */
     @Override
     public void onBindViewHolder(FriendsViewHolder holder, int position) {
 
-        // 5. Use position to access the correct Bakery object
+        //Use position to access the correct friend
         User friend = this.friends.get (position);
         if (friend != null) {
             holder.bindFriend (friend);
-
+            //Bind the friend to the holder
         }
-        // 6. Bind the bakery object to the holder
     }
 
-    public void addFriend(User friend, boolean sortingAccending) {
+    /**
+     * add a new friend to the the ArrayList<User> friends
+     * @param friend = User to be added as a new friend
+     * @param sortingAscending = a boolean value to indicate the sorting order, true = ascending, false = descending
+     */
+    public void addFriend(User friend, boolean sortingAscending) {
         removeOld (friend);
-        friends.add (friend);
-        if (sortingAccending) {
+        friends.add(friend);
+        if (sortingAscending) {
             Sorting.quickSortByAlphabet (friends, true);
         } else {
         }
         notifyItemInserted (friends.size () - 1);
     }
 
+    /**
+     * remove the User friend from the ArrayList<User> friends
+     * @param friend = User to be removed from friends
+     */
     public void removeOld(User friend) {
         for (int i = 0; i < friends.size (); i++) {
             if (friends.get (i).getId ().equals (friend.getId ())) {
@@ -86,6 +100,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
         }
     }
 
+    /**
+     * remove the User friend with UserId id from the ArrayList<User> friends
+     * @param id = String value of the User to be removed from friends
+     */
     public void removeOldbyID(String id) {
         for (int i = 0; i < friends.size (); i++) {
             if (friends.get (i).getId ().equals (id)) {
@@ -96,19 +114,30 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
     }
 
-
-    public void setFreinds(ArrayList<User> friends) {
+    /**
+     * set list of friends
+     * @param friends = ArrayList<User> of friends
+     */
+    public void setFriends(ArrayList<User> friends) {
         this.friends = friends;
     }
 
+    /**
+     * get the number of friends
+     * @return the size of ArrayList<User> friends
+     */
     @Override
     public int getItemCount() {
         return this.friends.size ();
     }
 
-    public void sortFirends(boolean accending) {
-        System.out.println ("sorting ->> " + accending);
-        Sorting.quickSortByAlphabet (this.friends, accending);
+    /**
+     * sort the ArrayList<User> friends according to alphabet order
+     * @param ascending = a boolean value to indicate the sorting order, true = ascending, false = descending
+     */
+    public void sortFriends(boolean ascending) {
+        System.out.println ("sorting ->> " + ascending);
+        Sorting.quickSortByAlphabet (this.friends, ascending);
         this.notifyDataSetChanged ();
 
     }

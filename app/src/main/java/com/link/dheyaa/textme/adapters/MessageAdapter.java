@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Message adapter:
+ * controls Messages' listing and layout
+ */
+
 package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
