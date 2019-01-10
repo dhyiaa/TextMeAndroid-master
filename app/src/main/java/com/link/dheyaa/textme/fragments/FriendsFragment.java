@@ -85,10 +85,10 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                 if (switchSorting.getText().equals("A-Z")) {
                     sortingAcending = true;
-                    adapter.sortFirends(sortingAcending);
+                    adapter.sortFriends(sortingAcending);
                 } else {
                     sortingAcending = false;
-                    adapter.sortFirends(sortingAcending);
+                    adapter.sortFriends(sortingAcending);
                 }
             }
         });
