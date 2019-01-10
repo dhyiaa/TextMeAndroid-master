@@ -237,41 +237,51 @@ public class MessagingPage extends AppCompatActivity {
         return super.onOptionsItemSelected (item);
     }
 
+    /* method to send message
+    * no params
+    * */
     public void sendMessage() {
         String value = message.getText ().toString ();
-        if (!value.trim ().equals ("")) {
+        if (!value.trim ().equals ("")) { // if value is not empty
             message.setText ("");
+            // get id
             String senderId = mAuth.getCurrentUser ().getUid ();
-            String reciverId = FriendId;
-            System.out.println ("reciverId=" + reciverId + "   \n   senderId=" + senderId);
+            String receiverId = FriendId;
+            System.out.println ("receiverId=" + receiverId + "   \n   senderId=" + senderId);
 
             Long time = System.currentTimeMillis ();
 
             Message message = new Message (
                     MessagesHelpers.getRoomId (FriendId, mAuth.getUid ()),
-                    reciverId,
+                    receiverId,
                     senderId,
                     time,
                     value
             );
-            DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").push ().setValue (message);
+            DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").push ().setValue (message); // push message to database
         }
     }
 
+    /* method to send friend request
+    * no params
+    * */
     public void sendFriendRequest() {
-        DBref.child (FriendId).child ("friends").child (mAuth.getCurrentUser ().getUid ()).setValue (0);
-        Snackbar.make (notFriendView, "your request has been sent to " + FriendName + ".", Snackbar.LENGTH_LONG).show ();
-        setViews (10);
+        DBref.child (FriendId).child ("friends").child (mAuth.getCurrentUser ().getUid ()).setValue (0); // update request to database
+        Snackbar.make (notFriendView, "Your request has been successfully sent to " + FriendName + ".", Snackbar.LENGTH_LONG).show (); // show snack bar
+        setViews (10); // set request sent view
     }
 
+    /* method to set types of views
+    * @param type - type identification number
+    * */
     public void setViews(int type) {
 
-        if (type == 1) {
+        if (type == 1) { // loading view
             LoadingView.setVisibility (View.VISIBLE);
             notFriendView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
             System.out.println ("type ->> 1");
-        } else if (type == 2) {
+        } else if (type == 2) { // no friends view
             sendReq.setActivated (true);
             msgNoFriend.setText ("you are not friends with " + FriendName);
             notFriendView.setVisibility (View.VISIBLE);
@@ -279,7 +289,7 @@ public class MessagingPage extends AppCompatActivity {
             FriendView.setVisibility (View.GONE);
             System.out.println ("type ->> 2");
 
-        } else if (type == 3) {
+        } else if (type == 3) { // view when having friend
             FriendView.setVisibility (View.VISIBLE);
 
             notFriendView.setVisibility (View.GONE);
@@ -288,14 +298,13 @@ public class MessagingPage extends AppCompatActivity {
             noMsg.setVisibility (View.GONE);
             System.out.println ("type ->> 3");
 
-
-        } else if (type == 10) {
+        } else if (type == 10) { // view when a request is sent
             msgNoFriend.setText ("You have already sent a request to " + FriendName);
             sendReq.setActivated (false);
             sendReq.setVisibility (View.INVISIBLE);
             System.out.println ("type ->> 10");
 
-        } else {
+        } else { // view when have no messages
             noMsg.setVisibility (View.VISIBLE);
             messageList.setVisibility (View.GONE);
             System.out.println ("type ->> else");
@@ -304,9 +313,13 @@ public class MessagingPage extends AppCompatActivity {
 
     }
 
-    public void freindView(User currentUser) {
+    /* method for friend view
+    * @param currentUser - current user logged in
+    * */
+    public void friendView(User currentUser) {
         // message.setText(friendData.getEmail());
 
+        // preparing recycled view for messages
         messageList.setAdapter (messageAdapter);
         messageList.setHasFixedSize (true);
         messageList.setLayoutManager (new LinearLayoutManager (_context));
@@ -314,96 +327,130 @@ public class MessagingPage extends AppCompatActivity {
         messageList.getRecycledViewPool ().setMaxRecycledViews (1, 0);
         messageList.getRecycledViewPool ().setMaxRecycledViews (0, 0);
 
+        // toolbar setup
         toolbar.setTitle (currentUser.getUsername ());
         setSupportActionBar (toolbar);
         getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
         getSupportActionBar ().setDisplayShowHomeEnabled (true);
 
-        DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () {
+        // get messages from database by room id
+        DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () { // listen for children
+
+            /* method launches when a child is added
+            * @param newMessage - snapshot of new message data
+            * @param s - message id
+            * */
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
-                System.out.println ("msg->freindView->onChildAdded ");
+                System.out.println ("msg->friendView->onChildAdded ");
 
+                // add message and scroll to its position
                 Message message = newMessage.getValue (Message.class);
                 messageAdapter.addMessage (message, layoutManager);
                 messageList.scrollToPosition(messageAdapter.messages.size() - 1);
 
                 long numsOfChildren = newMessage.getChildrenCount ();
-                if (numsOfChildren < 1) {
-                    setViews (4);
+                if (numsOfChildren < 1) { // if has no message
+                    setViews (4); // set no message view
 
-                } else {
-                    setViews (3);
+                } else { // if has message
+                    setViews (3); // set friend & message view
                 }
                 // messageAdapter.addMessage(message);
             }
 
+            /* method launches when a child is changed
+            * @param dataSnapshot - snapshot of data
+            * @param s - message id
+            * */
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
 
+            /* method launches when a child is removed
+            * @param dataSnapshot - snapshot of data
+            * */
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
 
+            /* method launches when a child is moved
+            * @param dataSnapshot - snapshot of data
+            * @param s - message id
+            * */
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
 
+            /* method launches when event is cancelled
+            * @param databaseError - error on firebase
+            * */
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
 
-
-        setViews (3);
-
+        setViews (3); // set friend & message view
 
     }
 
+    /* method to update UI
+    * no params
+    * */
     public void updateUI() {
         System.out.println ("msg->updateUi");
 
-        if (currentUser != null && currentUser.getFriends () != null) {
+        if (currentUser != null && currentUser.getFriends () != null) { // if there is an user and the user has at least a friend
             System.out.println ("msg->updateUi->currentUser != null ");
 
-            if (currentUser.getFriends ().containsKey (FriendId)) {
+            if (currentUser.getFriends ().containsKey (FriendId)) { // if friend is in user's node
                 System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : true ");
 
-                if (currentUser.getFriends ().get (FriendId) == 1) {
+                if (currentUser.getFriends ().get (FriendId) == 1) { // if the two users are friends
                     System.out.println ("msg->updateUi->isFriend->true ");
 
-                    DBref.child (FriendId).addValueEventListener (new ValueEventListener () {
+                    // update id to database
+                    DBref.child (FriendId).addValueEventListener (new ValueEventListener () { // listen for value changing
+
+                        /* method launches when data is changed
+                        * @param dataSnapshot - snapshot of data
+                        * */
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            freindView (dataSnapshot.getValue (User.class));
+                            friendView (dataSnapshot.getValue (User.class)); // set friend view
                         }
 
+                        /* method launches when event is cancelled
+                        * @param databaseError - error on firebase
+                        * */
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            setViews (2);
+                            setViews (2); // set no friend view
                         }
                     });
-                } else if (currentUser.getFriends ().get (FriendId) == -1) {
+                } else if (currentUser.getFriends ().get (FriendId) == -1) { // if user blocked friend
                     System.out.println ("msg->updateUi->isBLocked->true ");
-                    finish ();
-                } else {
+                    finish (); // close activity
+                } else { // if request is sent but not confirmed or rejected by the user
                     System.out.println ("msg->updateUi->isFriend->false ");
-                    setViews (2);
+                    setViews (2); // set no friend view
                 }
-            }else{
-                setViews (2);
+            } else { // if the friend is not in user's node
+                setViews (2); // set no friend view
 
             }
-        } else {
+        } else { // if there is no user or the user has no friends
             System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : false");
-            setViews (2);
+            setViews (2); // set no friend view
         }
     }
 
+    /* method to go back to previous activity
+    * return true when function is completed
+    * */
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed ();
+        onBackPressed (); // go back to previous activity
         return true;
     }
 
