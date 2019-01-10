@@ -10,7 +10,7 @@ package com.link.dheyaa.textme.models;
 import java.util.HashMap;
 
 public class User {
-    //attributes of Users
+    //attributes of User
     private String username;
     private String password;
     private String email;

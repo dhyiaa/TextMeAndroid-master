@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
-    //attributes of FriendAdapters
+    //attributes of FriendAdapter
     public ArrayList<User> friends;
     private Context context;
     private int itemResource;
@@ -31,7 +31,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
      * default constructor
      * @param context = Context value of the activities
      * @param itemResource = int value of the layouts
-     * @param friends = ArrayList<USer> of the friends
+     * @param friends = ArrayList<User> of the friends
      */
     public FriendAdapter(Context context, int itemResource, ArrayList<User> friends) {
         //Initialize our adapter
@@ -43,7 +43,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
     /**
      * Create a new FriendsViewHolder
      * Override the onCreateViewHolder method
-     * @param parent = ViewGroup of parent views
+     * @param parent = ViewGroup of parent Views
      * @param viewType = int value of the view type
      * @return a new FriendsViewHolder based on the FriendAdapter
      */

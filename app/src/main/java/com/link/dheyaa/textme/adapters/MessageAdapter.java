@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class MessageAdapter extends ArrayAdapter<Message> {
-
+    //attributes of MessageAdapter
     private ArrayList<Message> messages;
     private Context mContext;
     private ImageView imageView;
@@ -52,6 +52,12 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     private DatabaseReference DBref;
 
+    /**
+     * primary constructor
+     * @param messages = ArrayList<Message> of Messages
+     * @param context = context value of the activities
+     * @param extraData = HashMap list of Message's extra information
+     */
     public MessageAdapter(ArrayList<Message> messages, Context context, HashMap<String, String> extraData) {
         super (context, R.layout.message_list_item, messages);
         this.messages = messages;
@@ -61,6 +67,11 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     }
 
+    /**
+     * get the name of Message's sender
+     * @param senderId = String value of the sender's User id
+     * @return the name of the sender with id: senderId
+     */
     public String getSenderName(String senderId) {
         if (senderId.equals (extraData.get ("currentAuthId"))) {
             return "you";
@@ -70,6 +81,13 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     }
 
+    /**
+     * get the String value of the Message's sending time
+     * @param days = int value of days
+     * @param hours = int value of hours
+     * @param minutes = int value of minutes
+     * @return the String value of Message's sending time
+     */
     public String getAgo(int days, int hours, int minutes) {
         String msg = "";
         if (minutes >= 60) {
@@ -80,36 +98,42 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         return (minutes == 0) ? "just now ." : msg + " ago.";
     }
 
+    /**
+     * get the layout of Messages
+     * @param position = int value of Messages' index
+     * @param convertView = View of the original View
+     * @param parent = ViewGroup of parent Views
+     * @return
+     */
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
 
         Message currentMessage = messages.get (position);
 
-
         View listItem = convertView;
         String profileUrl = "static/profile.png";
 
         if (currentMessage.getSenderId ().equals (extraData.get ("currentAuthId"))) {
+            // if the Message is sent by the User
             listItem = LayoutInflater.from (mContext).inflate (R.layout.message_list_item_you, parent, false);
             profileUrl = extraData.get ("currentAuthImage") != null ? extraData.get ("currentAuthImage") : profileUrl;
 
         } else {
+            // if the Message is sent by the friend
             listItem = LayoutInflater.from (mContext).inflate (R.layout.message_list_item, parent, false);
             profileUrl = extraData.get ("FriendImage") != null ? extraData.get ("FriendImage") : profileUrl;
 
         }
 
+        // textView presenting friend's name
         TextView friendName = (TextView) listItem.findViewById (R.id.user_name);
         friendName.setText (currentMessage.getValue ());
-        //friendName.setText("message value");
 
+        // textView presenting friend's email
         TextView friendEmail = (TextView) listItem.findViewById (R.id.user_email);
 
         Date now = new Date ();
-        // long diff = now.getTime() - currentMessage.getTime();
-
-
         Date date = new Date ();
         java.sql.Timestamp timestamp1 = new Timestamp (date.getTime ());
 
@@ -132,13 +156,13 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
         friendEmail.setText (getAgo (days, hours, minutes));
 
+        //imageView presenting the User's and friend's image
         imageView = (ImageView) listItem.findViewById (R.id.imageView);
-
 
         FirebaseStorage storage = FirebaseStorage.getInstance ();
         StorageReference storageReference = storage.getReference ();
 
-
+        //get the images from Database with the images' URL path
         storageReference.child (profileUrl).getDownloadUrl ().addOnSuccessListener (new OnSuccessListener<Uri> () {
             @Override
             public void onSuccess(Uri uri) {
@@ -150,7 +174,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             }
         });
 
-
+        //return the new View
         return listItem;
     }
 
