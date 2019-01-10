@@ -237,9 +237,12 @@ public class MessagingPage extends AppCompatActivity {
         return super.onOptionsItemSelected (item);
     }
 
+    /* method to send message
+    * no params
+    * */
     public void sendMessage() {
         String value = message.getText ().toString ();
-        if (!value.trim ().equals ("")) {
+        if (!value.trim ().equals ("")) { // if value is not empty
             message.setText ("");
             String senderId = mAuth.getCurrentUser ().getUid ();
             String reciverId = FriendId;
@@ -254,24 +257,30 @@ public class MessagingPage extends AppCompatActivity {
                     time,
                     value
             );
-            DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").push ().setValue (message);
+            DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").push ().setValue (message); // push message to database
         }
     }
 
+    /* method to send friend request
+    * no params
+    * */
     public void sendFriendRequest() {
         DBref.child (FriendId).child ("friends").child (mAuth.getCurrentUser ().getUid ()).setValue (0);
         Snackbar.make (notFriendView, "your request has been sent to " + FriendName + ".", Snackbar.LENGTH_LONG).show ();
         setViews (10);
     }
 
+    /* method to set types of views
+    * @param type - type identification number
+    * */
     public void setViews(int type) {
 
-        if (type == 1) {
+        if (type == 1) { // loading view
             LoadingView.setVisibility (View.VISIBLE);
             notFriendView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
             System.out.println ("type ->> 1");
-        } else if (type == 2) {
+        } else if (type == 2) { // no friends view
             sendReq.setActivated (true);
             msgNoFriend.setText ("you are not friends with " + FriendName);
             notFriendView.setVisibility (View.VISIBLE);
@@ -279,7 +288,7 @@ public class MessagingPage extends AppCompatActivity {
             FriendView.setVisibility (View.GONE);
             System.out.println ("type ->> 2");
 
-        } else if (type == 3) {
+        } else if (type == 3) { // view when having friend
             FriendView.setVisibility (View.VISIBLE);
 
             notFriendView.setVisibility (View.GONE);
@@ -288,14 +297,13 @@ public class MessagingPage extends AppCompatActivity {
             noMsg.setVisibility (View.GONE);
             System.out.println ("type ->> 3");
 
-
-        } else if (type == 10) {
+        } else if (type == 10) { // view when a request is sent
             msgNoFriend.setText ("You have already sent a request to " + FriendName);
             sendReq.setActivated (false);
             sendReq.setVisibility (View.INVISIBLE);
             System.out.println ("type ->> 10");
 
-        } else {
+        } else { // view when have no messages
             noMsg.setVisibility (View.VISIBLE);
             messageList.setVisibility (View.GONE);
             System.out.println ("type ->> else");
@@ -304,7 +312,7 @@ public class MessagingPage extends AppCompatActivity {
 
     }
 
-    public void freindView(User currentUser) {
+    public void friendView(User currentUser) {
         // message.setText(friendData.getEmail());
 
         messageList.setAdapter (messageAdapter);
@@ -322,7 +330,7 @@ public class MessagingPage extends AppCompatActivity {
         DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () {
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
-                System.out.println ("msg->freindView->onChildAdded ");
+                System.out.println ("msg->friendView->onChildAdded ");
 
                 Message message = newMessage.getValue (Message.class);
                 messageAdapter.addMessage (message, layoutManager);
@@ -376,7 +384,7 @@ public class MessagingPage extends AppCompatActivity {
                     DBref.child (FriendId).addValueEventListener (new ValueEventListener () {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            freindView (dataSnapshot.getValue (User.class));
+                            friendView (dataSnapshot.getValue (User.class));
                         }
 
                         @Override
