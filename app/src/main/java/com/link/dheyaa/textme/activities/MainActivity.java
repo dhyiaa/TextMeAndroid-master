@@ -7,6 +7,7 @@
 
 package com.link.dheyaa.textme.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,6 +58,8 @@ import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity   {
 
     private FirebaseAuth mAuth;
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity   {
     private TextView toolBarTitle;
     private ImageView profileView;
     public MainActivity _context;
+
 
 
     @Override
@@ -81,6 +86,20 @@ public class MainActivity extends AppCompatActivity   {
         updateUI (mAuth.getCurrentUser ());
         showContent ();
 
+    }
+
+    public static int getAttributeColor(
+            Context context,
+            int attributeId) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attributeId, typedValue, true);
+        int colorRes = typedValue.resourceId;
+        int color = -1;
+        try {
+            color = context.getResources().getColor(colorRes);
+        } catch (Resources.NotFoundException e) {
+        }
+        return color;
     }
 
     private void showContent() {
@@ -100,6 +119,7 @@ public class MainActivity extends AppCompatActivity   {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem (R.string.tab_text_3, R.drawable.requests, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem (R.string.tab_text_4, R.drawable.settings, R.color.colorPrimaryDark);
 
+        com.mikhaellopez.circularimageview.CircularImageView profile = findViewById (R.id.profileView) ;
 
         bottomNavigation.addItem (item1);
         bottomNavigation.addItem (item2);
@@ -110,10 +130,16 @@ public class MainActivity extends AppCompatActivity   {
         theme.resolveAttribute (R.attr.colorPrimary, typedValue, true);
         @ColorInt int color = typedValue.data;
 
-        bottomNavigation.setDefaultBackgroundColor (Color.parseColor ("#FFFFFF"));
+
+        TypedValue typedValue2 = new TypedValue ();
+        Resources.Theme theme2 = this.getTheme ();
+        theme.resolveAttribute (R.attr.colorPrimaryDark, typedValue, true);
+        @ColorInt int color2 = typedValue.data;
+
+        bottomNavigation.setDefaultBackgroundColor (color2);
         bottomNavigation.setBehaviorTranslationEnabled (false);
-        bottomNavigation.setAccentColor (color);
-        bottomNavigation.setInactiveColor (Color.parseColor ("#747474"));
+        bottomNavigation.setAccentColor ( Color.parseColor ("#FFFFFF"));
+        bottomNavigation.setInactiveColor (Color.parseColor ("#FFBFBFBF"));
 
         bottomNavigation.setOnTabSelectedListener (new AHBottomNavigation.OnTabSelectedListener () {
             @Override
@@ -148,6 +174,14 @@ public class MainActivity extends AppCompatActivity   {
 
         getSupportActionBar ().setDisplayShowTitleEnabled (false);
 
+        profile.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem (2);
+                bottomNavigation.setCurrentItem (2);
+            }
+        });
+
     }
 
 
@@ -165,8 +199,12 @@ public class MainActivity extends AppCompatActivity   {
     public void updateUI(FirebaseUser currentUser) {
         if (currentUser == null) {
             startActivity (new Intent (getApplicationContext (), SignIn.class));
+            try {
+                FirebaseInstanceId.getInstance().deleteInstanceId ();
+            } catch (IOException e) {
+                e.printStackTrace ();
+            }
             this.finish ();
-
 
         } else {
 

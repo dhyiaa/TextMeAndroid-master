@@ -8,9 +8,11 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="0dp"
+    android:background="?attr/colorSwitchThumbNormal"
     android:padding="0dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="1dp"
+
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
 
+        android:background="?attr/colorSwitchThumbNormal"
         >
 
         <TextView
@@ -33,7 +36,7 @@
             android:layout_marginBottom="8dp"
             android:padding="0dp"
             android:text="@string/prompt_username"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorAccent"
             android:textSize="20dp"
             android:textStyle="normal"
             app:fontFamily="@font/lato_light"
