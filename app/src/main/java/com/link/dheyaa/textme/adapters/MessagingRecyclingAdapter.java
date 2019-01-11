@@ -140,7 +140,7 @@ public class MessagingRecyclingAdapter extends RecyclerView.Adapter<MessagingVie
 
     /**
      * set list of Messages
-     * @param friends = ArrayList<Message> of Messages
+     * @param messages = ArrayList<Message> of Messages
      */
     public void setMessages(ArrayList<Message> messages) {
         this.messages = messages;
