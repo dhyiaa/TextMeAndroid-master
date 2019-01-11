@@ -33,6 +33,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity   {
     private TextView toolBarTitle;
     private ImageView profileView;
     public MainActivity _context;
+
 
 
     @Override
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity   {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem (R.string.tab_text_3, R.drawable.requests, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem (R.string.tab_text_4, R.drawable.settings, R.color.colorPrimaryDark);
 
+        com.mikhaellopez.circularimageview.CircularImageView profile = findViewById (R.id.profileView) ;
 
         bottomNavigation.addItem (item1);
         bottomNavigation.addItem (item2);
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity   {
 
         bottomNavigation.setDefaultBackgroundColor (color2);
         bottomNavigation.setBehaviorTranslationEnabled (false);
-        bottomNavigation.setAccentColor ( Color.parseColor ("#747474"));
+        bottomNavigation.setAccentColor ( Color.parseColor ("#FFFFFF"));
         bottomNavigation.setInactiveColor (color);
 
         bottomNavigation.setOnTabSelectedListener (new AHBottomNavigation.OnTabSelectedListener () {
@@ -168,6 +171,14 @@ public class MainActivity extends AppCompatActivity   {
         mViewPager.setOffscreenPageLimit (4);
 
         getSupportActionBar ().setDisplayShowTitleEnabled (false);
+
+        profile.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem (2);
+                bottomNavigation.setCurrentItem (2);
+            }
+        });
 
     }
 
