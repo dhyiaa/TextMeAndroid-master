@@ -12,7 +12,7 @@
     <string name="title_activity_messaging_page">Messages</string>
     <string name="title_activity_guest">Sign in</string>
     <string name="null_string"></string>
-    <string name="no_friends">You have no friends.</string>
+    <string name="no_friends">You have no friend.</string>
     <string name="no_requests">You have not friend requests.</string>
 
 

@@ -58,6 +58,8 @@ import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.dataBaeseHelpers;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity   {
 
     private FirebaseAuth mAuth;
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity   {
         bottomNavigation.setDefaultBackgroundColor (color2);
         bottomNavigation.setBehaviorTranslationEnabled (false);
         bottomNavigation.setAccentColor ( Color.parseColor ("#FFFFFF"));
-        bottomNavigation.setInactiveColor (color);
+        bottomNavigation.setInactiveColor (Color.parseColor ("#FFBFBFBF"));
 
         bottomNavigation.setOnTabSelectedListener (new AHBottomNavigation.OnTabSelectedListener () {
             @Override
@@ -197,8 +199,12 @@ public class MainActivity extends AppCompatActivity   {
     public void updateUI(FirebaseUser currentUser) {
         if (currentUser == null) {
             startActivity (new Intent (getApplicationContext (), SignIn.class));
+            try {
+                FirebaseInstanceId.getInstance().deleteInstanceId ();
+            } catch (IOException e) {
+                e.printStackTrace ();
+            }
             this.finish ();
-
 
         } else {
 

@@ -27,11 +27,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.activities.MainActivity;
 import com.link.dheyaa.textme.models.User;
+
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -143,6 +146,12 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onClick(View v) {
             FirebaseAuth.getInstance ().signOut ();
+            try {
+                FirebaseInstanceId.getInstance().deleteInstanceId ();
+            } catch (IOException e) {
+                e.printStackTrace ();
+            }
+
             ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
         }
     };
