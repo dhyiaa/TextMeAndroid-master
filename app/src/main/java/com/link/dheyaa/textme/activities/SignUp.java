@@ -68,12 +68,15 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // firebase setup
         mAuth = FirebaseAuth.getInstance();
         updateUI(mAuth.getCurrentUser());
 
+        // set view
         setContentView(R.layout.activity_sign_up);
         parentLayout = findViewById(R.id.container_main);
 
+        // set storage
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
