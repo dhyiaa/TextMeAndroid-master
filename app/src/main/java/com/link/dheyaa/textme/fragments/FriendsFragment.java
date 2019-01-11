@@ -113,7 +113,7 @@ public class FriendsFragment extends Fragment {
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
             }else{
-                adapter.removeOldbyID(dataSnapshot.getKey());
+                adapter.removeOldByID(dataSnapshot.getKey());
                 System.out.println ("child->>removeById->>1->"+dataSnapshot.getKey());
 
             }
@@ -129,13 +129,13 @@ public class FriendsFragment extends Fragment {
                 SetViews(true, false);
             }else{
                 System.out.println ("child->>removeById->>2->"+dataSnapshot.getKey());
-                adapter.removeOldbyID(dataSnapshot.getKey());
+                adapter.removeOldByID(dataSnapshot.getKey());
             }
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            adapter.removeOldbyID(dataSnapshot.getKey());
+            adapter.removeOldByID(dataSnapshot.getKey());
         }
 
         @Override

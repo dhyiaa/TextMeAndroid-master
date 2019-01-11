@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Request adapter:
+ * controls the friend requests' listing and layout
+ */
+
 package com.link.dheyaa.textme.adapters;
 
 import android.content.Context;
@@ -27,45 +34,62 @@ import com.link.dheyaa.textme.models.User;
 import java.util.ArrayList;
 
 public class RequestsAdapter extends ArrayAdapter<User> {
-
-
+    //attributes of RequestsAdapter
     private ArrayList<User> friends;
     Context mContext;
     ImageView imageView;
     private FirebaseAuth mAuth;
     private DatabaseReference DBref;
 
+    /**
+     * primary constructor
+     * @param friends = ArrayList<User> of friends
+     * @param context = context value of the activities
+     */
     public RequestsAdapter(ArrayList<User> friends, Context context) {
         super(context, R.layout.requests_list_item, friends);
         this.friends = friends;
         this.mContext = context;
     }
 
+    /**
+     * get the View at index: position
+     * @param position = in value of request's position
+     * @param convertView = converting View
+     * @param parent = ViewGroup of parent Views
+     * @return the View presenting current requests
+     */
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
+            ///if there are no requests
             listItem = LayoutInflater.from(mContext).inflate(R.layout.requests_list_item, parent, false);
 
         User currentFriend = friends.get(position);
 
-        TextView friendName = (TextView) listItem.findViewById(R.id.user_name);
-        friendName.setText(currentFriend.getUsername());
+        //generate the TextView presenting applicant's name
+        TextView applicantName = (TextView) listItem.findViewById(R.id.user_name);
+        applicantName.setText(currentFriend.getUsername());
 
-        TextView friendEmail = (TextView) listItem.findViewById(R.id.user_email);
-        friendEmail.setText(currentFriend.getEmail());
+        //generate the TextView presenting applicant's email
+        TextView applicantEmail = (TextView) listItem.findViewById(R.id.user_email);
+        applicantEmail.setText(currentFriend.getEmail());
 
+        //generate the ImageView presenting applicant's profile image
         imageView = (ImageView) listItem.findViewById(R.id.imageView);
 
-         Button requestAccept = (Button) listItem.findViewById(R.id.req_accept);
-        Button requestDissime = (Button) listItem.findViewById(R.id.req_dissime);
+        //generate the accept and dismiss buttons
+        Button requestAccept = (Button) listItem.findViewById(R.id.req_accept);
+        Button requestDismiss = (Button) listItem.findViewById(R.id.req_dissime);
 
-        requestAccept.setOnClickListener(AcceptRequestAcction);
-        requestDissime.setOnClickListener(dissimeRequestAcction);
+        //initialize the button action listeners
+        requestAccept.setOnClickListener(AcceptRequestAction);
+        requestDismiss.setOnClickListener(dismissRequestAction);
 
+        //get the instance of the database
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
-
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
@@ -86,13 +110,14 @@ public class RequestsAdapter extends ArrayAdapter<User> {
         });
 
 
-        //Your imageView variable
-
+        //return the new View
         return listItem;
     }
 
-
- View.OnClickListener AcceptRequestAcction = new View.OnClickListener() {
+    /**
+     * action after accept button is clicked
+     */
+ View.OnClickListener AcceptRequestAction = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
           View parentRow = (View) v.getParent().getParent().getParent().getParent();
@@ -104,7 +129,10 @@ public class RequestsAdapter extends ArrayAdapter<User> {
       }
   };
 
-  View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
+    /**
+     * action after dismiss button is clicked
+     */
+  View.OnClickListener dismissRequestAction = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
           View parentRow = (View) v.getParent().getParent().getParent().getParent();
@@ -115,26 +143,37 @@ public class RequestsAdapter extends ArrayAdapter<User> {
       }
   };
 
-
-    public void removeOld(User user, ArrayList<User> Myfriends) {
-        for (int i = 0; i < Myfriends.size(); i++) {
-            if (Myfriends.get(i).getId().equals(user.getId())) {
-                this.remove(Myfriends.get(i));
-                Myfriends.remove(Myfriends.get(i));
+    /**
+     * remove the User friend from the ArrayList<User> friends
+     * @param friend = User to be removed from friends
+     * @param myFriends = ArrayList<User> of friends
+     */
+    public void removeOld(User user, ArrayList<User> myFriends) {
+        for (int i = 0; i < myFriends.size(); i++) {
+            if (myFriends.get(i).getId().equals(user.getId())) {
+                this.remove(myFriends.get(i));
+                myFriends.remove(myFriends.get(i));
             }
         }
     }
 
-    public void removeAll(ArrayList<User> Myfriends) {
-        for (int i = 0; i < Myfriends.size(); i++) {
-            this.remove(Myfriends.get(i));
-            //   Myfriends.remove(i);
+    /**
+     * remove all of the Users from the ArrayList<User> myFriends
+     * @param myFriends = ArrayList<User> of friends
+     */
+    public void removeAll(ArrayList<User> myFriends) {
+        for (int i = 0; i < myFriends.size(); i++) {
+            this.remove(myFriends.get(i));
+            //   myFriends.remove(i);
         }
     }
 
-
-    public void setFriends(ArrayList<User> Myfriends) {
-        this.friends = Myfriends;
+    /**
+     * set list of friends
+     * @param myFriends = ArrayList<User> of friends
+     */
+    public void setFriends(ArrayList<User> myFriends) {
+        this.friends = myFriends;
     }
 
 }
