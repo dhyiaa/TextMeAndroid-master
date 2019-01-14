@@ -232,7 +232,7 @@ public class SettingsFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             //get the User's data
             User currentAuthUser = dataSnapshot.getValue (User.class);
-            usernameInput.setText (currentAuthUser.getUsername ());
+           // usernameInput.setText (currentAuthUser.getUsername ());
             email = currentAuthUser.getEmail ();
             username = currentAuthUser.getUsername ();
             FirebaseStorage storage = FirebaseStorage.getInstance ();
