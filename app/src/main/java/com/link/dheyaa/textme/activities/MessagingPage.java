@@ -234,10 +234,7 @@ public class MessagingPage extends AppCompatActivity {
                     })
                     .setIcon (android.R.drawable.ic_dialog_alert) // set icon
                     .show (); // enable the window
-        } else if (id == R.id.muteFriend) {
-
-        } // if user chooses to mute the friend
-
+        }
         return super.onOptionsItemSelected (item);
     }
 

@@ -11,11 +11,4 @@
 
         />
 
-    <item
-        android:id="@+id/muteFriend"
-        android:orderInCategory="100"
-        android:title="mute"
-        app:showAsAction="always"
-        android:icon="@drawable/mute"
-        />
 </menu>
