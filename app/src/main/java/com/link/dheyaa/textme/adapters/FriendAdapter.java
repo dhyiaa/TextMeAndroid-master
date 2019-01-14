@@ -31,7 +31,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
      * default constructor
      * @param context = Context value of the activities
      * @param itemResource = int value of the layouts
-     * @param friends = ArrayList<User> of the friends
+     * @param friends = ArrayList<User> of friends
      */
     public FriendAdapter(Context context, int itemResource, ArrayList<User> friends) {
         //Initialize our adapter
@@ -104,7 +104,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
      * remove the User friend with UserId id from the ArrayList<User> friends
      * @param id = String value of the User to be removed from friends
      */
-    public void removeOldbyID(String id) {
+    public void removeOldByID(String id) {
         for (int i = 0; i < friends.size (); i++) {
             if (friends.get (i).getId ().equals (id)) {
                 friends.remove (i);

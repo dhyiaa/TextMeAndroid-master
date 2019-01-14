@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Friend fragment:
+ * controls the friends' listing and layout
+ */
+
 package com.link.dheyaa.textme.fragments;
 
 import android.content.Intent;
@@ -33,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FriendsFragment extends Fragment {
-
+    //attributes of FriendFragment
     @Nullable
     private RecyclerView listView;
     private FirebaseAuth mAuth;
@@ -43,16 +50,26 @@ public class FriendsFragment extends Fragment {
     private ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
-    private boolean sortingAcending;
+    private boolean sortingAscending;
 
+    /**
+     * create the view presenting current friends
+     * @param inflater= LayoutInflater to generate layouts
+     * @param container = ViewGroup of container Views
+     * @param savedInstanceState = Bundle storing the current instance's state
+     * @return the View presenting current friends
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (RecyclerView) root.findViewById(R.id.friends_list);
-        sortingAcending = true;
+        sortingAscending = true;
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
+        //generate the search button
         AppCompatButton searchBtn = (AppCompatButton) root.findViewById(R.id.search_btn);
+
+        //set the click listener
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,12 +79,14 @@ public class FriendsFragment extends Fragment {
         });
         SetViews(false, false);
 
+        //get the instance of the database
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
         DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addChildEventListener(FriendsChildEventListner);
 
         DBref.child(mAuth.getCurrentUser().getUid()).child("friends").orderByValue().equalTo(1).addValueEventListener (new ValueEventListener () {
             @Override
+            //action after change in database occurs
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue () == null){
                     SetViews(false, false);
@@ -79,20 +98,23 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        //set the alphabetical sorting switch button
         final ToggleButton switchSorting = (ToggleButton) root.findViewById(R.id.switchSorting);
         switchSorting.setOnClickListener(new View.OnClickListener() {
             @Override
+            //set the click action
             public void onClick(View v) {
                 if (switchSorting.getText().equals("A-Z")) {
-                    sortingAcending = true;
-                    adapter.sortFriends(sortingAcending);
+                    sortingAscending = true;
+                    adapter.sortFriends(sortingAscending);
                 } else {
-                    sortingAcending = false;
-                    adapter.sortFriends(sortingAcending);
+                    sortingAscending = false;
+                    adapter.sortFriends(sortingAscending);
                 }
             }
         });
 
+        //initiate a new friendAdapter
         adapter = new FriendAdapter(getContext(), R.layout.friends_list_item, friends);
 
         listView.setHasFixedSize(true);
@@ -102,10 +124,16 @@ public class FriendsFragment extends Fragment {
 
         listView.addItemDecoration(new friendsItemDecorator(0));
 
+        //return the new view
         return root;
 
     }
+
+    /**
+     * action after a child's event occurs
+     */
     ChildEventListener FriendsChildEventListner =  new ChildEventListener() {
+        //child added event
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             System.out.println("child->>>>Added : key->>> "+dataSnapshot.getKey());
@@ -113,13 +141,14 @@ public class FriendsFragment extends Fragment {
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
             }else{
-                adapter.removeOldbyID(dataSnapshot.getKey());
+                adapter.removeOldByID(dataSnapshot.getKey());
                 System.out.println ("child->>removeById->>1->"+dataSnapshot.getKey());
 
             }
 
         }
 
+        //child changed event
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             System.out.println ("child->cahnges->important");
@@ -129,13 +158,14 @@ public class FriendsFragment extends Fragment {
                 SetViews(true, false);
             }else{
                 System.out.println ("child->>removeById->>2->"+dataSnapshot.getKey());
-                adapter.removeOldbyID(dataSnapshot.getKey());
+                adapter.removeOldByID(dataSnapshot.getKey());
             }
         }
 
+        //child removed event
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            adapter.removeOldbyID(dataSnapshot.getKey());
+            adapter.removeOldByID(dataSnapshot.getKey());
         }
 
         @Override
@@ -146,6 +176,10 @@ public class FriendsFragment extends Fragment {
         }
     };
 
+    /**
+     * add a new friend
+     * @param friendId = String value of the friend's User Id
+     */
     public void addFriendData(final String friendId){
         DBref.child(friendId).orderByKey().addValueEventListener(new ValueEventListener() {
             String userId = friendId;
@@ -160,7 +194,7 @@ public class FriendsFragment extends Fragment {
                        // friends.add (user);
                         System.out.println("userAdded ->> user ->>" + user);
 
-                        adapter.addFriend(user, sortingAcending);
+                        adapter.addFriend(user, sortingAscending);
                         adapter.notifyDataSetChanged();
                     }
                 }catch (Exception err){
@@ -177,13 +211,11 @@ public class FriendsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        itemCLicked = false;
-
-    }
-
+    /**
+     * set the view layout presenting current friends
+     * @param hasFriends = boolean value of whether the user has friends
+     * @param isLoading = boolean value of whether the user is loading
+     */
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);

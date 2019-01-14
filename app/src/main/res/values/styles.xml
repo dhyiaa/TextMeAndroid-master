@@ -40,17 +40,26 @@
     <style name="ActivityTheme.Primary.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#29b6f6</item>
         <item name="colorPrimaryDark">#0093c4</item>
-        <item name="colorAccent">#FFFFFF</item>
+        <item name="colorAccent">#29b6f6</item>
         <item name="android:textColor">#FFFFFF</item>
-        <!--item name="android:windowBackground">#FFFFFF</item-->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="textColorSearchUrl" >#000000</item>
+        <item name="colorSwitchThumbNormal" >#f1f1f1</item>
+        <item name="colorControlActivated" >#000000</item>
 
     </style>
     <!-- Dark base activity theme -->
     <style name="ActivityTheme.Primary.Base.Dark"  parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">#33343B</item>
         <item name="colorPrimaryDark">#8033343B</item>
-        <item name="colorAccent">#28292e</item>
+        <item name="colorAccent">#29b6f6</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:windowBackground">@color/darkBg</item>
+        <item name="textColorSearchUrl" >#FFFFFF</item>
+        <item name="colorSwitchThumbNormal" >#33343B</item>
+        <item name="colorControlActivated" >#FFFFFF</item>
+
+
     </style>
 
 </resources>

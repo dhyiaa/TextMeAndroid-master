@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="15dp"
-    android:background="@color/colorPrimaryDark"
     tools:context=".activities.SignIn"
     >
 
@@ -34,10 +33,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:background="#ffffff"
+            android:background="?attr/colorPrimary"
             android:padding="0dp"
             android:text="@string/action_sign_out"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/android:textColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +50,7 @@
             android:gravity="top"
             android:padding="10dp"
             android:text="update your info."
-            android:textColor="#ffffff"
+            android:textColor="?attr/android:textColor"
             android:textSize="24dp" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -80,7 +79,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:focusableInTouchMode="true"
-            android:textColorHint="#CCCCCC"
+            android:textColorHint="?attr/colorAccent"
 
             >
 
@@ -90,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_username"
                 android:inputType="textEmailAddress"
-                android:textColor="#ffffff"
-                android:textColorHint="#cccccc" />
+                android:textColor="?attr/colorAccent"
+                android:textColorHint="?attr/colorAccent" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -100,7 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textColorHint="#cccccc">
+            android:textColorHint="?attr/colorAccent"
+            >
 
             <EditText
                 android:id="@+id/input_password_old"
@@ -108,8 +108,8 @@
                 android:layout_height="wrap_content"
                 android:hint="your old password"
                 android:inputType="textEmailAddress"
-                android:textColor="#ffffff"
-                android:textColorHint="#cccccc" />
+                android:textColor="?attr/colorAccent"
+                android:textColorHint="?attr/colorAccent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->
@@ -118,7 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textColorHint="#cccccc">
+            android:textColorHint="?attr/colorAccent"
+            >
 
             <EditText
                 android:id="@+id/input_password"
@@ -126,8 +127,8 @@
                 android:layout_height="wrap_content"
                 android:hint="new password"
                 android:inputType="textPassword"
-                android:textColor="#ffffff"
-                android:textColorHint="#cccccc" />
+                android:textColor="?attr/colorAccent"
+                android:textColorHint="?attr/colorAccent" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -146,12 +147,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="#ffffff"
             android:padding="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="update"
-            android:textColor="@color/colorPrimary" />
+            android:background="?attr/colorPrimary"
+            android:textColor="?attr/android:textColor"
+            />
 
 
     </LinearLayout>
