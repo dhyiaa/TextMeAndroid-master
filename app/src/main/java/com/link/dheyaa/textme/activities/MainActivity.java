@@ -78,13 +78,7 @@ public class MainActivity extends AppCompatActivity   {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-      /*
-      *
-      *   SharedPreferences.Editor editor = getSharedPreferences("textMeSP", MODE_PRIVATE).edit();
-        editor.putString("name", "Elena");
-        editor.putInt("idName", 12);
-        editor.apply();
-      * */
+
 
         SharedPreferences prefs = getSharedPreferences("textMeSP", MODE_PRIVATE);
 
