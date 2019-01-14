@@ -40,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FriendsFragment extends Fragment {
-    //attributes of friendFragment
+    //attributes of FriendFragment
     @Nullable
     private RecyclerView listView;
     private FirebaseAuth mAuth;
@@ -53,7 +53,7 @@ public class FriendsFragment extends Fragment {
     private boolean sortingAscending;
 
     /**
-     *
+     * create the view presenting current friends
      * @param inflater= LayoutInflater to generate layouts
      * @param container = ViewGroup of container Views
      * @param savedInstanceState = Bundle storing the current instance's state
@@ -213,8 +213,8 @@ public class FriendsFragment extends Fragment {
 
     /**
      * set the view layout presenting current friends
-     * @param hasFriends
-     * @param isLoading
+     * @param hasFriends = boolean value of whether the user has friends
+     * @param isLoading = boolean value of whether the user is loading
      */
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
