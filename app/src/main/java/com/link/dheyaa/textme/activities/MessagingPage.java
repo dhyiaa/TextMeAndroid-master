@@ -32,27 +32,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.MessagingRecyclingAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
 import com.link.dheyaa.textme.models.Message;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.MessagesHelpers;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -139,7 +133,6 @@ public class MessagingPage extends AppCompatActivity {
                 extraDAta.put ("currentAuthId", mAuth.getUid ());
 
                 // adapt messages
-                // messageAdapter = new MessageAdapter(new ArrayList<Message>(), _context, extraDAta);
                 ArrayList<Message> msgs = new ArrayList<Message> ();
                 messageAdapter = new MessagingRecyclingAdapter (_context, R.layout.message_list_item_you, msgs, extraDAta);
 

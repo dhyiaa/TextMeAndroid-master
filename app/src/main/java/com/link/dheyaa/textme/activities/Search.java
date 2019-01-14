@@ -77,7 +77,6 @@ public class Search extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
 
-        //search("m");
         // listen for text changing
         searchIput.addTextChangedListener(
             new TextWatcher() { // watch the text
@@ -98,9 +97,7 @@ public class Search extends AppCompatActivity {
                  * */
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                     search(searchIput.getText().toString()); // search user
-
                 }
 
                 /* method watches after text changes
@@ -113,7 +110,6 @@ public class Search extends AppCompatActivity {
                 public void afterTextChanged(Editable s) {
                     if (s.length() != 0) {
                         search(searchIput.getText().toString()); // search user
-
                     } // if input is not empty
                 }
         });
@@ -135,7 +131,6 @@ public class Search extends AppCompatActivity {
     * */
     public void search(String searchQuery) {
         if (!searchQuery.trim().equals("")) {
-            //DBref.orderByChild("email").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
             DBref.orderByChild("username").startAt(searchQuery).endAt(searchQuery + "\uf8ff").addValueEventListener(userEventListener);
         } // if searching input is not empty
     }
@@ -150,18 +145,13 @@ public class Search extends AppCompatActivity {
         * */
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            //  listView.setClickable(false);
-
             // add friend's data into intent
             Intent Message = new Intent(getBaseContext(), MessagingPage.class);
             Message.putExtra("friend_name", friends.get(i).getUsername());
             Message.putExtra("friend_id", friends.get(i).getId());
             Message.putExtra("friend_image", friends.get(i).getImagePath ());
-            
             startActivity(Message);
             finish();
-            //listView.setClickable(true);
-
         }
     };
 

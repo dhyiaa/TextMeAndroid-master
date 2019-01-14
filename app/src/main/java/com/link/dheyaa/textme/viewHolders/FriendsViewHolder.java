@@ -63,15 +63,11 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
                         .centerCrop()
                         .into(profileImage);
 
-            //    System.out.println("user ->> "+friend.getUsername()+" ->> image uri ->> "+uri.toString());
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
                 System.out.println("imageError ->> "+exception.toString());
-
             }
         });
 
@@ -85,7 +81,6 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
             Message.putExtra("friend_name", friend.getUsername());
             Message.putExtra("friend_id", friend.getId());
             Message.putExtra("friend_image", friend.getImagePath ());
-
             context.startActivity(Message);
         }
     }

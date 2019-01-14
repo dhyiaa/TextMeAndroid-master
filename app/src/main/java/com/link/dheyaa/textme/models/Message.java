@@ -7,7 +7,6 @@
 
 package com.link.dheyaa.textme.models;
 
-import java.util.Objects;
 
 public class Message {
     //attributes of Messages

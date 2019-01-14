@@ -85,14 +85,9 @@ public class MainActivity extends AppCompatActivity   {
         String isDark = prefs.getString("isDark", null);
         if (isDark != null) {
             setTheme (R.style.ActivityTheme_Primary_Base_Dark);
-            System.out.println ("dark->>true");
-
         }else{
             setTheme (R.style.ActivityTheme_Primary_Base_Light);
-            System.out.println ("dark->>false");
-
         }
-
         super.onCreate (savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance ();
@@ -100,7 +95,6 @@ public class MainActivity extends AppCompatActivity   {
 
         updateUI (mAuth.getCurrentUser ());
         showContent ();
-
     }
 
     public static int getAttributeColor(
@@ -118,7 +112,6 @@ public class MainActivity extends AppCompatActivity   {
     }
 
     private void showContent() {
-
         setContentView (R.layout.activity_main);
 
         _context = this;
@@ -171,17 +164,13 @@ public class MainActivity extends AppCompatActivity   {
         mViewPager.addOnPageChangeListener (new ViewPager.OnPageChangeListener () {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 bottomNavigation.setCurrentItem (position);
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -228,7 +217,6 @@ public class MainActivity extends AppCompatActivity   {
                 public void onSuccess(InstanceIdResult instanceIdResult) {
                     String token = FirebaseInstanceId.getInstance ().getToken ();
                     DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
-                    //dataBaeseHelpers.setToken (FirebaseInstanceId.getInstance ().getToken ());
                 }
             });
 
@@ -236,9 +224,7 @@ public class MainActivity extends AppCompatActivity   {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentAuthUser = dataSnapshot.getValue (User.class);
-                    //toolbar.setTitle(currentAuthUser.getUsername());
                     toolBarTitle.setText (currentAuthUser.getUsername ());
-                    //profileView.setImageBitmap();
 
                     FirebaseStorage storage = FirebaseStorage.getInstance ();
                     StorageReference storageReference = storage.getReference ();
@@ -295,7 +281,6 @@ public class MainActivity extends AppCompatActivity   {
         public SectionsPagerAdapter(FragmentManager fm) {
             super (fm);
         }
-
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
@@ -306,7 +291,6 @@ public class MainActivity extends AppCompatActivity   {
                 return new SettingsFragment ();
             }
         }
-
         @Override
         public int getCount() {
             return 3;

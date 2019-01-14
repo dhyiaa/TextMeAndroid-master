@@ -101,7 +101,8 @@ public class RequestsAdapter extends ArrayAdapter<User> {
                 Glide.with(getContext())
                         .load(uri) // the uri you got from Firebase
                         .centerCrop()
-                        .into(imageView);            }
+                        .into(imageView);
+            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -145,7 +146,7 @@ public class RequestsAdapter extends ArrayAdapter<User> {
 
     /**
      * remove the User friend from the ArrayList<User> friends
-     * @param friend = User to be removed from friends
+     * @param user = User to be removed from friends
      * @param myFriends = ArrayList<User> of friends
      */
     public void removeOld(User user, ArrayList<User> myFriends) {

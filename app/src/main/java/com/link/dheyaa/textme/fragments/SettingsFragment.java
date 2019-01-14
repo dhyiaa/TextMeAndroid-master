@@ -196,8 +196,6 @@ public class SettingsFragment extends Fragment {
                                             }
                                         }
                                     });
-                        } else {
-
                         }
                     }
                 });
@@ -254,7 +252,6 @@ public class SettingsFragment extends Fragment {
                 }
             });
         }
-
         //cancelled event
         @Override
         public void onCancelled(DatabaseError error) {
