@@ -56,7 +56,7 @@ import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.fragments.RequestsFragment;
 import com.link.dheyaa.textme.fragments.SettingsFragment;
 import com.link.dheyaa.textme.models.User;
-import com.link.dheyaa.textme.utils.dataBaeseHelpers;
+import com.link.dheyaa.textme.utils.dataBaseHelpers;
 
 import java.io.IOException;
 
