@@ -1,3 +1,10 @@
+
+/* TextMe Team
+ * Jan 2019
+ * Setting fragment:
+ * controls the setting page's listing and layout
+ */
+
 package com.link.dheyaa.textme.fragments;
 
 import android.app.ProgressDialog;
@@ -41,7 +48,7 @@ import androidx.fragment.app.Fragment;
 
 
 public class SettingsFragment extends Fragment {
-
+    //attributes of SettingFragment
     private DatabaseReference DBref;
     private FirebaseAuth mAuth;
 
@@ -54,11 +61,20 @@ public class SettingsFragment extends Fragment {
     public String email;
     public LinearLayout parentView;
 
-
+    /**
+     * default constructor
+     */
     public SettingsFragment() {
 
     }
 
+    /**
+     * create the view presenting current settings
+     * @param inflater= LayoutInflater to generate layouts
+     * @param container = ViewGroup of container Views
+     * @param savedInstanceState = Bundle storing the current instance's state
+     * @return the View presenting current settings
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate (R.layout.setting_tab, container, false);
 
@@ -69,21 +85,24 @@ public class SettingsFragment extends Fragment {
         imageView = (ImageView) root.findViewById (R.id.imageView);
         parentView = (LinearLayout) root.findViewById (R.id.container_main);
 
+        //generate the update button
         final Button updateBtn = (Button) root.findViewById (R.id.updateBtn);
         updateBtn.setOnClickListener (UpdateData);
 
-
+        //generate the sign out button
         Button signOut = (Button) root.findViewById (R.id.sign_out);
         signOut.setOnClickListener (SignOut);
 
-
+        //get the instance of the database
         mAuth = FirebaseAuth.getInstance ();
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
         DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (getUserData);
 
+        //return the new view
         return root;
     }
 
+    //action after clicking on the update button
     View.OnClickListener UpdateData = new View.OnClickListener () {
 
         @Override
@@ -92,10 +111,11 @@ public class SettingsFragment extends Fragment {
                     email.trim ().equals ("") ||
                             inputPasswordOld.getText ().toString ().trim ().equals ("") ||
                             passwordInput.getText ().toString ().trim ().equals ("")
-
                     ) {
+                //if the new user information is invalid
                 Snackbar.make (parentView, "Please full all the fields", Snackbar.LENGTH_LONG).show ();
             } else {
+                //
                 AuthCredential credential = EmailAuthProvider.getCredential (email, inputPasswordOld.getText ().toString ());
                 FirebaseAuth.getInstance ().getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
                     @Override
@@ -120,6 +140,7 @@ public class SettingsFragment extends Fragment {
                                                                 DBref.child (mAuth.getUid ()).child ("password").setValue (passwordInput.getText ().toString ());
                                                             }
 
+                                                            //restart the application
                                                             getActivity ().finish ();
                                                             startActivity (getActivity ().getIntent ());
                                                         } else {
