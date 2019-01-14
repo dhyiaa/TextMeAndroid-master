@@ -63,7 +63,6 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
                         .centerCrop()
                         .into(profileImage);
 
-            //    System.out.println("user ->> "+friend.getUsername()+" ->> image uri ->> "+uri.toString());
 
             }
         }).addOnFailureListener(new OnFailureListener() {

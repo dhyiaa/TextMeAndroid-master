@@ -42,7 +42,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-
     private void sendMyNotification(RemoteMessage message) {
 
 

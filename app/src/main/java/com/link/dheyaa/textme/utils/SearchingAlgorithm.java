@@ -1,7 +1,6 @@
 package com.link.dheyaa.textme.utils;
 
 import com.link.dheyaa.textme.models.User;
-
 import java.util.ArrayList;
 
 /**

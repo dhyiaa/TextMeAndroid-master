@@ -41,8 +41,7 @@ public class RequestsFragment extends Fragment {
     private ConstraintLayout noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
-   // private Button requestAccept;
-   // private Button requestDissime;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,11 +50,6 @@ public class RequestsFragment extends Fragment {
 
         noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
 
-       // requestAccept = (Button) root.findViewById(R.id.req_accept);
-        //requestDissime = (Button) root.findViewById(R.id.req_dissime);
-
-        //requestAccept.setOnClickListener(AcceptRequestAcction);
-       // requestDissime.setOnClickListener(dissimeRequestAcction);
 
         mAuth = FirebaseAuth.getInstance();
         DBref = FirebaseDatabase.getInstance().getReference("Users");
@@ -69,22 +63,6 @@ public class RequestsFragment extends Fragment {
         return root;
 
     }
-  /*
-  *   View.OnClickListener AcceptRequestAcction = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            DBref.child(mAuth.getCurrentUser().getUid()).child("friends").setValue("");
-        }
-    };
-
-    View.OnClickListener dissimeRequestAcction = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-  * */
-
 
 
     public void SetViews(boolean hasFreiends, boolean isLoading) {

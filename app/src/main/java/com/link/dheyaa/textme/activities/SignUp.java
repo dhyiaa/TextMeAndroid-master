@@ -57,12 +57,9 @@ public class SignUp extends AppCompatActivity {
     public ProgressBar loading;
     View parentLayout;
     private androidx.appcompat.widget.Toolbar toolbar;
-
     private ImageView userPhoto;
-
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
-
     FirebaseStorage storage;
     StorageReference storageReference;
 
@@ -249,7 +246,6 @@ public class SignUp extends AppCompatActivity {
             System.out.println ("file path " + filePath.toString ());
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap (this.getContentResolver (), filePath);
-                //userPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace ();
             }
@@ -281,10 +277,7 @@ public class SignUp extends AppCompatActivity {
                     .addOnSuccessListener (new OnSuccessListener<UploadTask.TaskSnapshot> () {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //  progressDialog.dismiss();
-                            // Snackbar.make(parentLayout, "Uploaded", Snackbar.LENGTH_LONG).show();
                             updateUI (authUser_);
-
                             Toast.makeText (SignUp.this, "Uploaded", Toast.LENGTH_SHORT).show ();
                         }
                     })
