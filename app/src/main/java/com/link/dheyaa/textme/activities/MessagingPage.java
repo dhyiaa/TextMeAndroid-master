@@ -9,6 +9,7 @@ package com.link.dheyaa.textme.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,6 +87,17 @@ public class MessagingPage extends AppCompatActivity {
      * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getSharedPreferences("textMeSP", MODE_PRIVATE);
+
+        String isDark = prefs.getString("isDark", null);
+        if (isDark != null) {
+            setTheme (R.style.ActivityTheme_Primary_Base_Dark);
+
+        }else{
+            setTheme (R.style.ActivityTheme_Primary_Base_Light);
+        }
+
         super.onCreate (savedInstanceState);
 
         // get intents from search activity
@@ -153,7 +165,6 @@ public class MessagingPage extends AppCompatActivity {
                 sendReq = findViewById (R.id.req_btn);
                 sendMsgBtn = findViewById (R.id.sendMsgBtn);
                 msgNoFriend = findViewById (R.id.mesgNoFriend);
-                setViews (1);
 
                 sendMsgBtn.setOnClickListener (new View.OnClickListener () { // listen for clicking send message btn
                     @Override
@@ -167,6 +178,9 @@ public class MessagingPage extends AppCompatActivity {
                         sendFriendRequest(); // send request when btn is clicked
                     }
                 });
+
+                setViews (1);
+
 
                 updateUI(); // update UI
             }
@@ -230,9 +244,7 @@ public class MessagingPage extends AppCompatActivity {
                     })
                     .setIcon (android.R.drawable.ic_dialog_alert) // set icon
                     .show(); // enable the window
-        } else if (id == R.id.muteFriend) {
-
-        } // if user chooses to mute the friend
+        }
 
         return super.onOptionsItemSelected (item);
     }
@@ -306,7 +318,12 @@ public class MessagingPage extends AppCompatActivity {
 
         } else { // view when have no messages
             noMsg.setVisibility (View.VISIBLE);
+            FriendView.setVisibility (View.VISIBLE);
+
             messageList.setVisibility (View.GONE);
+            notFriendView.setVisibility (View.GONE);
+            LoadingView.setVisibility (View.GONE);
+
             System.out.println ("type ->> else");
 
         }
@@ -317,7 +334,7 @@ public class MessagingPage extends AppCompatActivity {
     * @param currentUser - current user logged in
     * */
     public void friendView(User currentUser) {
-        // message.setText(friendData.getEmail());
+                                                                                                                                // message.setText(friendData.getEmail());
 
         // preparing recycled view for messages
         messageList.setAdapter (messageAdapter);
@@ -342,6 +359,7 @@ public class MessagingPage extends AppCompatActivity {
             * */
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
+
                 System.out.println ("msg->friendView->onChildAdded ");
 
                 // add message and scroll to its position
@@ -354,7 +372,8 @@ public class MessagingPage extends AppCompatActivity {
                     setViews (4); // set no message view
 
                 } else { // if has message
-                    setViews (3); // set friend & message view
+                    setViews (3);
+                    // set friend & message view
                 }
                 // messageAdapter.addMessage(message);
             }
@@ -389,8 +408,7 @@ public class MessagingPage extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        setViews (3); // set friend & message view
+        setViews (3);
 
     }
 

@@ -211,12 +211,6 @@ public class FriendsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        itemCLicked = false;
-
-    }
 
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {

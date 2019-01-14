@@ -21,7 +21,7 @@
         android:layout_margin="0dp"
 
         android:background="?attr/colorSwitchThumbNormal"
-        >
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/user_name"
@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
