@@ -197,6 +197,7 @@ public class MessagingPage extends AppCompatActivity {
 
     /* method to create options in toolbar
     * @param menu - the message menu
+    * return true when completed
     * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

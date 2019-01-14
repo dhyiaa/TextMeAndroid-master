@@ -9,7 +9,6 @@ package com.link.dheyaa.textme.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
@@ -77,27 +76,7 @@ public class MainActivity extends AppCompatActivity   {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-      /*
-      *
-      *   SharedPreferences.Editor editor = getSharedPreferences("textMeSP", MODE_PRIVATE).edit();
-        editor.putString("name", "Elena");
-        editor.putInt("idName", 12);
-        editor.apply();
-      * */
-
-        SharedPreferences prefs = getSharedPreferences("textMeSP", MODE_PRIVATE);
-
-        String isDark = prefs.getString("isDark", null);
-        if (isDark != null) {
-            setTheme (R.style.ActivityTheme_Primary_Base_Dark);
-            System.out.println ("dark->>true");
-
-        }else{
-            setTheme (R.style.ActivityTheme_Primary_Base_Light);
-            System.out.println ("dark->>false");
-
-        }
+        // setTheme(R.style.DarkTheme);
 
         super.onCreate (savedInstanceState);
 
@@ -154,13 +133,13 @@ public class MainActivity extends AppCompatActivity   {
 
         TypedValue typedValue2 = new TypedValue ();
         Resources.Theme theme2 = this.getTheme ();
-        theme.resolveAttribute (R.attr.colorPrimary, typedValue, true);
+        theme.resolveAttribute (R.attr.colorPrimaryDark, typedValue, true);
         @ColorInt int color2 = typedValue.data;
 
         bottomNavigation.setDefaultBackgroundColor (color2);
         bottomNavigation.setBehaviorTranslationEnabled (false);
         bottomNavigation.setAccentColor ( Color.parseColor ("#FFFFFF"));
-        bottomNavigation.setInactiveColor (Color.argb (100 , 255 ,255 ,255));
+        bottomNavigation.setInactiveColor (Color.parseColor ("#FFBFBFBF"));
 
         bottomNavigation.setOnTabSelectedListener (new AHBottomNavigation.OnTabSelectedListener () {
             @Override
