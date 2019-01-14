@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class dataBaeseHelpers {
+public class dataBaseHelpers {
     public static void setToken(String token){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         DatabaseReference DBref = FirebaseDatabase.getInstance().getReference("Users");
