@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,6 +48,17 @@ public class Search extends AppCompatActivity {
      * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getSharedPreferences("textMeSP", MODE_PRIVATE);
+
+        String isDark = prefs.getString("isDark", null);
+        if (isDark != null) {
+            setTheme (R.style.ActivityTheme_Primary_Base_Dark);
+
+        }else{
+            setTheme (R.style.ActivityTheme_Primary_Base_Light);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
