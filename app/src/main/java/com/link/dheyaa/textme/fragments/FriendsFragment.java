@@ -211,7 +211,11 @@ public class FriendsFragment extends Fragment {
         });
     }
 
-
+    /**
+     * set the view layout presenting current friends
+     * @param hasFriends
+     * @param isLoading
+     */
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);
