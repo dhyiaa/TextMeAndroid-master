@@ -77,7 +77,7 @@ public class FriendsFragment extends Fragment {
                 startActivity(Search);
             }
         });
-        SetViews(false, false);
+        SetViews(false, true);
 
         //get the instance of the database
         mAuth = FirebaseAuth.getInstance();
