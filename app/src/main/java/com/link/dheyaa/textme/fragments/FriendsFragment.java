@@ -211,13 +211,11 @@ public class FriendsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        itemCLicked = false;
-
-    }
-
+    /**
+     * set the view layout presenting current friends
+     * @param hasFriends
+     * @param isLoading
+     */
     public void SetViews(boolean hasFriends, boolean isLoading) {
         if (isLoading) {
             listView.setVisibility(View.INVISIBLE);
