@@ -115,19 +115,22 @@ public class SettingsFragment extends Fragment {
                 //if the new user information is invalid
                 Snackbar.make (parentView, "Please full all the fields", Snackbar.LENGTH_LONG).show ();
             } else {
-                //
+                //authorize the user again
                 AuthCredential credential = EmailAuthProvider.getCredential (email, inputPasswordOld.getText ().toString ());
                 FirebaseAuth.getInstance ().getCurrentUser ().reauthenticate (credential).addOnCompleteListener (new OnCompleteListener<Void> () {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful ()) {
+                            //get the current user
                             final FirebaseUser user = mAuth.getInstance ().getCurrentUser ();
+                            //update the user's email and add a complete listener
                             user.updateEmail (email)
                                     .addOnCompleteListener (new OnCompleteListener<Void> () {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful ()) {
                                                 System.out.println ("email updated correctly");
+                                                //update the user's password and adda complete listener
                                                 user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
@@ -163,6 +166,10 @@ public class SettingsFragment extends Fragment {
             }
         }
     };
+
+    /**
+     * action after clicking on the sign out button
+     */
     View.OnClickListener SignOut = new View.OnClickListener () {
         @Override
         public void onClick(View v) {
@@ -173,14 +180,19 @@ public class SettingsFragment extends Fragment {
                 e.printStackTrace ();
             }
 
+            //update the main activity's UI
             ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
         }
     };
 
-
+    /**
+     * action after value event triggered
+     */
     ValueEventListener getUserData = new ValueEventListener () {
         @Override
+        //data changed event
         public void onDataChange(DataSnapshot dataSnapshot) {
+            //get the User's data
             User currentAuthUser = dataSnapshot.getValue (User.class);
             usernameInput.setText (currentAuthUser.getUsername ());
             email = currentAuthUser.getEmail ();
@@ -197,6 +209,7 @@ public class SettingsFragment extends Fragment {
                             .into (imageView);
                 }
             }).addOnFailureListener (new OnFailureListener () {
+                //failure event
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle any errors
@@ -204,6 +217,7 @@ public class SettingsFragment extends Fragment {
             });
         }
 
+        //cancelled event
         @Override
         public void onCancelled(DatabaseError error) {
         }
