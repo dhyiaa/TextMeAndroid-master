@@ -79,11 +79,9 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder  {
         profileImage = "static/profile.png";
         if(you){
             profileImage =  extraData.get("currentAuthImage") != null ?  extraData.get("currentAuthImage") : "static/profile.png";
-            System.out.println ("profileImage you -->>>>"+profileImage);
 
         }else{
             profileImage =  extraData.get("FriendImage") != null ?  extraData.get("FriendImage") : "static/profile.png";
-            System.out.println ("profileImage  -->>>>"+profileImage);
 
         }
         System.out.println ("profileImage ");
@@ -101,7 +99,6 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder  {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("imageError ->> "+exception.toString());
             }
         });
     }

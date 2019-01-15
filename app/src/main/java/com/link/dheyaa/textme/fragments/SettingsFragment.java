@@ -167,13 +167,11 @@ public class SettingsFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful ()) {
-                                                System.out.println ("email updated correctly");
                                                 //update the user's password and adda complete listener
                                                 user.updatePassword (passwordInput.getText ().toString ()).addOnCompleteListener (new OnCompleteListener<Void> () {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful ()) {
-                                                            System.out.println ("password updated correctly");
                                                             if (!usernameInput.getText ().toString ().equals (null)) {
                                                                 DBref.child (mAuth.getUid ()).child ("username").setValue (usernameInput.getText ().toString ());
                                                             }

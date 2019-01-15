@@ -32,7 +32,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         dataBaeseHelpers.setToken (token);
-        System.out.println ("new->>token");
     }
 
     @Override

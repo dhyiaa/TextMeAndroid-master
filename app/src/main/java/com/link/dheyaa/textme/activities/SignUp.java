@@ -242,7 +242,6 @@ public class SignUp extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            System.out.println("file path "+filePath.toString());
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
             } catch (IOException e) {

@@ -136,13 +136,11 @@ public class FriendsFragment extends Fragment {
         //child added event
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            System.out.println("child->>>>Added : key->>> "+dataSnapshot.getKey());
             if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
             }else{
                 adapter.removeOldByID(dataSnapshot.getKey());
-                System.out.println ("child->>removeById->>1->"+dataSnapshot.getKey());
 
             }
 
@@ -151,13 +149,11 @@ public class FriendsFragment extends Fragment {
         //child changed event
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            System.out.println ("child->cahnges->important");
 
             if(dataSnapshot.getValue(Integer.class) == 1){
                 addFriendData(dataSnapshot.getKey());
                 SetViews(true, false);
             }else{
-                System.out.println ("child->>removeById->>2->"+dataSnapshot.getKey());
                 adapter.removeOldByID(dataSnapshot.getKey());
             }
         }
@@ -191,12 +187,10 @@ public class FriendsFragment extends Fragment {
                     if (user != null) {
                         user.setId(userId);
                         user.setFriends(null);
-                        System.out.println("userAdded ->> user ->>" + user);
                         adapter.addFriend(user, sortingAscending);
                         adapter.notifyDataSetChanged();
                     }
                 }catch (Exception err){
-                    System.out.println ("err123 ->>> "+err.toString ());
                 }
 
             }
