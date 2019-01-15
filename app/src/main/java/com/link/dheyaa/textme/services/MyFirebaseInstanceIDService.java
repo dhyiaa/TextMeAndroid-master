@@ -1,10 +1,11 @@
-package com.link.dheyaa.textme.services;
 
 /* TextMe Team
  * Jan 2019
  * MyFirebaseInstanceIDService class:
  * this class maintain how the token for each device is loaded and checked
  */
+
+package com.link.dheyaa.textme.services;
 
 import android.util.Log;
 
