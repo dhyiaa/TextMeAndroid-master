@@ -191,9 +191,7 @@ public class FriendsFragment extends Fragment {
                     if (user != null) {
                         user.setId(userId);
                         user.setFriends(null);
-                       // friends.add (user);
                         System.out.println("userAdded ->> user ->>" + user);
-
                         adapter.addFriend(user, sortingAscending);
                         adapter.notifyDataSetChanged();
                     }

@@ -8,6 +8,7 @@
 package com.link.dheyaa.textme.fragments;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +49,8 @@ import java.io.IOException;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class SettingsFragment extends Fragment {
     //attributes of SettingFragment
@@ -68,6 +73,13 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    public void recreate()
+    {
+        ((MainActivity) getActivity ()).finish();
+        startActivity( ((MainActivity) getActivity ()).getIntent());
+
+    }
+
     /**
      * create the view presenting current settings
      * @param inflater= LayoutInflater to generate layouts
@@ -75,7 +87,7 @@ public class SettingsFragment extends Fragment {
      * @param savedInstanceState = Bundle storing the current instance's state
      * @return the View presenting current settings
      */
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate (R.layout.setting_tab, container, false);
 
         MainActivity parent = (MainActivity) getActivity ();
@@ -98,6 +110,32 @@ public class SettingsFragment extends Fragment {
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
         DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (getUserData);
 
+
+        Switch darkModeSwitch = root.findViewById (R.id.darkMOdeSwitch);
+
+        SharedPreferences prefs = (getActivity ()).getSharedPreferences("textMeSP", MODE_PRIVATE);
+
+        String isDark = prefs.getString("isDark", null);
+        if (isDark != null) {
+            darkModeSwitch.setChecked (true);
+        }else{
+            darkModeSwitch.setChecked (false);
+        }
+
+
+        darkModeSwitch.setOnCheckedChangeListener (new CompoundButton.OnCheckedChangeListener () {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = inflater.getContext ().getSharedPreferences("textMeSP", MODE_PRIVATE).edit();
+                if(isChecked){
+                    editor.putString("isDark", "true");
+                }else{
+                    editor.putString("isDark", null);
+                }
+                editor.apply();
+                recreate();
+            }
+        });
         //return the new view
         return root;
     }
@@ -158,8 +196,6 @@ public class SettingsFragment extends Fragment {
                                             }
                                         }
                                     });
-                        } else {
-
                         }
                     }
                 });
@@ -194,7 +230,7 @@ public class SettingsFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             //get the User's data
             User currentAuthUser = dataSnapshot.getValue (User.class);
-            usernameInput.setText (currentAuthUser.getUsername ());
+           // usernameInput.setText (currentAuthUser.getUsername ());
             email = currentAuthUser.getEmail ();
             username = currentAuthUser.getUsername ();
             FirebaseStorage storage = FirebaseStorage.getInstance ();
@@ -216,7 +252,6 @@ public class SettingsFragment extends Fragment {
                 }
             });
         }
-
         //cancelled event
         @Override
         public void onCancelled(DatabaseError error) {

@@ -10,6 +10,7 @@ package com.link.dheyaa.textme.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -66,6 +67,17 @@ public class SignUp extends AppCompatActivity {
     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getSharedPreferences("textMeSP", MODE_PRIVATE);
+
+        String isDark = prefs.getString("isDark", null);
+        if (isDark != null) {
+            setTheme (R.style.ActivityTheme_Primary_Base_Dark);
+
+        }else{
+            setTheme (R.style.ActivityTheme_Primary_Base_Light);
+        }
+
         super.onCreate(savedInstanceState);
 
         // firebase setup
@@ -233,7 +245,6 @@ public class SignUp extends AppCompatActivity {
             System.out.println("file path "+filePath.toString());
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
-                //userPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -265,10 +276,7 @@ public class SignUp extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                          //  progressDialog.dismiss();
-                           // Snackbar.make(parentLayout, "Uploaded", Snackbar.LENGTH_LONG).show();
                             updateUI(authUser_);
-
                              Toast.makeText(SignUp.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })

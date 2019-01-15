@@ -9,6 +9,7 @@ package com.link.dheyaa.textme.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,27 +32,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.MessagingRecyclingAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
 import com.link.dheyaa.textme.models.Message;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.MessagesHelpers;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -86,6 +81,16 @@ public class MessagingPage extends AppCompatActivity {
      * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences ("textMeSP", MODE_PRIVATE);
+
+        String isDark = prefs.getString ("isDark", null);
+        if (isDark != null) {
+            setTheme (R.style.ActivityTheme_Primary_Base_Dark);
+
+        } else {
+            setTheme (R.style.ActivityTheme_Primary_Base_Light);
+        }
+
         super.onCreate (savedInstanceState);
 
         // get intents from search activity
@@ -128,7 +133,6 @@ public class MessagingPage extends AppCompatActivity {
                 extraDAta.put ("currentAuthId", mAuth.getUid ());
 
                 // adapt messages
-                // messageAdapter = new MessageAdapter(new ArrayList<Message>(), _context, extraDAta);
                 ArrayList<Message> msgs = new ArrayList<Message> ();
                 messageAdapter = new MessagingRecyclingAdapter (_context, R.layout.message_list_item_you, msgs, extraDAta);
 
@@ -158,22 +162,22 @@ public class MessagingPage extends AppCompatActivity {
                 sendMsgBtn.setOnClickListener (new View.OnClickListener () { // listen for clicking send message btn
                     @Override
                     public void onClick(View v) { // launches when btn is clicked
-                        sendMessage(); // send message when btn is clicked
+                        sendMessage (); // send message when btn is clicked
                     }
                 });
                 sendReq.setOnClickListener (new View.OnClickListener () { // listen for clicking request btn
                     @Override
                     public void onClick(View v) { // launches when btn is clicked
-                        sendFriendRequest(); // send request when btn is clicked
+                        sendFriendRequest (); // send request when btn is clicked
                     }
                 });
 
-                updateUI(); // update UI
+                updateUI (); // update UI
             }
 
             /* method when event is cancelled
-            * @param error - error in firebase
-            * */
+             * @param error - error in firebase
+             * */
             @Override
             public void onCancelled(DatabaseError error) {
             }
@@ -182,8 +186,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method to create options in toolbar
-    * @param menu - the message menu
-    * */
+     * @param menu - the message menu
+     * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater ().inflate (R.menu.messaging_page, menu);
@@ -191,8 +195,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method for selected items' actions
-    * @param item - items of the menu
-    * */
+     * @param item - items of the menu
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId ();
@@ -208,9 +212,9 @@ public class MessagingPage extends AppCompatActivity {
                     .setPositiveButton (android.R.string.yes, new DialogInterface.OnClickListener () { // set positive button and listener for the button
 
                         /* method launches when button is clicked
-                        * @param dialog - the dialog interface
-                        * @param which - id of identification
-                        * */
+                         * @param dialog - the dialog interface
+                         * @param which - id of identification
+                         * */
                         public void onClick(DialogInterface dialog, int which) {
                             // setting value of blocking
                             DBref.child (mAuth.getUid ()).child ("friends").child (FriendId).setValue (-1);
@@ -229,17 +233,14 @@ public class MessagingPage extends AppCompatActivity {
                         }
                     })
                     .setIcon (android.R.drawable.ic_dialog_alert) // set icon
-                    .show(); // enable the window
-        } else if (id == R.id.muteFriend) {
-
-        } // if user chooses to mute the friend
-
+                    .show (); // enable the window
+        }
         return super.onOptionsItemSelected (item);
     }
 
     /* method to send message
-    * no params
-    * */
+     * no params
+     * */
     public void sendMessage() {
         String value = message.getText ().toString ();
         if (!value.trim ().equals ("")) { // if value is not empty
@@ -263,8 +264,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method to send friend request
-    * no params
-    * */
+     * no params
+     * */
     public void sendFriendRequest() {
         DBref.child (FriendId).child ("friends").child (mAuth.getCurrentUser ().getUid ()).setValue (0); // update request to database
         Snackbar.make (notFriendView, "Your request has been successfully sent to " + FriendName + ".", Snackbar.LENGTH_LONG).show (); // show snack bar
@@ -272,8 +273,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method to set types of views
-    * @param type - type identification number
-    * */
+     * @param type - type identification number
+     * */
     public void setViews(int type) {
 
         if (type == 1) { // loading view
@@ -314,8 +315,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method for friend view
-    * @param currentUser - current user logged in
-    * */
+     * @param currentUser - current user logged in
+     * */
     public void friendView(User currentUser) {
         // message.setText(friendData.getEmail());
 
@@ -337,9 +338,9 @@ public class MessagingPage extends AppCompatActivity {
         DBrefMessages.child (MessagesHelpers.getRoomId (FriendId, mAuth.getUid ())).child ("values").addChildEventListener (new ChildEventListener () { // listen for children
 
             /* method launches when a child is added
-            * @param newMessage - snapshot of new message data
-            * @param s - message id
-            * */
+             * @param newMessage - snapshot of new message data
+             * @param s - message id
+             * */
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
                 System.out.println ("msg->friendView->onChildAdded ");
@@ -347,7 +348,7 @@ public class MessagingPage extends AppCompatActivity {
                 // add message and scroll to its position
                 Message message = newMessage.getValue (Message.class);
                 messageAdapter.addMessage (message, layoutManager);
-                messageList.scrollToPosition(messageAdapter.messages.size() - 1);
+                messageList.scrollToPosition (messageAdapter.messages.size () - 1);
 
                 long numsOfChildren = newMessage.getChildrenCount ();
                 if (numsOfChildren < 1) { // if has no message
@@ -360,31 +361,31 @@ public class MessagingPage extends AppCompatActivity {
             }
 
             /* method launches when a child is changed
-            * @param dataSnapshot - snapshot of data
-            * @param s - message id
-            * */
+             * @param dataSnapshot - snapshot of data
+             * @param s - message id
+             * */
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
 
             /* method launches when a child is removed
-            * @param dataSnapshot - snapshot of data
-            * */
+             * @param dataSnapshot - snapshot of data
+             * */
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
 
             /* method launches when a child is moved
-            * @param dataSnapshot - snapshot of data
-            * @param s - message id
-            * */
+             * @param dataSnapshot - snapshot of data
+             * @param s - message id
+             * */
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
 
             /* method launches when event is cancelled
-            * @param databaseError - error on firebase
-            * */
+             * @param databaseError - error on firebase
+             * */
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -395,8 +396,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method to update UI
-    * no params
-    * */
+     * no params
+     * */
     public void updateUI() {
         System.out.println ("msg->updateUi");
 
@@ -413,16 +414,16 @@ public class MessagingPage extends AppCompatActivity {
                     DBref.child (FriendId).addValueEventListener (new ValueEventListener () { // listen for value changing
 
                         /* method launches when data is changed
-                        * @param dataSnapshot - snapshot of data
-                        * */
+                         * @param dataSnapshot - snapshot of data
+                         * */
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             friendView (dataSnapshot.getValue (User.class)); // set friend view
                         }
 
                         /* method launches when event is cancelled
-                        * @param databaseError - error on firebase
-                        * */
+                         * @param databaseError - error on firebase
+                         * */
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             setViews (2); // set no friend view
@@ -446,8 +447,8 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     /* method to go back to previous activity
-    * return true when function is completed
-    * */
+     * return true when function is completed
+     * */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed (); // go back to previous activity
