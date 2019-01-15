@@ -67,7 +67,6 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("imageError ->> "+exception.toString());
             }
         });
 

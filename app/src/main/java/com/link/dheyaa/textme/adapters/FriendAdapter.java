@@ -136,7 +136,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
      * @param ascending = a boolean value to indicate the sorting order, true = ascending, false = descending
      */
     public void sortFriends(boolean ascending) {
-        System.out.println ("sorting ->> " + ascending);
         Sorting.quickSortByAlphabet (this.friends, ascending);
         this.notifyDataSetChanged ();
 
