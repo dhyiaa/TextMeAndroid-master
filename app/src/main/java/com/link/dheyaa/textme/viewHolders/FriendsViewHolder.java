@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    //attributes of
     private final ImageView profileImage;
     private final TextView email;
     private final TextView username;
