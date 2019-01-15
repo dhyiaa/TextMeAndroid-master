@@ -100,16 +100,11 @@ public class MessagingPage extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager (_context);
 
-        System.out.println ("msg->friend->id->" + FriendId);
-        System.out.println ("msg->friend->id->" + FriendName);
-        System.out.println ("msg->friend->id->" + FriendImage);
-
         // setup data from firebase
         DBref = FirebaseDatabase.getInstance ().getReference ("Users");
         DBrefMessages = FirebaseDatabase.getInstance ().getReference ("Messages");
         mAuth = FirebaseAuth.getInstance ();
 
-        System.out.println ("msg->getCurrentUser->id->" + mAuth.getCurrentUser ().getUid ());
 
         // add a Value Event Listener in user reference in firebase
         DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () { // listen for value changing
@@ -122,8 +117,6 @@ public class MessagingPage extends AppCompatActivity {
                 currentUser = dataSnapshot.getValue (User.class);
                 currentUser.setId (dataSnapshot.getKey ());
 
-                System.out.println ("msg->userChanged->id->" + dataSnapshot.getKey ());
-                System.out.println ("msg->userChanged->user->" + currentUser.toString ());
 
                 // put data
                 extraDAta.put ("currentAuthImage", currentUser.getImagePath ());
@@ -248,7 +241,7 @@ public class MessagingPage extends AppCompatActivity {
             // get id
             String senderId = mAuth.getCurrentUser ().getUid ();
             String receiverId = FriendId;
-            System.out.println ("receiverId=" + receiverId + "   \n   senderId=" + senderId);
+
 
             Long time = System.currentTimeMillis ();
 
@@ -281,14 +274,12 @@ public class MessagingPage extends AppCompatActivity {
             LoadingView.setVisibility (View.VISIBLE);
             notFriendView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
-            System.out.println ("type ->> 1");
         } else if (type == 2) { // no friends view
             sendReq.setActivated (true);
             msgNoFriend.setText ("you are not friends with " + FriendName);
             notFriendView.setVisibility (View.VISIBLE);
             LoadingView.setVisibility (View.GONE);
             FriendView.setVisibility (View.GONE);
-            System.out.println ("type ->> 2");
 
         } else if (type == 3) { // view when having friend
             FriendView.setVisibility (View.VISIBLE);
@@ -297,18 +288,15 @@ public class MessagingPage extends AppCompatActivity {
             LoadingView.setVisibility (View.GONE);
             messageList.setVisibility (View.VISIBLE);
             noMsg.setVisibility (View.GONE);
-            System.out.println ("type ->> 3");
 
         } else if (type == 10) { // view when a request is sent
             msgNoFriend.setText ("You have already sent a request to " + FriendName);
             sendReq.setActivated (false);
             sendReq.setVisibility (View.INVISIBLE);
-            System.out.println ("type ->> 10");
 
         } else { // view when have no messages
             noMsg.setVisibility (View.VISIBLE);
             messageList.setVisibility (View.GONE);
-            System.out.println ("type ->> else");
 
         }
 
@@ -343,8 +331,6 @@ public class MessagingPage extends AppCompatActivity {
              * */
             @Override
             public void onChildAdded(DataSnapshot newMessage, String s) {
-                System.out.println ("msg->friendView->onChildAdded ");
-
                 // add message and scroll to its position
                 Message message = newMessage.getValue (Message.class);
                 messageAdapter.addMessage (message, layoutManager);
@@ -399,16 +385,12 @@ public class MessagingPage extends AppCompatActivity {
      * no params
      * */
     public void updateUI() {
-        System.out.println ("msg->updateUi");
 
         if (currentUser != null && currentUser.getFriends () != null) { // if there is an user and the user has at least a friend
-            System.out.println ("msg->updateUi->currentUser != null ");
 
             if (currentUser.getFriends ().containsKey (FriendId)) { // if friend is in user's node
-                System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : true ");
 
                 if (currentUser.getFriends ().get (FriendId) == 1) { // if the two users are friends
-                    System.out.println ("msg->updateUi->isFriend->true ");
 
                     // update id to database
                     DBref.child (FriendId).addValueEventListener (new ValueEventListener () { // listen for value changing
@@ -430,10 +412,8 @@ public class MessagingPage extends AppCompatActivity {
                         }
                     });
                 } else if (currentUser.getFriends ().get (FriendId) == -1) { // if user blocked friend
-                    System.out.println ("msg->updateUi->isBLocked->true ");
                     finish (); // close activity
                 } else { // if request is sent but not confirmed or rejected by the user
-                    System.out.println ("msg->updateUi->isFriend->false ");
                     setViews (2); // set no friend view
                 }
             } else { // if the friend is not in user's node
@@ -441,7 +421,6 @@ public class MessagingPage extends AppCompatActivity {
 
             }
         } else { // if there is no user or the user has no friends
-            System.out.println ("msg->updateUi->currentUser.getFriends ().containsKey : false");
             setViews (2); // set no friend view
         }
     }
