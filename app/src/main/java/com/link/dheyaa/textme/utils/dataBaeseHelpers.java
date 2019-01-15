@@ -25,6 +25,8 @@ public class dataBaeseHelpers {
         // getting the database reference to the users node
         DatabaseReference DBref = FirebaseDatabase.getInstance().getReference("Users");
         // update the current user notification token
-        DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
+        if(mAuth.getUid() != null){
+            DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
+        }
     }
 }
