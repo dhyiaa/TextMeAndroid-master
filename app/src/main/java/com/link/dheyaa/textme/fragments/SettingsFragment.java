@@ -7,11 +7,9 @@
 
 package com.link.dheyaa.textme.fragments;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,9 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.activities.MainActivity;
 import com.link.dheyaa.textme.models.User;
-
 import java.io.IOException;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 

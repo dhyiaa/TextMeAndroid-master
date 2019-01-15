@@ -1,29 +1,20 @@
 package com.link.dheyaa.textme.services;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.link.dheyaa.textme.R;
-import com.link.dheyaa.textme.activities.MainActivity;
 import com.link.dheyaa.textme.activities.MessagingPage;
 import com.link.dheyaa.textme.utils.dataBaeseHelpers;
-import java.util.Date;
-import java.util.Random;
-
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {

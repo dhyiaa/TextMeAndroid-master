@@ -12,15 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.google.firebase.database.DatabaseReference;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.models.Message;
-import com.link.dheyaa.textme.models.User;
-import com.link.dheyaa.textme.utils.Sorting;
-import com.link.dheyaa.textme.viewHolders.FriendsViewHolder;
 import com.link.dheyaa.textme.viewHolders.MessagingViewHolder;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
