@@ -7,7 +7,6 @@
  * it is separated to we use it in different placed inside the project
  */
 
-
 package com.link.dheyaa.textme.utils;
 
 import com.google.firebase.auth.FirebaseAuth;
