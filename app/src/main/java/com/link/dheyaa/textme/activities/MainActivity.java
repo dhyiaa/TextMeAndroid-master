@@ -97,20 +97,6 @@ public class MainActivity extends AppCompatActivity   {
         showContent ();
     }
 
-    public static int getAttributeColor(
-            Context context,
-            int attributeId) {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(attributeId, typedValue, true);
-        int colorRes = typedValue.resourceId;
-        int color = -1;
-        try {
-            color = context.getResources().getColor(colorRes);
-        } catch (Resources.NotFoundException e) {
-        }
-        return color;
-    }
-
     private void showContent() {
         setContentView (R.layout.activity_main);
 
