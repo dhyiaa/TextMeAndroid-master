@@ -245,28 +245,42 @@ public class MainActivity extends AppCompatActivity   {
                 @Override
                 public void onSuccess(InstanceIdResult instanceIdResult) {
                     String token = FirebaseInstanceId.getInstance ().getToken ();
-                    DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
+                    DBref.child(mAuth.getUid()).child("registrationToken").setValue(token); // set value for registration token
                 }
             });
 
-            DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () {
+            DBref.child (mAuth.getCurrentUser ().getUid ()).addValueEventListener (new ValueEventListener () { // listen for value changing
+
+                /* method launches when data is changed
+                 * @param dataSnapshot - snapshot of data
+                 * */
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    // get user and display username
                     currentAuthUser = dataSnapshot.getValue (User.class);
+                    //toolbar.setTitle(currentAuthUser.getUsername());
                     toolBarTitle.setText (currentAuthUser.getUsername ());
 
+                    // set storage
                     FirebaseStorage storage = FirebaseStorage.getInstance ();
                     StorageReference storageReference = storage.getReference ();
+                    storageReference.child (currentAuthUser.getImagePath () != null ? currentAuthUser.getImagePath () : "static/profile.png").getDownloadUrl ().addOnSuccessListener (new OnSuccessListener<Uri> () {// listen for success storage of uri
 
-                    storageReference.child (currentAuthUser.getImagePath () != null ? currentAuthUser.getImagePath () : "static/profile.png").getDownloadUrl ().addOnSuccessListener (new OnSuccessListener<Uri> () {
+                        /* method launches when uri is successfully stored
+                         * @param uri - URI of image
+                         * */
                         @Override
                         public void onSuccess(Uri uri) {
-                            Glide.with (_context)
-                                    .load (uri) // the uri you got from Firebase
-                                    .centerCrop ()
-                                    .into (profileView);
+                            // set image
+                            Glide.with (_context).load (uri).centerCrop().into (profileView);
                         }
-                    }).addOnFailureListener (new OnFailureListener () {
+
+                    }).addOnFailureListener (new OnFailureListener () { // listen for process failure
+
+                        /* method launches when process fails
+                         * @param exception - non-null exception made process failed
+                         * */
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
@@ -275,28 +289,38 @@ public class MainActivity extends AppCompatActivity   {
 
                 }
 
+                /* method launches when event is cancelled
+                 * @param error - error from firebase
+                 * */
                 @Override
-                public void onCancelled(DatabaseError error) {
-                }
+                public void onCancelled(DatabaseError error) {}
+
             });
         }
 
     }
 
-
+    /* method to create options in toolbar
+     * @param menu - the message menu
+     * return true when completed
+     * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater ().inflate (R.menu.menu_main, menu);
         return true;
     }
 
+    /* method launches when item is selected
+     * @param item - menu item
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId ();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) { // if user clicked action settings
             return true;
-        } else if (id == R.id.search_btn) {
+        } else if (id == R.id.search_btn) { // if user clicked search button
 
+            // activate search activity
             Intent Search = new Intent (this, Search.class);
             startActivity (Search);
 
@@ -307,19 +331,31 @@ public class MainActivity extends AppCompatActivity   {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        /* primary constructor
+         * @param fm - fragment manager
+         * */
         public SectionsPagerAdapter(FragmentManager fm) {
-            super (fm);
+            super (fm); // super constructor
         }
+
+        /* method to get fragments
+         * @param position - fragment number
+         * */
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return new FriendsFragment ();
-            } else if (position == 1) {
-                return new RequestsFragment ();
-            } else {
-                return new SettingsFragment ();
+            switch (position) {
+                case 0:
+                    return new FriendsFragment ();
+                case 1:
+                    return new RequestsFragment ();
+                default:
+                    return new SettingsFragment ();
             }
         }
+
+        /* method to get counts for fragments
+         * no params
+         * */
         @Override
         public int getCount() {
             return 3;
