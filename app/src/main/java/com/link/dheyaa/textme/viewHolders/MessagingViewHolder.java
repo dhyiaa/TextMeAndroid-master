@@ -85,7 +85,7 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder {
     /**
      * this method bind the message object to the list item to be shown to the user
      *
-     * @param message   : the messsage object
+     * @param message   : the message object
      * @param extraData : extra user data like [id, friendId ...]
      * @param you       : whether it is your message or your friends' one.
      */
@@ -111,7 +111,7 @@ public class MessagingViewHolder extends RecyclerView.ViewHolder {
         storageReference.child(profileImage).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //wehen downloading is done seccessfully show the image
+                //when downloading is done successfully show the image
                 Glide.clear(imageView);
                 Glide.with(context)
                         .load(uri)
