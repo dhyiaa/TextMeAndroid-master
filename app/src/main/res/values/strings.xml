@@ -10,10 +10,10 @@
     <string name="search">Search</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_messaging_page">Messages</string>
-    <string name="title_activity_guest">Sign in</string>
+    <string name="title_activity_guest">Sign In</string>
     <string name="null_string"></string>
-    <string name="no_friends">You have no friend.</string>
-    <string name="no_requests">You have not friend requests.</string>
+    <string name="no_friends">You have no friends.</string>
+    <string name="no_requests">You have no friend requests.</string>
 
 
     <!-- Sign in strings -->
