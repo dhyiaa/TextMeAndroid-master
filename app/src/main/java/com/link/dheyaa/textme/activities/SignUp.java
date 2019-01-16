@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,9 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.models.User;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class SignUp extends AppCompatActivity {

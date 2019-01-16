@@ -11,14 +11,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.models.User;
 import com.link.dheyaa.textme.utils.Sorting;
 import com.link.dheyaa.textme.viewHolders.FriendsViewHolder;
-
 import java.util.ArrayList;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendsViewHolder> {

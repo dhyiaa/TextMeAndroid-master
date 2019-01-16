@@ -6,13 +6,11 @@
  */
 
 package com.link.dheyaa.textme.activities;
-
 import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,7 +18,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.models.User;
-
 import java.util.ArrayList;
 
 public class Search extends AppCompatActivity {
@@ -180,6 +176,5 @@ public class Search extends AppCompatActivity {
         @Override
         public void onCancelled(DatabaseError error) {
         }
-        //SetViews(false , false);
     };
 }

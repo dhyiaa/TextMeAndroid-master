@@ -9,15 +9,12 @@ package com.link.dheyaa.textme.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,9 +26,7 @@ import com.link.dheyaa.textme.R;
 import com.link.dheyaa.textme.adapters.FriendAdapter;
 import com.link.dheyaa.textme.itemDecorators.friendsItemDecorator;
 import com.link.dheyaa.textme.models.User;
-
 import java.util.ArrayList;
-
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
