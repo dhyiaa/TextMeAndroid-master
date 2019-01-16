@@ -68,7 +68,7 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
         storageReference.child(profileImageUrl).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //wehen downloading is done seccessfully show the image
+                //when downloading is done successfully show the image
                 Glide.clear(profileImage);
                 Glide.with(context)
                         .load(uri) // the uri you got from Firebase
@@ -90,6 +90,10 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.O
 
     }
 
+    /**
+     * action when clicked
+     * @param v = View value of the current page
+     */
     @Override
     public void onClick(View v) {
         if (this.friend != null) {
