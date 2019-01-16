@@ -1,7 +1,7 @@
 
 /* TextMe Team
  * Jan 2019
- * dataBaeseHelpers class:
+ * dataBaeseHelpers class:3957
  * this class is used to change the token from the database
  *
  * it is separated to we use it in different placed inside the project
@@ -25,7 +25,7 @@ public class dataBaeseHelpers {
         // getting the database reference to the users node
         DatabaseReference DBref = FirebaseDatabase.getInstance().getReference("Users");
         // update the current user notification token
-        if(mAuth.getUid() != null){
+        if(mAuth.getUid() != null && token != token){
             DBref.child(mAuth.getUid()).child("registrationToken").setValue(token);
         }
     }
