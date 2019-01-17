@@ -212,8 +212,15 @@ public class SettingsFragment extends Fragment {
             }
 
 
+            DBref.child (mAuth.getUid ()).child ("registrationToken").setValue ("").addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
+                    }
+                }
+            });
             //update the main activity's UI
-            ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
         }
     };
 
