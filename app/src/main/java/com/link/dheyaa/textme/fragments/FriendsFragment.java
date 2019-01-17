@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.ToggleButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -42,7 +43,7 @@ public class FriendsFragment extends Fragment {
     private DatabaseReference DBref;
     private FriendAdapter adapter;
     private ArrayList<User> friends = new ArrayList<User>();
-    private ConstraintLayout noFriends;
+    private ScrollView noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
     private boolean sortingAscending;
@@ -59,7 +60,7 @@ public class FriendsFragment extends Fragment {
         View root = inflater.inflate(R.layout.friends_tab, container, false);
         listView = (RecyclerView) root.findViewById(R.id.friends_list);
         sortingAscending = true;
-        noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
+        noFriends = (ScrollView) root.findViewById(R.id.nofriends);
         loading = (ProgressBar) root.findViewById(R.id.progressBar);
         //generate the search button
         AppCompatButton searchBtn = (AppCompatButton) root.findViewById(R.id.search_btn);

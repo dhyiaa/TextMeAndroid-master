@@ -18,6 +18,7 @@ import com.link.dheyaa.textme.R;
 import androidx.annotation.Nullable;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +46,7 @@ public class RequestsFragment extends Fragment {
     private DatabaseReference DBref;
     private RequestsAdapter adapter;
     private ArrayList<User> requests = new ArrayList<User>();
-    private ConstraintLayout noFriends;
+    private ScrollView noFriends;
     private ProgressBar loading;
     private boolean itemCLicked;
 
@@ -61,7 +62,7 @@ public class RequestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.activity_requests, container, false);
         listView = (ListView) root.findViewById(R.id.friends_list);
 
-        noFriends = (ConstraintLayout) root.findViewById(R.id.nofriends);
+        noFriends = (ScrollView) root.findViewById(R.id.nofriends);
 
         //get the instance of the database
         mAuth = FirebaseAuth.getInstance();
