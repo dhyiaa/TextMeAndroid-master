@@ -60,6 +60,7 @@ public class SettingsFragment extends Fragment {
     public String username;
     public String email;
     public LinearLayout parentView;
+    public String userToken;
 
     /**
      * default constructor
@@ -205,9 +206,11 @@ public class SettingsFragment extends Fragment {
             FirebaseAuth.getInstance ().signOut ();
             try {
                 FirebaseInstanceId.getInstance().deleteInstanceId ();
+                FirebaseInstanceId.getInstance().deleteToken(userToken != null ? userToken : "" , "FCM");
             } catch (IOException e) {
                 e.printStackTrace ();
             }
+
 
             //update the main activity's UI
             ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
@@ -226,6 +229,7 @@ public class SettingsFragment extends Fragment {
            // usernameInput.setText (currentAuthUser.getUsername ());
             email = currentAuthUser.getEmail ();
             username = currentAuthUser.getUsername ();
+            userToken = currentAuthUser.getRegistrationToken();
             FirebaseStorage storage = FirebaseStorage.getInstance ();
             StorageReference storageReference = storage.getReference ();
 
