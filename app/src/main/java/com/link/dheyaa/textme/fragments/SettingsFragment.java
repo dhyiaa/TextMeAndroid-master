@@ -61,6 +61,7 @@ public class SettingsFragment extends Fragment {
     public String email;
     public LinearLayout parentView;
     public String userToken;
+    public Button  signOut;
 
     /**
      * default constructor
@@ -98,8 +99,7 @@ public class SettingsFragment extends Fragment {
         updateBtn.setOnClickListener (UpdateData);
 
         //generate the sign out button
-        Button signOut = (Button) root.findViewById (R.id.sign_out);
-        signOut.setOnClickListener (SignOut);
+        signOut = (Button) root.findViewById (R.id.sign_out);
 
         //get the instance of the database
         mAuth = FirebaseAuth.getInstance ();
@@ -200,29 +200,6 @@ public class SettingsFragment extends Fragment {
     /**
      * action after clicking on the sign out button
      */
-    View.OnClickListener SignOut = new View.OnClickListener () {
-        @Override
-        public void onClick(View v) {
-            FirebaseAuth.getInstance ().signOut ();
-            try {
-                FirebaseInstanceId.getInstance().deleteInstanceId ();
-                FirebaseInstanceId.getInstance().deleteToken(userToken != null ? userToken : "" , "FCM");
-            } catch (IOException e) {
-                e.printStackTrace ();
-            }
-
-
-            DBref.child (mAuth.getUid ()).child ("registrationToken").setValue ("").addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
-                    }
-                }
-            });
-            //update the main activity's UI
-        }
-    };
 
     /**
      * action after value event triggered
@@ -232,13 +209,30 @@ public class SettingsFragment extends Fragment {
         //data changed event
         public void onDataChange(DataSnapshot dataSnapshot) {
             //get the User's data
-            User currentAuthUser = dataSnapshot.getValue (User.class);
+           final User currentAuthUser = dataSnapshot.getValue (User.class);
            // usernameInput.setText (currentAuthUser.getUsername ());
             email = currentAuthUser.getEmail ();
             username = currentAuthUser.getUsername ();
             userToken = currentAuthUser.getRegistrationToken();
             FirebaseStorage storage = FirebaseStorage.getInstance ();
             StorageReference storageReference = storage.getReference ();
+
+
+            signOut.setOnClickListener ( new View.OnClickListener () {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        FirebaseInstanceId.getInstance().deleteInstanceId ();
+                        FirebaseInstanceId.getInstance().deleteToken(userToken != null ? userToken : "" , "FCM");
+                    } catch (IOException e) {
+                        e.printStackTrace ();
+                    }
+                 DBref.child (mAuth.getUid ()).child ("registrationToken").setValue (null);
+                      FirebaseAuth.getInstance ().signOut ();
+                     ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
+                    //update the main activity's UI
+                }
+            });
 
             storageReference.child (currentAuthUser.getImagePath () != null ? currentAuthUser.getImagePath () : "static/profile.png").getDownloadUrl ().addOnSuccessListener (new OnSuccessListener<Uri> () {
                 @Override
