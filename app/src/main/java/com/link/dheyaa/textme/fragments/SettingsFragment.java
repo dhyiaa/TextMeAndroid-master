@@ -227,7 +227,7 @@ public class SettingsFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace ();
                     }
-                 DBref.child (mAuth.getUid ()).child ("registrationToken").setValue (null);
+                 DBref.child (mAuth.getUid ()).child ("registrationToken").setValue ("");
                       FirebaseAuth.getInstance ().signOut ();
                      ((MainActivity) getActivity ()).updateUI (FirebaseAuth.getInstance ().getCurrentUser ());
                     //update the main activity's UI
